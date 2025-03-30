@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 
-namespace LOEBackend {
+namespace MyonBackend {
 class Window {
 public:
   Window(int width, int height, const std::string &title);
@@ -17,4 +17,4 @@ public:
 private:
   GLFWwindow *m_Window;
 };
-} // namespace LOEBackend
+} // namespace MyonBackend

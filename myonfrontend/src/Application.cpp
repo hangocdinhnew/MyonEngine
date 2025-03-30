@@ -1,7 +1,7 @@
-#include "LOEBackend/Core/Engine.hpp"
+#include "MyonBackend/Core/Engine.hpp"
 
 int main() {
-  LOEBackend::Engine engine{600, 400, "lol"};
+  MyonBackend::Engine engine{600, 400, "lol"};
 
   while (engine.IsRunning()) {
     engine.PollEvents();

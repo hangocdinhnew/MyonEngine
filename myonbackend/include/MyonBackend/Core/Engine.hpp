@@ -1,9 +1,9 @@
 #pragma once
 
-#include "LOEBackend/Core/Log.hpp"
-#include "LOEBackend/Core/Window.hpp"
+#include "MyonBackend/Core/Log.hpp"
+#include "MyonBackend/Core/Window.hpp"
 
-namespace LOEBackend {
+namespace MyonBackend {
 class Engine {
 public:
   Engine(int width, int height, const std::string& title);
@@ -25,4 +25,4 @@ private:
   std::unique_ptr<Log> m_Log;
   std::unique_ptr<Window> m_Window;
 };
-} // namespace LOEBackend
+} // namespace MyonBackend

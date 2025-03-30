@@ -1,27 +1,27 @@
-#include "LOEBackend/Core/Window.hpp"
-#include "LOEBackend/Core/Log.hpp"
+#include "MyonBackend/Core/Window.hpp"
+#include "MyonBackend/Core/Log.hpp"
 
-namespace LOEBackend {
+namespace MyonBackend {
 Window::Window(int width, int height, const std::string &title) {
   if (!glfwInit()) {
-    LOE_CORE_ERROR("Request to init GLFW was failed.");
+    Myon_CORE_ERROR("Request to init GLFW was failed.");
     std::terminate();
   }
 
   m_Window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
   if (!m_Window) {
-    LOE_ERROR("Request to create the window was failed.");
+    Myon_ERROR("Request to create the window was failed.");
     glfwTerminate();
     std::terminate();
   }
 
-  LOE_CORE_INFO("Requested window ({}x{}) created successfully!", width, height);
+  Myon_CORE_INFO("Requested window ({}x{}) created successfully!", width, height);
 }
 
 Window::~Window() {
   glfwDestroyWindow(m_Window);
   glfwTerminate();
-  LOE_INFO("Window terminated.");
+  Myon_INFO("Window terminated.");
 }
 
 bool Window::IsRunning() const {
@@ -36,4 +36,4 @@ void Window::SwapBuffers() {
   glfwSwapBuffers(m_Window);
 }
 
-} // namespace LOEBackend
+} // namespace MyonBackend
