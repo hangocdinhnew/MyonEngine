@@ -6,20 +6,12 @@
 namespace MyonBackend {
 class Engine {
 public:
-  Engine(int width, int height, const std::string& title);
+  Engine(int width, int height, const std::string &title);
   ~Engine();
 
-  bool IsRunning() const {
-    return m_Window->IsRunning();
-  }
+  bool IsRunning() const { return m_Window->IsRunning(); }
 
-  void PollEvents() {
-    m_Window->PollEvents();
-  }
-
-  void SwapBuffers() {
-    m_Window->SwapBuffers();
-  }
+  void PollEvents() { m_Window->PollEvents(); }
 
 private:
   std::unique_ptr<Log> m_Log;

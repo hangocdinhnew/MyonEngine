@@ -5,7 +5,6 @@ int main() {
 
   while (engine.IsRunning()) {
     engine.PollEvents();
-    engine.SwapBuffers();
   }
 
   return 0;

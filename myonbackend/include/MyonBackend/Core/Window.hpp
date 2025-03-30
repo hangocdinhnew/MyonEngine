@@ -10,11 +10,14 @@ public:
   Window(int width, int height, const std::string &title);
   ~Window();
 
+
   bool IsRunning() const;
   void PollEvents();
-  void SwapBuffers();
 
 private:
+  void initWindow(int width, int height, const std::string &title);
+  void cleanupWindow();
+
   GLFWwindow *m_Window;
 };
 } // namespace MyonBackend

@@ -1,7 +1,7 @@
 #include "MyonBackend/Core/Engine.hpp"
 
 namespace MyonBackend {
-Engine::Engine(int width, int height, const std::string& title) {
+Engine::Engine(int width, int height, const std::string &title) {
   m_Log = std::make_unique<Log>();
 
   // Log
@@ -10,7 +10,5 @@ Engine::Engine(int width, int height, const std::string& title) {
   m_Window = std::make_unique<Window>(width, height, title);
 }
 
-Engine::~Engine() {
-  Myon_CORE_INFO("Engine shutting down...");
-}
-}
+Engine::~Engine() { Myon_CORE_INFO("Engine shutting down..."); }
+} // namespace MyonBackend

@@ -3,6 +3,12 @@
 
 namespace MyonBackend {
 Window::Window(int width, int height, const std::string &title) {
+  initWindow(width, height, title);
+}
+
+Window::~Window() { cleanupWindow(); }
+
+void Window::initWindow(int width, int height, const std::string &title) {
   if (!glfwInit()) {
     Myon_CORE_ERROR("Request to init GLFW was failed.");
     std::terminate();
@@ -18,25 +24,18 @@ Window::Window(int width, int height, const std::string &title) {
     std::terminate();
   }
 
-  Myon_CORE_INFO("Requested window ({}x{}) created successfully!", width, height);
+  Myon_CORE_INFO("Requested window ({}x{}) created successfully!", width,
+                 height);
 }
 
-Window::~Window() {
+void Window::cleanupWindow() {
   glfwDestroyWindow(m_Window);
   glfwTerminate();
   Myon_INFO("Window terminated.");
 }
 
-bool Window::IsRunning() const {
-  return !glfwWindowShouldClose(m_Window);
-}
+bool Window::IsRunning() const { return !glfwWindowShouldClose(m_Window); }
 
-void Window::PollEvents() {
-  glfwPollEvents();
-}
-
-void Window::SwapBuffers() {
-  glfwSwapBuffers(m_Window);
-}
+void Window::PollEvents() { glfwPollEvents(); }
 
 } // namespace MyonBackend
