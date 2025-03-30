@@ -8,6 +8,9 @@ Window::Window(int width, int height, const std::string &title) {
     std::terminate();
   }
 
+  glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+  glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+
   m_Window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
   if (!m_Window) {
     Myon_ERROR("Request to create the window was failed.");
