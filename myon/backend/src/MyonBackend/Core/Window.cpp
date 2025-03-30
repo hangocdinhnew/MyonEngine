@@ -30,9 +30,9 @@ void Window::initWindow(int width, int height, const std::string &title) {
 }
 
 void Window::cleanupWindow() {
+  MYON_INFO("Terminating window...");
   glfwDestroyWindow(m_Window);
   glfwTerminate();
-  MYON_INFO("Window terminated.");
 }
 
 bool Window::IsRunning() const { return !glfwWindowShouldClose(m_Window); }
