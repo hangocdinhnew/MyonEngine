@@ -75,7 +75,7 @@ VulkanInstance::VulkanInstance(const std::string &title) {
 }
 
 VulkanInstance::~VulkanInstance() {
-  MYON_CORE_INFO("Shutting down instance...");
+  MYON_CORE_INFO("Shutting down Vulkan instance...");
   instance.destroy(nullptr);
 }
 
