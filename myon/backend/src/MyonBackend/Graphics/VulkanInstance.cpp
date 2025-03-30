@@ -62,7 +62,7 @@ VulkanInstance::VulkanInstance(const std::string &title) {
       static_cast<uint32_t>(extensions_list.size());
 
 #ifdef __APPLE__
-  createInfo.flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
+  createInfo.flags |= vk::InstanceCreateFlagBits::eEnumeratePortabilityKHR;
 #endif
 
   if (vk::createInstance(&createInfo, nullptr, &instance) !=
@@ -75,7 +75,8 @@ VulkanInstance::VulkanInstance(const std::string &title) {
 }
 
 VulkanInstance::~VulkanInstance() {
-    instance.destroy(nullptr);
+  MYON_CORE_INFO("Shutting down instance...");
+  instance.destroy(nullptr);
 }
 
 } // namespace MyonBackend
