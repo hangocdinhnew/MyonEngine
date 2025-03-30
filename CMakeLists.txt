@@ -70,5 +70,5 @@ add_subdirectory("thirdparty/Vulkan-Loader")
 add_subdirectory("thirdparty/glfw")
 
 message(STATUS "Myon (ROOT): Preparing backend and frontend...")
-add_subdirectory("myonbackend")
-add_subdirectory("myonfrontend")
+add_subdirectory("myon/backend")
+add_subdirectory("myon/frontend")
