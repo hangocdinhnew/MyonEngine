@@ -64,6 +64,9 @@ project(
 # Thirdparties
 message(STATUS "Myon (Root): Preparing thirdparty dependencies...")
 add_subdirectory("thirdparty/spdlog")
+
+add_subdirectory("thirdparty/Vulkan-Headers")
+add_subdirectory("thirdparty/Vulkan-Loader")
 add_subdirectory("thirdparty/glfw")
 
 message(STATUS "Myon (ROOT): Preparing backend and frontend...")

@@ -23,23 +23,23 @@ private:
 } // namespace MyonBackend
 
 // Core log macros
-#define Myon_CORE_TRACE(...)                                                   \
+#define MYON_CORE_TRACE(...)                                                   \
   ::MyonBackend::Log::GetCoreLogger()->trace(__VA_ARGS__)
-#define Myon_CORE_INFO(...)                                                    \
+#define MYON_CORE_INFO(...)                                                    \
   ::MyonBackend::Log::GetCoreLogger()->info(__VA_ARGS__)
-#define Myon_CORE_WARN(...)                                                    \
+#define MYON_CORE_WARN(...)                                                    \
   ::MyonBackend::Log::GetCoreLogger()->warn(__VA_ARGS__)
-#define Myon_CORE_ERROR(...)                                                   \
+#define MYON_CORE_ERROR(...)                                                   \
   ::MyonBackend::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define Myon_CORE_CRITICAL(...)                                                \
+#define MYON_CORE_CRITICAL(...)                                                \
   ::MyonBackend::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
 // Client log macros
-#define Myon_TRACE(...)                                                        \
+#define MYON_TRACE(...)                                                        \
   ::MyonBackend::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define Myon_INFO(...) ::MyonBackend::Log::GetClientLogger()->info(__VA_ARGS__)
-#define Myon_WARN(...) ::MyonBackend::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define Myon_ERROR(...)                                                        \
+#define MYON_INFO(...) ::MyonBackend::Log::GetClientLogger()->info(__VA_ARGS__)
+#define MYON_WARN(...) ::MyonBackend::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define MYON_ERROR(...)                                                        \
   ::MyonBackend::Log::GetClientLogger()->error(__VA_ARGS__)
-#define Myon_CRITICAL(...)                                                     \
+#define MYON_CRITICAL(...)                                                     \
   ::MyonBackend::Log::GetClientLogger()->critical(__VA_ARGS__)

@@ -29,7 +29,7 @@ Log::Log() {
   s_ClientLogger->set_level(spdlog::level::trace);
   s_ClientLogger->flush_on(spdlog::level::trace);
 
-  Myon_CORE_INFO("Log system initialized!");
+  MYON_CORE_INFO("Log system initialized!");
 }
 
 } // namespace MyonBackend

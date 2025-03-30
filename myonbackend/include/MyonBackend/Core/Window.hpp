@@ -1,5 +1,6 @@
 #pragma once
 
+#include "MyonBackend/Graphics/VulkanInstance.hpp"
 #include <GLFW/glfw3.h>
 #include <memory>
 #include <string>
@@ -10,7 +11,6 @@ public:
   Window(int width, int height, const std::string &title);
   ~Window();
 
-
   bool IsRunning() const;
   void PollEvents();
 
@@ -19,5 +19,6 @@ private:
   void cleanupWindow();
 
   GLFWwindow *m_Window;
+  std::unique_ptr<VulkanInstance> m_vkInstance;
 };
 } // namespace MyonBackend
