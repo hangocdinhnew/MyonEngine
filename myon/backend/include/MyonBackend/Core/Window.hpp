@@ -19,6 +19,6 @@ private:
   void cleanupWindow();
 
   GLFWwindow *m_Window;
-  std::unique_ptr<VulkanInstance> m_vkInstance;
+  VulkanInstance* m_vkInstance;
 };
 } // namespace MyonBackend

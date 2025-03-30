@@ -9,6 +9,8 @@ public:
   VulkanInstance(const std::string &title);
   ~VulkanInstance();
 
+  void destroy();
+
 private:
   vk::Instance instance;
 };
