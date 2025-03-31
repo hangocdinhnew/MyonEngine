@@ -67,9 +67,6 @@ message(STATUS "Myon (Root): Preparing thirdparty dependencies...")
 add_subdirectory("external/spdlog")
 
 add_subdirectory("external/Vulkan-Headers")
-add_subdirectory("external/SPIRV-Headers")
-add_subdirectory("external/Vulkan-Utility-Libraries")
-add_subdirectory("external/Vulkan-ValidationLayers")
 add_subdirectory("external/Vulkan-Loader")
 add_subdirectory("external/glfw")
 

@@ -21,9 +21,6 @@ endif()
 
 # Link libraries
 target_link_libraries(MyonBackend PUBLIC Vulkan::Headers)
-target_link_libraries(MyonBackend PUBLIC SPIRV-Headers::SPIRV-Headers)
-target_link_libraries(MyonBackend PUBLIC Vulkan::LayerSettings)
-target_link_libraries(MyonBackend PUBLIC VkLayer_utils)
 target_link_libraries(MyonBackend PUBLIC vulkan)
 
 target_link_libraries(MyonBackend PUBLIC spdlog::spdlog)
