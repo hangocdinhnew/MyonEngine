@@ -38,7 +38,6 @@ endif()
 
 # Add variables
 set(PROJECT_ROOT "${CMAKE_CURRENT_LIST_DIR}")
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 20)
