@@ -32,4 +32,8 @@ Log::Log() {
   MYON_CORE_INFO("Log system initialized!");
 }
 
+Log::~Log() {
+  MYON_CORE_INFO("Log system shutting down...");
+}
+
 } // namespace MyonBackend

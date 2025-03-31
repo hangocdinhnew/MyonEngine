@@ -7,7 +7,7 @@ namespace MyonBackend {
 class Log {
 public:
   Log();
-  ~Log() = default;
+  ~Log();
 
   inline static std::shared_ptr<spdlog::logger> &GetCoreLogger() {
     return s_CoreLogger;

@@ -38,6 +38,7 @@ endif()
 
 # Add variables
 set(PROJECT_ROOT "${CMAKE_CURRENT_LIST_DIR}")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 20)
@@ -63,11 +64,14 @@ project(
 
 # Thirdparties
 message(STATUS "Myon (Root): Preparing thirdparty dependencies...")
-add_subdirectory("thirdparty/spdlog")
+add_subdirectory("external/spdlog")
 
-add_subdirectory("thirdparty/Vulkan-Headers")
-add_subdirectory("thirdparty/Vulkan-Loader")
-add_subdirectory("thirdparty/glfw")
+add_subdirectory("external/Vulkan-Headers")
+add_subdirectory("external/SPIRV-Headers")
+add_subdirectory("external/Vulkan-Utility-Libraries")
+add_subdirectory("external/Vulkan-ValidationLayers")
+add_subdirectory("external/Vulkan-Loader")
+add_subdirectory("external/glfw")
 
 message(STATUS "Myon (ROOT): Preparing backend and frontend...")
 add_subdirectory("myon/backend")

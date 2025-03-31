@@ -4,11 +4,9 @@
 namespace MyonBackend {
 Window::Window(int width, int height, const std::string &title) {
   initWindow(width, height, title);
-  m_vkInstance = new VulkanInstance(title);
 }
 
 Window::~Window() {
-  delete m_vkInstance;
   cleanupWindow();
 }
 

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "MyonBackend/Graphics/VulkanInstance.hpp"
 #include <GLFW/glfw3.h>
 #include <memory>
 #include <string>
@@ -19,6 +18,5 @@ private:
   void cleanupWindow();
 
   GLFWwindow *m_Window;
-  VulkanInstance* m_vkInstance;
 };
 } // namespace MyonBackend
