@@ -83,6 +83,8 @@ void VulkanValidationLayer::DestroyDebugUtilsMessengerEXT(
 }
 
 VulkanValidationLayer::~VulkanValidationLayer() {
+  MYON_CORE_INFO("Shutting down Validation Layer...");
+
   if (enableValidationLayers) {
     DestroyDebugUtilsMessengerEXT(m_Instance, m_DebugMessenger, nullptr);
   }

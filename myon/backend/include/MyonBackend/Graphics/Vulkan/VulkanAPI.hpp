@@ -8,7 +8,7 @@ public:
   ~VulkanAPI();
 
 private:
-  VulkanInstance *m_Instance;
-  VulkanValidationLayer *m_ValidationLayer;
+  std::unique_ptr<VulkanInstance> m_Instance;
+  std::unique_ptr<VulkanValidationLayer> m_ValidationLayer;
 };
 } // namespace MyonBackend

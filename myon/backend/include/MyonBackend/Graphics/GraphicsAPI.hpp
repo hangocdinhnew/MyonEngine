@@ -5,9 +5,9 @@ namespace MyonBackend {
 class GraphicsAPI {
 public:
   GraphicsAPI(const std::string &title);
-  ~GraphicsAPI();
+  ~GraphicsAPI() = default;
 
 private:
-  VulkanAPI* m_VulkanAPI;
+  std::unique_ptr<VulkanAPI> m_VulkanAPI;
 };
 } // namespace MyonBackend

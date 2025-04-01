@@ -2,11 +2,11 @@
 
 namespace MyonBackend {
 Engine::Engine(int width, int height, const std::string &title) {
-  m_Log = new Log();
+  m_Log = std::make_unique<Log>();
 
-  m_Window = new Window(width, height, title);
+  m_Window = std::make_unique<Window>(width, height, title);
 
-  m_GraphicsAPI = new GraphicsAPI(title);
+  m_GraphicsAPI = std::make_unique<GraphicsAPI>(title);
 
   // Log
   MYON_CORE_INFO("Engine initialized!");
@@ -14,8 +14,5 @@ Engine::Engine(int width, int height, const std::string &title) {
 
 Engine::~Engine() {
   MYON_CORE_INFO("Engine shutting down...");
-  delete m_GraphicsAPI;
-  delete m_Window;
-  delete m_Log;
 }
 } // namespace MyonBackend

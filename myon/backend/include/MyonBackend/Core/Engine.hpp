@@ -15,8 +15,8 @@ public:
   void PollEvents() { m_Window->PollEvents(); }
 
 private:
-  Log *m_Log;
-  Window *m_Window;
-  GraphicsAPI* m_GraphicsAPI;
+  std::unique_ptr<Log> m_Log;
+  std::unique_ptr<Window> m_Window;
+  std::unique_ptr<GraphicsAPI> m_GraphicsAPI;
 };
 } // namespace MyonBackend

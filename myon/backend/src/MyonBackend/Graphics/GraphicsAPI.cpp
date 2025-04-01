@@ -2,10 +2,6 @@
 
 namespace MyonBackend {
 GraphicsAPI::GraphicsAPI(const std::string &title) {
-  m_VulkanAPI = new VulkanAPI(title);
-}
-
-GraphicsAPI::~GraphicsAPI() {
-  delete m_VulkanAPI;
+  m_VulkanAPI = std::make_unique<VulkanAPI>(title);
 }
 }
