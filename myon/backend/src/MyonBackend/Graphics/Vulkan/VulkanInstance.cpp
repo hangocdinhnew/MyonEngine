@@ -38,7 +38,7 @@ VulkanInstance::VulkanInstance(const std::string &title) {
         availableExtensionsSet.end()) {
       MYON_CORE_ERROR("Required Vulkan extension '{}' is NOT supported!",
                       requiredExt);
-      std::terminate();
+      std::abort();
     }
   }
 
@@ -64,14 +64,14 @@ VulkanInstance::VulkanInstance(const std::string &title) {
 
   if (enableValidationLayers && !checkValidationLayerSupport()) {
     MYON_CORE_ERROR("Validation layers requested, but not available!");
-    std::terminate();
+    std::abort();
   }
 
   vk::Result result = vk::createInstance(&createInfo, nullptr, &m_Instance);
   if (result != vk::Result::eSuccess) {
     MYON_CORE_ERROR("vkCreateInstance failed with error: {}",
                     vk::to_string(result));
-    std::terminate();
+    std::abort();
   }
 
   MYON_CORE_INFO("Vulkan instance created successfully!");

@@ -13,7 +13,7 @@ Window::~Window() {
 void Window::initWindow(int width, int height, const std::string &title) {
   if (!glfwInit()) {
     MYON_CORE_ERROR("Request to init GLFW was failed.");
-    std::terminate();
+    std::abort();
   }
 
   glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -23,7 +23,7 @@ void Window::initWindow(int width, int height, const std::string &title) {
   if (!m_Window) {
     MYON_ERROR("Request to create the window was failed.");
     glfwTerminate();
-    std::terminate();
+    std::abort();
   }
 
   MYON_CORE_INFO("Requested window ({}x{}) created successfully!", width,

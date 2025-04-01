@@ -22,7 +22,7 @@ VulkanValidationLayer::VulkanValidationLayer(vk::Instance &p_Instance)
   if (CreateDebugUtilsMessengerEXT(p_Instance, &createInfo, nullptr,
                                    &m_DebugMessenger) != vk::Result::eSuccess) {
     MYON_CORE_ERROR("Failed to set up debug messenger!");
-    std::terminate();
+    std::abort();
   }
 
   MYON_CORE_INFO("Setting up debug messager using Vulkan Validation Layers has "
