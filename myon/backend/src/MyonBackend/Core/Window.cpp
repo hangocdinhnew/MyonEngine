@@ -12,8 +12,7 @@ Window::~Window() {
 
 void Window::initWindow(int width, int height, const std::string &title) {
   if (!glfwInit()) {
-    MYON_CORE_ERROR("Request to init GLFW was failed.");
-    std::abort();
+    MYON_DO_CORE_ASSERT("Request to init GLFW was failed.");
   }
 
   glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);

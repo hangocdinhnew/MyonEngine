@@ -43,3 +43,32 @@ private:
   ::MyonBackend::Log::GetClientLogger()->error(__VA_ARGS__)
 #define MYON_CRITICAL(...)                                                     \
   ::MyonBackend::Log::GetClientLogger()->critical(__VA_ARGS__)
+
+// Assert
+#define MYON_DO_CORE_ASSERT(...)                                               \
+  do {                                                                         \
+    ::MyonBackend::Log::GetCoreLogger()->error(__VA_ARGS__);                   \
+    std::abort();                                                              \
+  } while (0)
+
+#define MYON_DO_ASSERT(...)                                                    \
+  do {                                                                         \
+    ::MyonBackend::Log::GetClientLogger()->error(__VA_ARGS__);                 \
+    std::abort();                                                              \
+  } while (0)
+
+#define MYON_CORE_ASSERT(condition, ...)                                       \
+  do {                                                                         \
+    if (!(condition)) {                                                        \
+      ::MyonBackend::Log::GetCoreLogger()->error(__VA_ARGS__);                 \
+      std::abort();                                                            \
+    }                                                                          \
+  } while (0)
+
+#define MYON_ASSERT(condition, ...)                                            \
+  do {                                                                         \
+    if (!(condition)) {                                                        \
+      ::MyonBackend::Log::GetClientLogger()->error(__VA_ARGS__);               \
+      std::abort();                                                            \
+    }                                                                          \
+  } while (0)
