@@ -4,12 +4,12 @@ namespace MyonBackend {
 Engine::Engine(int width, int height, const std::string &title) {
   m_Log = new Log();
 
-  // Log
-  MYON_CORE_INFO("Engine initialized!");
-
   m_Window = new Window(width, height, title);
 
   m_GraphicsAPI = new GraphicsAPI(title);
+
+  // Log
+  MYON_CORE_INFO("Engine initialized!");
 }
 
 Engine::~Engine() {
