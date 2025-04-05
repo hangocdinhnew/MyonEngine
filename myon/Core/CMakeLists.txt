@@ -3,6 +3,7 @@ project(MyonCore LANGUAGES CXX C)
 
 set(MyonCore_SOURCES
     "src/MyonCore/Core/Log.cpp"
+    "src/MyonCore/Layers/LayerStack.cpp"
     "src/MyonCore/Core/Engine.cpp"
     "src/MyonCore/Core/Window.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanInstance.cpp"

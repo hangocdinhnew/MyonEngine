@@ -1,4 +1,5 @@
 // clang-format off
+#pragma once
 #include "MyonCore/Graphics/Vulkan/VulkanInstance.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanValidationLayer.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanDevice.hpp"
