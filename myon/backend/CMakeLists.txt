@@ -7,7 +7,7 @@ set(MyonBackend_SOURCES
     "src/MyonBackend/Core/Window.cpp"
     "src/MyonBackend/Graphics/Vulkan/VulkanInstance.cpp"
     "src/MyonBackend/Graphics/Vulkan/VulkanValidationLayer.cpp"
-    "src/MyonBackend/Graphics/Vulkan/VulkanPhysicalDevice.cpp"
+    "src/MyonBackend/Graphics/Vulkan/VulkanDevice.cpp"
     "src/MyonBackend/Graphics/Vulkan/VulkanAPI.cpp"
     "src/MyonBackend/Graphics/GraphicsAPI.cpp")
 

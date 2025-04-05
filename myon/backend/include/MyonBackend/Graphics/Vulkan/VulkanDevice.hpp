@@ -9,14 +9,17 @@ struct QueueFamilyIndices {
   bool isComplete() { return graphicsFamily.has_value(); }
 };
 
-class VulkanPhysicalDevice {
+class VulkanDevice {
 public:
-  VulkanPhysicalDevice(vk::Instance &p_Instance);
-  ~VulkanPhysicalDevice();
+  VulkanDevice(vk::Instance &p_Instance);
+  ~VulkanDevice();
 
 private:
   bool isDeviceSuitable(vk::PhysicalDevice device);
   QueueFamilyIndices findQueueFamilies(vk::PhysicalDevice device);
+
+  vk::Device m_Device;
+  vk::Queue m_GraphicsQueue;
 };
 
 } // namespace MyonBackend
