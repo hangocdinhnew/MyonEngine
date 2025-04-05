@@ -28,10 +28,6 @@ VulkanInstance::VulkanInstance(const std::string &title) {
     availableExtensionsSet.insert(ext.extensionName);
   }
 
-#ifdef __APPLE__
-  extensions.push_back("VK_KHR_portability_subset");
-#endif
-
   MYON_CORE_INFO("Available Vulkan Extensions:");
   for (const auto &ext : availableExtensionsSet) {
     MYON_CORE_INFO("\t{}", ext);
@@ -41,7 +37,7 @@ VulkanInstance::VulkanInstance(const std::string &title) {
     if (availableExtensionsSet.find(requiredExt) ==
         availableExtensionsSet.end()) {
       MYON_DO_CORE_ASSERT("Required Vulkan extension '{}' is NOT supported!",
-                          requiredExt);
+                      requiredExt);
     }
   }
 
@@ -72,7 +68,7 @@ VulkanInstance::VulkanInstance(const std::string &title) {
   vk::Result result = vk::createInstance(&createInfo, nullptr, &m_Instance);
   if (result != vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("vkCreateInstance failed with error: {}",
-                        vk::to_string(result));
+                    vk::to_string(result));
   }
 
   MYON_CORE_INFO("Vulkan instance created successfully!");
@@ -83,6 +79,7 @@ VulkanInstance::~VulkanInstance() {
 
   m_Instance.destroy(nullptr);
 }
+
 
 std::vector<const char *> VulkanInstance::getRequiredExtensions() {
   uint32_t glfwExtensionCount = 0;
