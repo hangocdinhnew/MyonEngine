@@ -1,25 +1,23 @@
 #pragma once
-#include <MyonCore/Core/Log.hpp>
-#include <vulkan/vulkan.hpp>
+#include "MyonCore/Core/Log.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanStructs.hpp"
 #include <set>
+#include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
-struct QueueFamilyIndices {
-  std::optional<uint32_t> graphicsFamily;
-  std::optional<uint32_t> presentFamily;
-
-  bool isComplete() { return graphicsFamily.has_value() && presentFamily.has_value(); }
-};
-
 class VulkanDevice {
 public:
   VulkanDevice(vk::Instance &p_Instance, vk::SurfaceKHR p_Surface);
   ~VulkanDevice();
 
+  vk::PhysicalDevice& getPhysicalDevice() { return m_PhysicalDevice; };
+  vk::Device& getLogicalDevice() { return m_Device; }
+
 private:
   bool isDeviceSuitable(vk::PhysicalDevice device);
-  QueueFamilyIndices findQueueFamilies(vk::PhysicalDevice device);
+  bool checkDeviceExtensionSupport(vk::PhysicalDevice device);
 
+  vk::PhysicalDevice m_PhysicalDevice = nullptr;
   vk::Device m_Device;
   vk::Queue m_GraphicsQueue;
   vk::Queue m_PresentQueue;

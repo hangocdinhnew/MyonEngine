@@ -1,11 +1,10 @@
 #include "MyonCore/Graphics/Vulkan/VulkanDevice.hpp"
-#include "MyonCore/Graphics/Vulkan/VulkanCfg.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanUtils.hpp"
 #include "vulkan/vulkan_enums.hpp"
 
 namespace MyonCore {
 VulkanDevice::VulkanDevice(vk::Instance &p_Instance, vk::SurfaceKHR p_Surface)
     : m_Surface(p_Surface) {
-  vk::PhysicalDevice physicalDevice = nullptr;
 
   uint32_t deviceCount = 0;
   p_Instance.enumeratePhysicalDevices(&deviceCount, nullptr);
@@ -19,18 +18,18 @@ VulkanDevice::VulkanDevice(vk::Instance &p_Instance, vk::SurfaceKHR p_Surface)
 
   for (const auto &device : devices) {
     if (isDeviceSuitable(device)) {
-      physicalDevice = device;
+      m_PhysicalDevice = device;
       break;
     }
   }
 
-  if (physicalDevice == nullptr) {
+  if (m_PhysicalDevice == nullptr) {
     MYON_DO_CORE_ASSERT("Failed to find a suitable GPU!");
   }
 
   MYON_CORE_INFO("Vulkan Physicial Devices picked!");
 
-  QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
+  QueueFamilyIndices indices = Vulkan_FindQueueFamilies(m_PhysicalDevice, m_Surface);
 
   std::vector<vk::DeviceQueueCreateInfo> queueCreateInfos;
   std::set<uint32_t> uniqueQueueFamilies = {indices.graphicsFamily.value(),
@@ -56,7 +55,8 @@ VulkanDevice::VulkanDevice(vk::Instance &p_Instance, vk::SurfaceKHR p_Surface)
 
   createInfo.pEnabledFeatures = &deviceFeatures;
 
-  createInfo.enabledExtensionCount = 0;
+  createInfo.enabledExtensionCount = deviceExtensions.size();
+  createInfo.ppEnabledExtensionNames = deviceExtensions.data();
 
   if (enableValidationLayers) {
     createInfo.enabledLayerCount = validationLayers.size();
@@ -65,7 +65,7 @@ VulkanDevice::VulkanDevice(vk::Instance &p_Instance, vk::SurfaceKHR p_Surface)
     createInfo.enabledLayerCount = 0;
   }
 
-  if (physicalDevice.createDevice(&createInfo, nullptr, &m_Device) !=
+  if (m_PhysicalDevice.createDevice(&createInfo, nullptr, &m_Device) !=
       vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to create Logical device!");
   }
@@ -83,41 +83,35 @@ VulkanDevice::~VulkanDevice() {
 }
 
 bool VulkanDevice::isDeviceSuitable(vk::PhysicalDevice device) {
-  QueueFamilyIndices indices = findQueueFamilies(device);
+  QueueFamilyIndices indices = Vulkan_FindQueueFamilies(device, m_Surface);
 
-  return indices.isComplete();
-}
+  bool extensionsSupported = checkDeviceExtensionSupport(device);
 
-QueueFamilyIndices VulkanDevice::findQueueFamilies(vk::PhysicalDevice device) {
-  QueueFamilyIndices indices;
-
-  uint32_t queueFamilyCount = 0;
-  device.getQueueFamilyProperties(&queueFamilyCount, nullptr);
-
-  std::vector<vk::QueueFamilyProperties> queueFamilies(queueFamilyCount);
-  device.getQueueFamilyProperties(&queueFamilyCount, queueFamilies.data());
-
-  int i = 0;
-  for (const auto &queueFamily : queueFamilies) {
-    if (queueFamily.queueFlags & vk::QueueFlagBits::eGraphics) {
-      indices.graphicsFamily = i;
-    }
-
-    vk::Bool32 presentSupport = false;
-    device.getSurfaceSupportKHR(i, m_Surface, &presentSupport);
-
-    if (presentSupport) {
-      indices.presentFamily = i;
-    }
-
-    if (indices.isComplete()) {
-      break;
-    }
-
-    i++;
+  bool swapChainAdequate = false;
+  if (extensionsSupported) {
+    SwapChainSupportDetails swapChainSupport = Vulkan_QuerySwapChainSupport(device, m_Surface);
+    swapChainAdequate = !swapChainSupport.formats.empty() &&
+                        !swapChainSupport.presentModes.empty();
   }
 
-  return indices;
+  return indices.isComplete() && extensionsSupported && swapChainAdequate;
 }
 
+bool VulkanDevice::checkDeviceExtensionSupport(vk::PhysicalDevice device) {
+  uint32_t extensionCount;
+  device.enumerateDeviceExtensionProperties(nullptr, &extensionCount, nullptr);
+
+  std::vector<vk::ExtensionProperties> availableExtensions(extensionCount);
+  device.enumerateDeviceExtensionProperties(nullptr, &extensionCount,
+                                            availableExtensions.data());
+
+  std::set<std::string> requiredExtensions(deviceExtensions.begin(),
+                                           deviceExtensions.end());
+
+  for (const auto &extension : availableExtensions) {
+    requiredExtensions.erase(extension.extensionName);
+  }
+
+  return requiredExtensions.empty();
+}
 } // namespace MyonCore

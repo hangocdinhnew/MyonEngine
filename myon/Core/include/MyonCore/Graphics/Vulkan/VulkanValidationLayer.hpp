@@ -1,6 +1,6 @@
 #pragma once
 #include "MyonCore/Core/Log.hpp"
-#include "MyonCore/Graphics/Vulkan/VulkanCfg.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanUtils.hpp"
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {

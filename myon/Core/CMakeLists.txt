@@ -8,8 +8,9 @@ set(MyonCore_SOURCES
     "src/MyonCore/Core/Window.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanInstance.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanValidationLayer.cpp"
-    "src/MyonCore/Graphics/Vulkan/VulkanDevice.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanSurface.cpp"
+    "src/MyonCore/Graphics/Vulkan/VulkanDevice.cpp"
+    "src/MyonCore/Graphics/Vulkan/VulkanSwapChain.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanAPI.cpp"
     "src/MyonCore/Graphics/GraphicsAPI.cpp")
 
