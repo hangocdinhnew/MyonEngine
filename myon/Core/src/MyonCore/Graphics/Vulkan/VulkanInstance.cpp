@@ -11,7 +11,7 @@ VulkanInstance::VulkanInstance(const std::string &title) {
   appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
   appInfo.apiVersion = VK_API_VERSION_1_4;
 
-  // Step 2: Get required extensions from GLFW
+  // Step 2: Get required extensions from sdl
   auto extensions = getRequiredExtensions();
 
   // Step 3: Get Vulkan-supported extensions
@@ -82,12 +82,12 @@ VulkanInstance::~VulkanInstance() {
 
 
 std::vector<const char *> VulkanInstance::getRequiredExtensions() {
-  uint32_t glfwExtensionCount = 0;
-  const char **glfwExtensions;
-  glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+  uint32_t sdlExtensionCount = 0;
+  const char *const *sdlExtensions;
+  sdlExtensions = SDL_Vulkan_GetInstanceExtensions(&sdlExtensionCount);
 
-  std::vector<const char *> extensions(glfwExtensions,
-                                       glfwExtensions + glfwExtensionCount);
+  std::vector<const char *> extensions(sdlExtensions,
+                                       sdlExtensions + sdlExtensionCount);
 
   if (enableValidationLayers) {
     extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);

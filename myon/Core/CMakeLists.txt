@@ -26,4 +26,4 @@ target_link_libraries(MyonCore PUBLIC Vulkan::Headers)
 target_link_libraries(MyonCore PUBLIC vulkan)
 
 target_link_libraries(MyonCore PUBLIC spdlog::spdlog)
-target_link_libraries(MyonCore PUBLIC glfw)
+target_link_libraries(MyonCore PUBLIC SDL3::SDL3)

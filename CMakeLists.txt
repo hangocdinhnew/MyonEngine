@@ -46,12 +46,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Export compile commands for tools like clangd
 option(CMAKE_EXPORT_COMPILE_COMMANDS "Exports compile_commands.json" ON)
 
-# GLFW options
-option(GLFW_BUILD_EXAMPLES "Build examples of GLFW" OFF)
-option(GLFW_BUILD_TESTS "Build tests of GLFW" OFF)
-option(GLFW_BUILD_DOCS "Generate docs of GLFW" OFF)
-option(GLFW_BUILD_WAYLAND "Use Wayland for GLFW" OFF)
-
 # Maybe unused variables? (Not sure what this does, so leaving it)
 option(MAYBE_UNUSED_VARIABLES "Maybe unused variables?" ON)
 
@@ -67,7 +61,10 @@ add_subdirectory("external/spdlog")
 
 add_subdirectory("external/Vulkan-Headers")
 add_subdirectory("external/Vulkan-Loader")
-add_subdirectory("external/glfw")
+
+option(SDL_STATIC "Make SDL a static library" ON)
+option(SDL_SHARED "Make SDL a shared library" OFF)
+add_subdirectory("external/SDL")
 
 message(STATUS "Myon (ROOT): Preparing Core, Core Extensions and the Applications...")
 add_subdirectory("myon/Core")

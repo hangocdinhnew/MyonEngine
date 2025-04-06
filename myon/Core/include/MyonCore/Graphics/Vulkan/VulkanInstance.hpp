@@ -1,7 +1,7 @@
 #pragma once
 #include "MyonCore/Core/Log.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanCfg.hpp"
-#include <GLFW/glfw3.h>
+#include <SDL3/SDL_vulkan.h>
 #include <set>
 #include <vulkan/vulkan.hpp>
 

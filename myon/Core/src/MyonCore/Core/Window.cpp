@@ -6,22 +6,20 @@ Window::Window(int width, int height, const std::string &title) {
   initWindow(width, height, title);
 }
 
-Window::~Window() {
-  cleanupWindow();
-}
+Window::~Window() { cleanupWindow(); }
 
 void Window::initWindow(int width, int height, const std::string &title) {
-  if (!glfwInit()) {
-    MYON_DO_CORE_ASSERT("Request to init GLFW was failed.");
+  if (SDL_Init(SDL_INIT_VIDEO) == 0) {
+    MYON_DO_CORE_ASSERT("SDL_Init failed: {}", SDL_GetError());
   }
 
-  glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-  glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+  m_Window = SDL_CreateWindow(title.c_str(), width, height,
+                              SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
 
-  m_Window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
   if (!m_Window) {
-    MYON_ERROR("Request to create the window was failed.");
-    glfwTerminate();
+    MYON_CORE_ERROR("Failed to create the requested SDL3 Window: {}",
+                    SDL_GetError());
+    SDL_Quit();
     std::abort();
   }
 
@@ -31,12 +29,31 @@ void Window::initWindow(int width, int height, const std::string &title) {
 
 void Window::cleanupWindow() {
   MYON_INFO("Terminating window...");
-  glfwDestroyWindow(m_Window);
-  glfwTerminate();
+  if (m_Window) {
+    SDL_DestroyWindow(m_Window);
+    m_Window = nullptr;
+  }
+
+  SDL_Quit();
 }
 
-bool Window::IsRunning() const { return !glfwWindowShouldClose(m_Window); }
+bool Window::IsRunning() const { return m_IsRunning; }
 
-void Window::PollEvents() { glfwPollEvents(); }
+void Window::PollEvents() {
+  SDL_Event event;
+  while (SDL_PollEvent(&event)) {
+    switch (event.type) {
+    case SDL_EVENT_QUIT:
+      m_IsRunning = false;
+      break;
+
+    case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
+      m_IsRunning = false;
+      break;
+    }
+  }
+}
+
+SDL_Window *Window::GetNativeWindow() const { return m_Window; }
 
 } // namespace MyonCore
