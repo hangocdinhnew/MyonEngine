@@ -1,8 +1,10 @@
-#include "MyonCore/Graphics/Vulkan/VulkanCfg.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanDevice.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanCfg.hpp"
+#include "vulkan/vulkan_enums.hpp"
 
 namespace MyonCore {
-VulkanDevice::VulkanDevice(vk::Instance &p_Instance) {
+VulkanDevice::VulkanDevice(vk::Instance &p_Instance, vk::SurfaceKHR p_Surface)
+    : m_Surface(p_Surface) {
   vk::PhysicalDevice physicalDevice = nullptr;
 
   uint32_t deviceCount = 0;
@@ -30,21 +32,27 @@ VulkanDevice::VulkanDevice(vk::Instance &p_Instance) {
 
   QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
 
-  vk::DeviceQueueCreateInfo queueCreateInfo{};
-  queueCreateInfo.sType = vk::StructureType::eDeviceQueueCreateInfo;
-  queueCreateInfo.queueFamilyIndex = indices.graphicsFamily.value();
-  queueCreateInfo.queueCount = 1;
+  std::vector<vk::DeviceQueueCreateInfo> queueCreateInfos;
+  std::set<uint32_t> uniqueQueueFamilies = {indices.graphicsFamily.value(),
+                                            indices.presentFamily.value()};
 
   float queuePriority = 1.0f;
-  queueCreateInfo.pQueuePriorities = &queuePriority;
+  for (uint32_t queueFamily : uniqueQueueFamilies) {
+    vk::DeviceQueueCreateInfo queueCreateInfo{};
+    queueCreateInfo.sType = vk::StructureType::eDeviceQueueCreateInfo;
+    queueCreateInfo.queueFamilyIndex = queueFamily;
+    queueCreateInfo.queueCount = 1;
+    queueCreateInfo.pQueuePriorities = &queuePriority;
+    queueCreateInfos.push_back(queueCreateInfo);
+  }
 
   vk::PhysicalDeviceFeatures deviceFeatures{};
 
   vk::DeviceCreateInfo createInfo{};
   createInfo.sType = vk::StructureType::eDeviceCreateInfo;
 
-  createInfo.pQueueCreateInfos = &queueCreateInfo;
-  createInfo.queueCreateInfoCount = 1;
+  createInfo.pQueueCreateInfos = queueCreateInfos.data();
+  createInfo.queueCreateInfoCount = queueCreateInfos.size();
 
   createInfo.pEnabledFeatures = &deviceFeatures;
 
@@ -63,14 +71,15 @@ VulkanDevice::VulkanDevice(vk::Instance &p_Instance) {
   }
 
   m_Device.getQueue(indices.graphicsFamily.value(), 0, &m_GraphicsQueue);
+  m_Device.getQueue(indices.presentFamily.value(), 0, &m_PresentQueue);
 
   MYON_CORE_INFO("Initialized logical devices.");
 }
 
 VulkanDevice::~VulkanDevice() {
-  m_Device.destroy(nullptr);
+  MYON_CORE_INFO("Destroying device...");
 
-  MYON_CORE_INFO("Unpicking device...");
+  m_Device.destroy(nullptr);
 }
 
 bool VulkanDevice::isDeviceSuitable(vk::PhysicalDevice device) {
@@ -92,6 +101,13 @@ QueueFamilyIndices VulkanDevice::findQueueFamilies(vk::PhysicalDevice device) {
   for (const auto &queueFamily : queueFamilies) {
     if (queueFamily.queueFlags & vk::QueueFlagBits::eGraphics) {
       indices.graphicsFamily = i;
+    }
+
+    vk::Bool32 presentSupport = false;
+    device.getSurfaceSupportKHR(i, m_Surface, &presentSupport);
+
+    if (presentSupport) {
+      indices.presentFamily = i;
     }
 
     if (indices.isComplete()) {
