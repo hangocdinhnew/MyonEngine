@@ -9,10 +9,10 @@ Window::Window(int width, int height, const std::string &title) {
 Window::~Window() { cleanupWindow(); }
 
 void Window::initWindow(int width, int height, const std::string &title) {
-  if (SDL_Init(SDL_INIT_VIDEO) == 0) {
+  if (!SDL_Init(SDL_INIT_VIDEO)) {
     MYON_DO_CORE_ASSERT("SDL_Init failed: {}", SDL_GetError());
   }
-
+ 
   m_Window = SDL_CreateWindow(title.c_str(), width, height,
                               SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
 
