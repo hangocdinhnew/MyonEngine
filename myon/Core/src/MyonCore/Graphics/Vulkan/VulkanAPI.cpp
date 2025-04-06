@@ -1,13 +1,8 @@
 #include "MyonCore/Graphics/Vulkan/VulkanAPI.hpp"
 
-/*
-vk::Device p_Device,
-                                   std::vector<vk::Image> p_SwapChainImages,
-                                   vk::Format p_SwapChainImageFormat
-*/
-
 namespace MyonCore {
-VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &title) {
+VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &title,
+                     const std::string vert, const std::string frag) {
   m_VulkanInstance = std::make_unique<VulkanInstance>(title);
   m_VulkanValidationLayer =
       std::make_unique<VulkanValidationLayer>(m_VulkanInstance->getInstance());
@@ -22,6 +17,8 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &title) {
       m_VulkanDevice->getLogicalDevice(),
       m_VulkanSwapchain->getSwapChainImages(),
       m_VulkanSwapchain->getSwapChainImageFormat());
+  m_VulkanGraphicsPipeline = std::make_unique<VulkanGraphicsPipeline>(
+      m_VulkanDevice->getLogicalDevice(), vert, frag);
   MYON_CORE_INFO("Initialized Vulkan!");
 }
 

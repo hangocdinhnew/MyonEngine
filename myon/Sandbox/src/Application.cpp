@@ -10,7 +10,14 @@ public:
 };
 
 int main() {
-  MyonCore::Engine engine{600, 400, "lol"};
+  MyonCore::EngineInfo engineInfo{};
+  engineInfo.width = 800;
+  engineInfo.height = 600;
+  engineInfo.title = "Lol";
+  engineInfo.vert = "Shaders/vertshader.vert";
+  engineInfo.frag = "Shaders/fragshader.frag";
+
+  MyonCore::Engine engine{&engineInfo};
 
   engine.PushLayer(new SandboxLayer);
   engine.Run();

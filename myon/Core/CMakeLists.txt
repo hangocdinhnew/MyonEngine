@@ -12,6 +12,7 @@ set(MyonCore_SOURCES
     "src/MyonCore/Graphics/Vulkan/VulkanDevice.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanSwapChain.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanImageViews.cpp"
+    "src/MyonCore/Graphics/Vulkan/VulkanGraphicsPipeline.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanAPI.cpp"
     "src/MyonCore/Graphics/GraphicsAPI.cpp")
 
@@ -25,8 +26,11 @@ if(CMAKE_BUILD_TYPE MATCHES "Debug")
 endif()
 
 # Link libraries
-target_link_libraries(MyonCore PUBLIC Vulkan::Headers)
-target_link_libraries(MyonCore PUBLIC vulkan)
-
 target_link_libraries(MyonCore PUBLIC spdlog::spdlog)
 target_link_libraries(MyonCore PUBLIC SDL3::SDL3)
+
+target_link_libraries(MyonCore PUBLIC Vulkan::Vulkan)
+target_link_libraries(MyonCore PUBLIC SPIRV-Tools)
+target_link_libraries(MyonCore PUBLIC SPIRV-Tools-opt)
+target_link_libraries(MyonCore PUBLIC glslang)
+target_link_libraries(MyonCore PUBLIC Vulkan::shaderc_combined)

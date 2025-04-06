@@ -9,9 +9,18 @@
 // clang-format on
 
 namespace MyonCore {
+
+struct EngineInfo {
+  int width;
+  int height;
+  std::string title;
+  std::string vert;
+  std::string frag;
+};
+
 class Engine {
 public:
-  Engine(int width, int height, const std::string &title);
+  Engine(EngineInfo* engineInfo);
   ~Engine();
 
   bool IsRunning() const { return m_Window->IsRunning(); }
@@ -21,11 +30,11 @@ public:
   void Run();
 
   // Layers
-  void PushLayer(Layer* layer);
-  void PushOverlay(Layer* layer);
+  void PushLayer(Layer *layer);
+  void PushOverlay(Layer *layer);
 
-  void PopLayer(Layer* layer);
-  void PopOverlay(Layer* layer);
+  void PopLayer(Layer *layer);
+  void PopOverlay(Layer *layer);
 
 private:
   std::unique_ptr<Log> m_Log;

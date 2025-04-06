@@ -57,15 +57,16 @@ project(
 
 # Thirdparties
 message(STATUS "Myon (Root): Preparing thirdparty dependencies...")
-add_subdirectory("external/spdlog")
-
-add_subdirectory("external/Vulkan-Headers")
-add_subdirectory("external/Vulkan-Loader")
+find_package(spdlog REQUIRED)
+find_package(glslang REQUIRED)
+find_package(SPIRV-Tools REQUIRED)
+find_package(Vulkan REQUIRED COMPONENTS shaderc_combined)
 
 option(SDL_STATIC "Make SDL a static library" ON)
 option(SDL_SHARED "Make SDL a shared library" OFF)
-add_subdirectory("external/SDL")
+find_package(SDL3 REQUIRED)
 
-message(STATUS "Myon (ROOT): Preparing Core, Core Extensions and the Applications...")
+message(
+  STATUS "Myon (ROOT): Preparing Core, Core Extensions and the Applications...")
 add_subdirectory("myon/Core")
 add_subdirectory("myon/Sandbox")

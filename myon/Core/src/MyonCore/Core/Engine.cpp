@@ -1,14 +1,17 @@
 #include "MyonCore/Core/Engine.hpp"
 
 namespace MyonCore {
-Engine::Engine(int width, int height, const std::string &title) {
+Engine::Engine(EngineInfo *engineInfo) {
   m_Log = std::make_unique<Log>();
 
   m_Time = std::make_unique<Time>();
 
-  m_Window = std::make_unique<Window>(width, height, title);
+  m_Window = std::make_unique<Window>(engineInfo->width, engineInfo->height,
+                                      engineInfo->title);
 
-  m_GraphicsAPI = std::make_unique<GraphicsAPI>(m_Window->GetNativeWindow(), title);
+  m_GraphicsAPI = std::make_unique<GraphicsAPI>(
+      m_Window->GetNativeWindow(), engineInfo->title, engineInfo->vert,
+      engineInfo->frag);
 
   // Log
   MYON_CORE_INFO("Engine initialized!");
