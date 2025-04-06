@@ -13,6 +13,14 @@ public:
                   vk::Device p_Device, vk::SurfaceKHR p_Surface);
   ~VulkanSwapChain();
 
+  std::vector<vk::Image> getSwapChainImages() {
+    return swapChainImages;
+  }
+
+  vk::Format getSwapChainImageFormat() {
+    return swapChainImageFormat;
+  }
+
 private:
   vk::SwapchainKHR m_SwapChain;
 

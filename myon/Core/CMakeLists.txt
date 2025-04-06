@@ -11,6 +11,7 @@ set(MyonCore_SOURCES
     "src/MyonCore/Graphics/Vulkan/VulkanSurface.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanDevice.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanSwapChain.cpp"
+    "src/MyonCore/Graphics/Vulkan/VulkanImageViews.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanAPI.cpp"
     "src/MyonCore/Graphics/GraphicsAPI.cpp")
 

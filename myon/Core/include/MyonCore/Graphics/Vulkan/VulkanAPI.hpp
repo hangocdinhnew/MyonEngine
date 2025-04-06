@@ -5,6 +5,7 @@
 #include "MyonCore/Graphics/Vulkan/VulkanDevice.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanSurface.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanSwapChain.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanImageViews.hpp"
 // clang-format on
 
 namespace MyonCore {
@@ -14,10 +15,11 @@ public:
   ~VulkanAPI();
 
 private:
-  std::unique_ptr<VulkanInstance> m_Instance;
-  std::unique_ptr<VulkanValidationLayer> m_ValidationLayer;
+  std::unique_ptr<VulkanInstance> m_VulkanInstance;
+  std::unique_ptr<VulkanValidationLayer> m_VulkanValidationLayer;
   std::unique_ptr<VulkanSurface> m_VulkanSurface;
   std::unique_ptr<VulkanDevice> m_VulkanDevice;
-  std::unique_ptr<VulkanSwapChain> m_Swapchain;
+  std::unique_ptr<VulkanSwapChain> m_VulkanSwapchain;
+  std::unique_ptr<VulkanImageViews> m_VulkanImageViews;
 };
 } // namespace MyonCore
