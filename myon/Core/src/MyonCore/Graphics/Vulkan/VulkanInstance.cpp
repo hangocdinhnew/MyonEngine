@@ -93,10 +93,6 @@ std::vector<const char *> VulkanInstance::getRequiredExtensions() {
     extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
   }
 
-#ifdef __APPLE__
-  extensions.emplace_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
-#endif
-
   return extensions;
 }
 
