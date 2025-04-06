@@ -6,7 +6,7 @@ debugCallback(vk::DebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
               vk::DebugUtilsMessageTypeFlagsEXT messageType,
               const vk::DebugUtilsMessengerCallbackDataEXT *pCallbackData,
               void *pUserData) {
-  MYON_ERROR("Message from Validation Layers = {}", pCallbackData->pMessage);
+  MYON_ERROR("Message from Validation Layers - {}", pCallbackData->pMessage);
 
   return vk::False;
 }
