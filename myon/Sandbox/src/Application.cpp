@@ -14,8 +14,8 @@ int main() {
   engineInfo.width = 800;
   engineInfo.height = 600;
   engineInfo.title = "Lol";
-  engineInfo.vert = "Shaders/vertshader.vert";
-  engineInfo.frag = "Shaders/fragshader.frag";
+  engineInfo.vert = "assets/Shaders/vertshader.vert";
+  engineInfo.frag = "assets/Shaders/fragshader.frag";
 
   MyonCore::Engine engine{&engineInfo};
 
