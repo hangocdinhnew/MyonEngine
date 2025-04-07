@@ -8,32 +8,18 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 # Detect compiler
-set(IS_MSVC FALSE)
 if(MSVC)
-  set(IS_MSVC TRUE)
+  message(FATAL_ERROR "Please do not use MSVC for this project!")
 endif()
 
 # Set optimization and debug flags based on build type
 if(CMAKE_BUILD_TYPE MATCHES "Dist")
-  if(IS_MSVC)
-    set(CMAKE_CXX_FLAGS "/O2 /DNDEBUG") # MSVC optimization
-  else()
-    set(CMAKE_CXX_FLAGS "-O3")
-  endif()
+  set(CMAKE_CXX_FLAGS "-O3")
 elseif(CMAKE_BUILD_TYPE MATCHES "Release")
-  if(IS_MSVC)
-    set(CMAKE_CXX_FLAGS "/O2 /DNDEBUG") # MSVC optimization
-    add_compile_definitions(ENABLE_TRACING)
-  else()
-    set(CMAKE_CXX_FLAGS "-O3")
-    add_compile_definitions(ENABLE_TRACING)
-  endif()
+  set(CMAKE_CXX_FLAGS "-O3")
+  add_compile_definitions(ENABLE_TRACING)
 elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
-  if(IS_MSVC)
-    set(CMAKE_CXX_FLAGS "/Zi /Od") # MSVC debug flags
-  else()
-    set(CMAKE_CXX_FLAGS "-g")
-  endif()
+  set(CMAKE_CXX_FLAGS "-g")
 endif()
 
 # Add variables

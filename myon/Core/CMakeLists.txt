@@ -29,6 +29,11 @@ endif()
 target_link_libraries(MyonCore PUBLIC spdlog::spdlog)
 target_link_libraries(MyonCore PUBLIC SDL3::SDL3)
 
-target_link_libraries(MyonCore PUBLIC ${Vulkan_LIBRARIES} Vulkan::shaderc_combined)
-target_link_libraries(MyonCore PUBLIC ${SPIRV-Tools_LIBRARIES})
-target_link_libraries(MyonCore PUBLIC ${glslang_LIBRARIES})
+if(APPLE)
+  target_link_libraries(
+    MyonCore PUBLIC ${glslang_LIBRARIES} ${SPIRV-Tools_LIBRARIES}
+                    ${Vulkan_LIBRARIES} Vulkan::shaderc_combined)
+elseif(UNIX OR WIN32)
+  target_link_libraries(MyonCore PUBLIC glslang SPIRV-Tools-opt SPIRV-Tools
+                                        Vulkan::Vulkan Vulkan::shaderc_combined)
+endif()
