@@ -9,7 +9,7 @@ VulkanInstance::VulkanInstance(const std::string &title) {
   appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
   appInfo.pEngineName = "Myon Engine";
   appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
-  appInfo.apiVersion = VK_API_VERSION_1_4;
+  appInfo.apiVersion = vk::ApiVersion14;
 
   // Step 2: Get required extensions from sdl
   auto extensions = getRequiredExtensions();

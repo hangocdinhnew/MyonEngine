@@ -64,10 +64,6 @@ std::vector<uint32_t> VulkanGraphicsPipeline::compileGLSL(const std::string &sou
   shaderc::Compiler compiler;
   shaderc::CompileOptions options;
 
-  // Vulkan target environment
-  options.SetTargetEnvironment(shaderc_target_env_vulkan,
-                               shaderc_env_version_vulkan_1_4);
-
   // Performance optimization (optional)
   options.SetOptimizationLevel(shaderc_optimization_level_performance);
 
