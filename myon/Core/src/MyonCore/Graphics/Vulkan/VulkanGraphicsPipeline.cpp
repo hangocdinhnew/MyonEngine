@@ -32,13 +32,101 @@ VulkanGraphicsPipeline::VulkanGraphicsPipeline(vk::Device p_Device,
   vk::PipelineShaderStageCreateInfo shaderStages[] = {vertShaderStageInfo,
                                                       fragShaderStageInfo};
 
+  MYON_CORE_INFO("Shader modules created!");
+
+  vk::PipelineVertexInputStateCreateInfo vertexInputInfo{};
+  vertexInputInfo.sType =
+      vk::StructureType::ePipelineVertexInputStateCreateInfo;
+  vertexInputInfo.vertexBindingDescriptionCount = 0;
+  vertexInputInfo.pVertexBindingDescriptions = nullptr;
+  vertexInputInfo.vertexAttributeDescriptionCount = 0;
+  vertexInputInfo.pVertexAttributeDescriptions = nullptr;
+
+  vk::PipelineInputAssemblyStateCreateInfo inputAssembly{};
+  inputAssembly.sType =
+      vk::StructureType::ePipelineInputAssemblyStateCreateInfo;
+  inputAssembly.topology = vk::PrimitiveTopology::eTriangleList;
+  inputAssembly.primitiveRestartEnable = vk::False;
+
+  vk::PipelineViewportStateCreateInfo viewportState{};
+  viewportState.sType = vk::StructureType::ePipelineViewportStateCreateInfo;
+  viewportState.viewportCount = 1;
+  viewportState.scissorCount = 1;
+
+  vk::PipelineRasterizationStateCreateInfo rasterizer{};
+  rasterizer.sType = vk::StructureType::ePipelineRasterizationStateCreateInfo;
+  rasterizer.depthClampEnable = vk::False;
+  rasterizer.rasterizerDiscardEnable = vk::False;
+  rasterizer.polygonMode = vk::PolygonMode::eFill;
+  rasterizer.lineWidth = 1.0f;
+  rasterizer.cullMode = vk::CullModeFlagBits::eBack;
+  rasterizer.frontFace = vk::FrontFace::eClockwise;
+  rasterizer.depthBiasEnable = vk::False;
+
+  vk::PipelineMultisampleStateCreateInfo multisampling{};
+  multisampling.sType = vk::StructureType::ePipelineMultisampleStateCreateInfo;
+  multisampling.sampleShadingEnable = vk::False;
+  multisampling.rasterizationSamples = vk::SampleCountFlagBits::e1;
+  multisampling.minSampleShading = 1.0f;
+  multisampling.pSampleMask = nullptr;
+  multisampling.alphaToCoverageEnable = vk::False;
+  multisampling.alphaToOneEnable = vk::False;
+
+  vk::PipelineColorBlendAttachmentState colorBlendAttachment{};
+  colorBlendAttachment.colorWriteMask =
+      vk::ColorComponentFlagBits::eR | vk::ColorComponentFlagBits::eG |
+      vk::ColorComponentFlagBits::eB | vk::ColorComponentFlagBits::eA;
+  colorBlendAttachment.blendEnable = vk::False;
+  colorBlendAttachment.srcColorBlendFactor = vk::BlendFactor::eOne;
+  colorBlendAttachment.dstColorBlendFactor = vk::BlendFactor::eZero;
+  colorBlendAttachment.colorBlendOp = vk::BlendOp::eAdd;
+  colorBlendAttachment.srcAlphaBlendFactor = vk::BlendFactor::eOne;
+  colorBlendAttachment.dstAlphaBlendFactor = vk::BlendFactor::eZero;
+  colorBlendAttachment.alphaBlendOp = vk::BlendOp::eAdd;
+
+  vk::PipelineColorBlendStateCreateInfo colorBlending{};
+  colorBlending.sType = vk::StructureType::ePipelineColorBlendStateCreateInfo;
+  colorBlending.logicOpEnable = vk::False;
+  colorBlending.logicOp = vk::LogicOp::eCopy;
+  colorBlending.attachmentCount = 1;
+  colorBlending.pAttachments = &colorBlendAttachment;
+  colorBlending.blendConstants[0] = 0.0f;
+  colorBlending.blendConstants[1] = 0.0f;
+  colorBlending.blendConstants[2] = 0.0f;
+  colorBlending.blendConstants[3] = 0.0f;
+
+  std::vector<vk::DynamicState> dynamicStates = {vk::DynamicState::eViewport,
+                                                 vk::DynamicState::eScissor};
+
+  vk::PipelineDynamicStateCreateInfo dynamicState{};
+  dynamicState.sType = vk::StructureType::ePipelineDynamicStateCreateInfo;
+  dynamicState.dynamicStateCount = dynamicStates.size();
+  dynamicState.pDynamicStates = dynamicStates.data();
+
+  vk::PipelineLayoutCreateInfo pipelineLayoutInfo{};
+  pipelineLayoutInfo.sType = vk::StructureType::ePipelineLayoutCreateInfo;
+  pipelineLayoutInfo.setLayoutCount = 0;
+  pipelineLayoutInfo.pSetLayouts = nullptr;
+  pipelineLayoutInfo.pushConstantRangeCount = 0;
+  pipelineLayoutInfo.pPushConstantRanges = nullptr;
+
+  if (m_Device.createPipelineLayout(&pipelineLayoutInfo, nullptr,
+                                    &pipelineLayout) != vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to create Pipeline Layout!");
+  }
+
+  MYON_CORE_INFO("Created a Pipeline Layout!");
+
   m_Device.destroyShaderModule(fragShaderModule, nullptr);
   m_Device.destroyShaderModule(vertShaderModule, nullptr);
 
-  MYON_CORE_INFO("Shader modules created and destroyed!");
+  MYON_CORE_INFO("Shader modules destroyed!");
 }
 
-VulkanGraphicsPipeline::~VulkanGraphicsPipeline() {}
+VulkanGraphicsPipeline::~VulkanGraphicsPipeline() {
+  MYON_CORE_INFO("Destroying graphics pipeline...");
+  m_Device.destroyPipelineLayout(pipelineLayout, nullptr);
+}
 
 std::string VulkanGraphicsPipeline::readFile(const std::string &filename) {
   std::ifstream file(filename, std::ios::ate | std::ios::binary);
@@ -58,17 +146,17 @@ std::string VulkanGraphicsPipeline::readFile(const std::string &filename) {
   return buffer;
 }
 
-std::vector<uint32_t> VulkanGraphicsPipeline::compileGLSL(const std::string &source,
-                                  shaderc_shader_kind kind,
-                                  const std::string &name) {
+std::vector<uint32_t>
+VulkanGraphicsPipeline::compileGLSL(const std::string &source,
+                                    shaderc_shader_kind kind,
+                                    const std::string &name) {
   shaderc::Compiler compiler;
   shaderc::CompileOptions options;
 
   // Performance optimization (optional)
   options.SetOptimizationLevel(shaderc_optimization_level_performance);
 
-  auto result =
-      compiler.CompileGlslToSpv(source, kind, name.c_str(), options);
+  auto result = compiler.CompileGlslToSpv(source, kind, name.c_str(), options);
 
   if (result.GetCompilationStatus() != shaderc_compilation_status_success) {
     MYON_DO_CORE_ASSERT("Shader compilation failed - {}",

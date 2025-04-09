@@ -20,5 +20,7 @@ private:
                                            const std::string &name = "shader");
 
   vk::ShaderModule createShaderModule(const std::vector<uint32_t> &code);
+
+  vk::PipelineLayout pipelineLayout;
 };
 } // namespace MyonCore
