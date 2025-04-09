@@ -22,6 +22,10 @@ elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
   set(CMAKE_CXX_FLAGS "-g")
 endif()
 
+if(WIN32 AND NOT MSVC)
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+endif()
+
 # Add variables
 set(PROJECT_ROOT "${CMAKE_CURRENT_LIST_DIR}")
 

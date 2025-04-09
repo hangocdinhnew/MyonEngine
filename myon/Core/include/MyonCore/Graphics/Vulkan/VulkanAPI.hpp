@@ -6,6 +6,7 @@
 #include "MyonCore/Graphics/Vulkan/VulkanSurface.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanSwapChain.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanImageViews.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanRenderPass.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanGraphicsPipeline.hpp"
 // clang-format on
 
@@ -23,6 +24,7 @@ private:
   std::unique_ptr<VulkanDevice> m_VulkanDevice;
   std::unique_ptr<VulkanSwapChain> m_VulkanSwapchain;
   std::unique_ptr<VulkanImageViews> m_VulkanImageViews;
+  std::unique_ptr<VulkanRenderPass> m_VulkanRenderPass;
   std::unique_ptr<VulkanGraphicsPipeline> m_VulkanGraphicsPipeline;
 };
 } // namespace MyonCore

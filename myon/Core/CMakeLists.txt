@@ -12,12 +12,13 @@ set(MyonCore_SOURCES
     "src/MyonCore/Graphics/Vulkan/VulkanDevice.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanSwapChain.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanImageViews.cpp"
+    "src/MyonCore/Graphics/Vulkan/VulkanRenderPass.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanGraphicsPipeline.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanAPI.cpp"
     "src/MyonCore/Graphics/GraphicsAPI.cpp")
 
 # Make the library
-add_library(MyonCore STATIC "${MyonCore_SOURCES}")
+add_library(MyonCore SHARED "${MyonCore_SOURCES}")
 target_include_directories(MyonCore PUBLIC "include/")
 
 # Definitions

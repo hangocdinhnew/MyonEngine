@@ -9,6 +9,7 @@ target_link_libraries(MyonSandbox PRIVATE MyonCore)
 install(TARGETS MyonSandbox
   RUNTIME DESTINATION bin
 )
+
 install(IMPORTED_RUNTIME_ARTIFACTS MyonSandbox)
 
 install(DIRECTORY "${MyonSandbox_SHADER_INPUT}" DESTINATION bin/assets)
