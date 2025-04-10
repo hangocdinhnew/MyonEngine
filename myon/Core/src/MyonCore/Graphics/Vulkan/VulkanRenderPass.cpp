@@ -35,9 +35,12 @@ VulkanRenderPass::VulkanRenderPass(vk::Device p_Device,
       vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to create render pass!");
   }
+
+  MYON_CORE_INFO("Created a Render Pass!");
 }
 
 VulkanRenderPass::~VulkanRenderPass() {
+  MYON_CORE_INFO("Destroying Render Pass...");
   m_Device.destroyRenderPass(m_RenderPass, nullptr);
 }
 
