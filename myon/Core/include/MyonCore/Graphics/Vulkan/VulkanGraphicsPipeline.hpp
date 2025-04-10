@@ -7,8 +7,8 @@
 namespace MyonCore {
 class VulkanGraphicsPipeline {
 public:
-  VulkanGraphicsPipeline(vk::Device p_Device, const std::string vert,
-                         const std::string frag);
+  VulkanGraphicsPipeline(vk::Device p_Device, vk::RenderPass p_RenderPass,
+                         const std::string vert, const std::string frag);
   ~VulkanGraphicsPipeline();
 
 private:
@@ -21,6 +21,7 @@ private:
 
   vk::ShaderModule createShaderModule(const std::vector<uint32_t> &code);
 
-  vk::PipelineLayout pipelineLayout;
+  vk::PipelineLayout m_PipelineLayout;
+  vk::Pipeline m_GraphicsPipeline;
 };
 } // namespace MyonCore

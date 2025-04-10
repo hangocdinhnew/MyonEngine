@@ -18,7 +18,7 @@ set(MyonCore_SOURCES
     "src/MyonCore/Graphics/GraphicsAPI.cpp")
 
 # Make the library
-add_library(MyonCore SHARED "${MyonCore_SOURCES}")
+add_library(MyonCore STATIC "${MyonCore_SOURCES}")
 target_include_directories(MyonCore PUBLIC "include/")
 
 # Definitions

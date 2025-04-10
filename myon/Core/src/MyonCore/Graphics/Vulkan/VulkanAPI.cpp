@@ -21,7 +21,8 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &title,
       m_VulkanDevice->getLogicalDevice(),
       m_VulkanSwapchain->getSwapChainImageFormat());
   m_VulkanGraphicsPipeline = std::make_unique<VulkanGraphicsPipeline>(
-      m_VulkanDevice->getLogicalDevice(), vert, frag);
+      m_VulkanDevice->getLogicalDevice(), m_VulkanRenderPass->getRenderPass(),
+      vert, frag);
   MYON_CORE_INFO("Initialized Vulkan!");
 }
 

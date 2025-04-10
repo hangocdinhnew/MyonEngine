@@ -3,6 +3,7 @@
 
 namespace MyonCore {
 VulkanGraphicsPipeline::VulkanGraphicsPipeline(vk::Device p_Device,
+                                               vk::RenderPass p_RenderPass,
                                                const std::string vert,
                                                const std::string frag)
     : m_Device(p_Device) {
@@ -111,11 +112,38 @@ VulkanGraphicsPipeline::VulkanGraphicsPipeline(vk::Device p_Device,
   pipelineLayoutInfo.pPushConstantRanges = nullptr;
 
   if (m_Device.createPipelineLayout(&pipelineLayoutInfo, nullptr,
-                                    &pipelineLayout) != vk::Result::eSuccess) {
+                                    &m_PipelineLayout) !=
+      vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to create Pipeline Layout!");
   }
 
   MYON_CORE_INFO("Created a Pipeline Layout!");
+
+  vk::GraphicsPipelineCreateInfo pipelineInfo{};
+  pipelineInfo.sType = vk::StructureType::eGraphicsPipelineCreateInfo;
+  pipelineInfo.stageCount = 2;
+  pipelineInfo.pStages = shaderStages;
+  pipelineInfo.pVertexInputState = &vertexInputInfo;
+  pipelineInfo.pInputAssemblyState = &inputAssembly;
+  pipelineInfo.pViewportState = &viewportState;
+  pipelineInfo.pRasterizationState = &rasterizer;
+  pipelineInfo.pMultisampleState = &multisampling;
+  pipelineInfo.pDepthStencilState = nullptr;
+  pipelineInfo.pColorBlendState = &colorBlending;
+  pipelineInfo.pDynamicState = &dynamicState;
+  pipelineInfo.layout = m_PipelineLayout;
+  pipelineInfo.renderPass = p_RenderPass;
+  pipelineInfo.subpass = 0;
+  pipelineInfo.basePipelineHandle = nullptr;
+  pipelineInfo.basePipelineIndex = -1;
+
+  if (m_Device.createGraphicsPipelines(nullptr, 1, &pipelineInfo, nullptr,
+                                       &m_GraphicsPipeline) !=
+      vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to create Graphics pipeline!");
+  }
+
+  MYON_CORE_INFO("Created a Graphics Pipeline!");
 
   m_Device.destroyShaderModule(fragShaderModule, nullptr);
   m_Device.destroyShaderModule(vertShaderModule, nullptr);
@@ -125,7 +153,8 @@ VulkanGraphicsPipeline::VulkanGraphicsPipeline(vk::Device p_Device,
 
 VulkanGraphicsPipeline::~VulkanGraphicsPipeline() {
   MYON_CORE_INFO("Destroying graphics pipeline...");
-  m_Device.destroyPipelineLayout(pipelineLayout, nullptr);
+  m_Device.destroyPipeline(m_GraphicsPipeline, nullptr);
+  m_Device.destroyPipelineLayout(m_PipelineLayout, nullptr);
 }
 
 std::string VulkanGraphicsPipeline::readFile(const std::string &filename) {

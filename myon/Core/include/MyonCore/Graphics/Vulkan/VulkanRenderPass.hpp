@@ -7,6 +7,10 @@ public:
   VulkanRenderPass(vk::Device p_Device, vk::Format p_SwapchainImageFormat);
   ~VulkanRenderPass();
 
+  vk::RenderPass& getRenderPass() {
+    return m_RenderPass;
+  }
+
 private:
   vk::Device m_Device;
 
