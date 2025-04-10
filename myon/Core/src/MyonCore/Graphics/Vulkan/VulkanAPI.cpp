@@ -1,5 +1,12 @@
 #include "MyonCore/Graphics/Vulkan/VulkanAPI.hpp"
 
+/*
+ vk::Device p_Device, vk::PhysicalDevice p_PhysiaclDevice,
+    vk::SurfaceKHR p_Surface, vk::RenderPass p_RenderPass,
+    std::vector<vk::Framebuffer> p_SwapChainFramebuffers,
+    vk::Extent2D p_SwapChainExtent, vk::Pipeline p_GraphicsPipeline
+  */
+
 namespace MyonCore {
 VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &title,
                      const std::string vert, const std::string frag) {
@@ -27,6 +34,12 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &title,
       m_VulkanDevice->getLogicalDevice(), m_VulkanRenderPass->getRenderPass(),
       m_VulkanImageViews->getSwapChainImageViews(),
       m_VulkanSwapchain->getSwapChainExtent());
+  m_VulkanCommandBuffers = std::make_unique<VulkanCommandBuffer>(
+      m_VulkanDevice->getLogicalDevice(), m_VulkanDevice->getPhysicalDevice(),
+      m_VulkanSurface->getSurface(), m_VulkanRenderPass->getRenderPass(),
+      m_VulkanFramebuffer->getSwapchainFramebuffers(),
+      m_VulkanSwapchain->getSwapChainExtent(),
+      m_VulkanGraphicsPipeline->getGraphicsPipeline());
   MYON_CORE_INFO("Initialized Vulkan!");
 }
 

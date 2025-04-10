@@ -23,7 +23,7 @@ void Window::initWindow(int width, int height, const std::string &title) {
     std::abort();
   }
 
-  MYON_CORE_INFO("Requested window ({}x{}) created successfully!", width,
+  MYON_CORE_INFO("Requested SDL3 window ({}x{}) created successfully!", width,
                  height);
 }
 

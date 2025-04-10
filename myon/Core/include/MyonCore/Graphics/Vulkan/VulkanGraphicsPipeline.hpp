@@ -11,6 +11,8 @@ public:
                          const std::string vert, const std::string frag);
   ~VulkanGraphicsPipeline();
 
+  vk::Pipeline getGraphicsPipeline() { return m_GraphicsPipeline; }
+
 private:
   vk::Device m_Device;
 

@@ -192,6 +192,8 @@ VulkanGraphicsPipeline::compileGLSL(const std::string &source,
                         result.GetErrorMessage());
   }
 
+  MYON_CORE_INFO("Shader \"{}\" compiled successfuly using shaderc!", name);
+
   return {result.cbegin(), result.cend()};
 }
 

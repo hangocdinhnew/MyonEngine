@@ -9,6 +9,10 @@ public:
                     vk::Extent2D p_SwapChainExtent);
   ~VulkanFramebuffer();
 
+  std::vector<vk::Framebuffer> getSwapchainFramebuffers() {
+    return m_SwapchainFramebuffers;
+  };
+
 private:
   vk::Device m_Device;
 
