@@ -1,6 +1,5 @@
 #include "MyonCore/Graphics/Vulkan/VulkanDevice.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanUtils.hpp"
-#include "vulkan/vulkan_enums.hpp"
 
 namespace MyonCore {
 VulkanDevice::VulkanDevice(vk::Instance &p_Instance, vk::SurfaceKHR p_Surface)
