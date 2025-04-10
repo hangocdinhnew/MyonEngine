@@ -7,6 +7,10 @@ public:
   VulkanImageViews(vk::Device p_Device, std::vector<vk::Image> p_SwapChainImages, vk::Format p_SwapChainImageFormat);
   ~VulkanImageViews();
 
+  std::vector<vk::ImageView> getSwapChainImageViews() {
+    return m_SwapChainImageViews;
+  }
+
 private:
   vk::Device m_Device;
 

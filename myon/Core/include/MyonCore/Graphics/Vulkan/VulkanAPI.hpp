@@ -8,6 +8,7 @@
 #include "MyonCore/Graphics/Vulkan/VulkanImageViews.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanRenderPass.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanGraphicsPipeline.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanFramebuffer.hpp"
 // clang-format on
 
 namespace MyonCore {
@@ -26,5 +27,6 @@ private:
   std::unique_ptr<VulkanImageViews> m_VulkanImageViews;
   std::unique_ptr<VulkanRenderPass> m_VulkanRenderPass;
   std::unique_ptr<VulkanGraphicsPipeline> m_VulkanGraphicsPipeline;
+  std::unique_ptr<VulkanFramebuffer> m_VulkanFramebuffer;
 };
 } // namespace MyonCore
