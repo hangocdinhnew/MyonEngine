@@ -56,7 +56,7 @@ void VulkanAPI::RecreateSwapchain() {
   int width, height;
 
   SDL_GetWindowSizeInPixels(m_Window, &width, &height);
-  while (width == 0, height == 0) {
+  while (width == 0 || height == 0) {
     SDL_Event event;
     SDL_WaitEvent(&event);
     SDL_GetWindowSizeInPixels(m_Window, &width, &height);
