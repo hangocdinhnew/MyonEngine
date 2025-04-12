@@ -86,7 +86,11 @@ void VulkanRenderer::DrawFrame() {
 
   presentInfo.pImageIndices = &imageIndex;
 
-  if(m_PresentQueue.presentKHR(&presentInfo) != vk::Result::eSuccess) {
+  result = m_PresentQueue.presentKHR(&presentInfo);
+
+  if(result == vk::Result::eErrorOutOfDateKHR || result == vk::Result::eSuboptimalKHR) {
+    m_ShouldRecreateSwapChain = true;
+  } else if (result != vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to present!");
   }
 
