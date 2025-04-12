@@ -1,12 +1,5 @@
 #include "MyonCore/Graphics/Vulkan/VulkanAPI.hpp"
 
-/*
- vk::Device p_Device, vk::PhysicalDevice p_PhysiaclDevice,
-    vk::SurfaceKHR p_Surface, vk::RenderPass p_RenderPass,
-    std::vector<vk::Framebuffer> p_SwapChainFramebuffers,
-    vk::Extent2D p_SwapChainExtent, vk::Pipeline p_GraphicsPipeline
-  */
-
 namespace MyonCore {
 VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &title,
                      const std::string vert, const std::string frag) {
@@ -40,8 +33,32 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &title,
       m_VulkanFramebuffer->getSwapchainFramebuffers(),
       m_VulkanSwapchain->getSwapChainExtent(),
       m_VulkanGraphicsPipeline->getGraphicsPipeline());
+  m_VulkanSyncObjects =
+      std::make_unique<VulkanSyncObjects>(m_VulkanDevice->getLogicalDevice());
+  m_VulkanRenderer = std::make_unique<VulkanRenderer>(
+      m_VulkanDevice->getLogicalDevice(), m_VulkanDevice->getGraphicsQueue(),
+      m_VulkanDevice->getPresentQueue(), m_VulkanSwapchain->getSwapChain(),
+      m_VulkanCommandBuffers->getCommandBuffer(),
+      m_VulkanRenderPass->getRenderPass(),
+      m_VulkanGraphicsPipeline->getGraphicsPipeline(),
+      m_VulkanSwapchain->getSwapChainExtent(),
+      m_VulkanFramebuffer->getSwapchainFramebuffers(),
+      m_VulkanSyncObjects->getImageAvailableSemaphore(),
+      m_VulkanSyncObjects->getRenderFinishedSemaphore(),
+      m_VulkanSyncObjects->getInFlightFence());
   MYON_CORE_INFO("Initialized Vulkan!");
 }
 
 VulkanAPI::~VulkanAPI() { MYON_CORE_INFO("Shutting down Vulkan..."); }
+
+/*
+vk::Device p_Device, vk::Queue p_GraphicsQueue, vk::Queue p_PresentQueue,
+    vk::SwapchainKHR p_SwapChain, vk::CommandBuffer p_CommandBuffer,
+    vk::RenderPass p_RenderPass, vk::Pipeline p_GraphicsPipeline,
+    vk::Extent2D p_SwapChainExtent,
+    std::vector<vk::Framebuffer> p_SwapChainFramebuffers,
+    vk::Semaphore p_ImageAvailableSemaphore,
+    vk::Semaphore p_RenderFinishedSemaphore, vk::Fence p_InFlightFence
+  */
+
 } // namespace MyonCore

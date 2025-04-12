@@ -10,6 +10,8 @@
 #include "MyonCore/Graphics/Vulkan/VulkanGraphicsPipeline.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanFramebuffer.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanCommandBuffers.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanSyncObjects.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanRenderer.hpp"
 // clang-format on
 
 namespace MyonCore {
@@ -18,6 +20,14 @@ public:
   VulkanAPI(SDL_Window *p_Window, const std::string &title,
             const std::string vert, const std::string frag);
   ~VulkanAPI();
+
+  void DrawFrame() {
+    m_VulkanRenderer->DrawFrame();
+  }
+
+  vk::Device getLogicalDevice() {
+    return m_VulkanDevice->getLogicalDevice();
+  }
 
 private:
   std::unique_ptr<VulkanInstance> m_VulkanInstance;
@@ -30,5 +40,7 @@ private:
   std::unique_ptr<VulkanGraphicsPipeline> m_VulkanGraphicsPipeline;
   std::unique_ptr<VulkanFramebuffer> m_VulkanFramebuffer;
   std::unique_ptr<VulkanCommandBuffer> m_VulkanCommandBuffers;
+  std::unique_ptr<VulkanSyncObjects> m_VulkanSyncObjects;
+  std::unique_ptr<VulkanRenderer> m_VulkanRenderer;
 };
 } // namespace MyonCore

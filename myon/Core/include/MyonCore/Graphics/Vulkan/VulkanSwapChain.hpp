@@ -19,6 +19,8 @@ public:
 
   vk::Extent2D getSwapChainExtent() { return swapChainExtent; }
 
+  vk::SwapchainKHR getSwapChain() { return m_SwapChain; }
+
 private:
   vk::SwapchainKHR m_SwapChain;
 

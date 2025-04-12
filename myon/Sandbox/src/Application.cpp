@@ -7,6 +7,7 @@ public:
   void OnAttach() override {}
   void OnDetach() override {}
   void OnUpdate(float deltatime) override {}
+  void OnRender() override {}
 };
 
 int main() {

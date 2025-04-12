@@ -48,11 +48,16 @@ void Engine::Run() {
     Time::Update();
 
     float deltatime = MyonCore::Time::GetDeltaTime();
-    for (Layer *layer : m_LayerStack)
+    for (Layer *layer : m_LayerStack) {
       layer->OnUpdate(deltatime);
+      layer->OnRender();
+    }
 
     PollEvents();
+    m_GraphicsAPI->DrawFrame();
   }
+
+  m_GraphicsAPI->getLogicalDevice().waitIdle();
 }
 
 } // namespace MyonCore

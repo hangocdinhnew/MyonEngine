@@ -14,6 +14,8 @@ public:
 
   void recordCommandBuffer(uint32_t imageIndex);
 
+  vk::CommandBuffer getCommandBuffer() { return m_CommandBuffer; }
+
 private:
   vk::Device m_Device;
 
