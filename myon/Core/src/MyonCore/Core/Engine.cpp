@@ -59,6 +59,11 @@ void Engine::Run() {
   }
 
   m_GraphicsAPI->getLogicalDevice().waitIdle();
+
+  if (m_Window->WasResized()) {
+    m_Window->ResetResizeFlag();
+    m_GraphicsAPI->RecreateSwapchain();
+  }
 }
 
 } // namespace MyonCore

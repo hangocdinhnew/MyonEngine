@@ -46,6 +46,9 @@ void Window::PollEvents() {
     case SDL_EVENT_QUIT:
       m_IsRunning = false;
       break;
+    case SDL_EVENT_WINDOW_RESIZED:
+      m_IsResized = true;
+      break;
     }
   }
 }

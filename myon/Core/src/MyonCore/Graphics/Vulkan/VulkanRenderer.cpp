@@ -23,13 +23,15 @@ VulkanRenderer::VulkanRenderer(
       m_InFlightFences(p_InFlightFences) {}
 
 void VulkanRenderer::DrawFrame() {
-  m_Device.waitForFences(1, &m_InFlightFences[m_CurrentFrame], VK_TRUE, UINT64_MAX);
+  m_Device.waitForFences(1, &m_InFlightFences[m_CurrentFrame], VK_TRUE,
+                         UINT64_MAX);
 
   m_Device.resetFences(1, &m_InFlightFences[m_CurrentFrame]);
 
   uint32_t imageIndex;
   m_Device.acquireNextImageKHR(m_SwapChain, UINT64_MAX,
-                               m_ImageAvailableSemaphores[m_CurrentFrame], nullptr, &imageIndex);
+                               m_ImageAvailableSemaphores[m_CurrentFrame],
+                               nullptr, &imageIndex);
 
   m_CommandBuffers[m_CurrentFrame].reset(vk::CommandBufferResetFlags(0));
   recordCommandBuffer(imageIndex);
@@ -47,11 +49,13 @@ void VulkanRenderer::DrawFrame() {
   submitInfo.commandBufferCount = 1;
   submitInfo.pCommandBuffers = &m_CommandBuffers[m_CurrentFrame];
 
-  vk::Semaphore signalSemaphores[] = {m_RenderFinishedSemaphores[m_CurrentFrame]};
+  vk::Semaphore signalSemaphores[] = {
+      m_RenderFinishedSemaphores[m_CurrentFrame]};
   submitInfo.signalSemaphoreCount = 1;
   submitInfo.pSignalSemaphores = signalSemaphores;
 
-  if (m_GraphicsQueue.submit(1, &submitInfo, m_InFlightFences[m_CurrentFrame]) !=
+  if (m_GraphicsQueue.submit(1, &submitInfo,
+                             m_InFlightFences[m_CurrentFrame]) !=
       vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to submit draw command buffer!");
   }
@@ -79,7 +83,8 @@ void VulkanRenderer::recordCommandBuffer(uint32_t imageIndex) {
   beginInfo.flags = vk::CommandBufferUsageFlags(0);
   beginInfo.pInheritanceInfo = nullptr;
 
-  if (m_CommandBuffers[m_CurrentFrame].begin(&beginInfo) != vk::Result::eSuccess) {
+  if (m_CommandBuffers[m_CurrentFrame].begin(&beginInfo) !=
+      vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to begin recording command buffer!");
   }
 
@@ -94,11 +99,11 @@ void VulkanRenderer::recordCommandBuffer(uint32_t imageIndex) {
   renderPassInfo.clearValueCount = 1;
   renderPassInfo.pClearValues = &clearColor;
 
-  m_CommandBuffers[m_CurrentFrame].beginRenderPass(&renderPassInfo,
-                                  vk::SubpassContents::eInline);
+  m_CommandBuffers[m_CurrentFrame].beginRenderPass(
+      &renderPassInfo, vk::SubpassContents::eInline);
 
-  m_CommandBuffers[m_CurrentFrame].bindPipeline(vk::PipelineBindPoint::eGraphics,
-                               m_GraphicsPipeline);
+  m_CommandBuffers[m_CurrentFrame].bindPipeline(
+      vk::PipelineBindPoint::eGraphics, m_GraphicsPipeline);
 
   vk::Viewport viewport{};
   viewport.x = 0.0f;
@@ -121,6 +126,22 @@ void VulkanRenderer::recordCommandBuffer(uint32_t imageIndex) {
   } catch (const vk::SystemError &err) {
     MYON_DO_CORE_ASSERT("Failed to record command buffer!");
   }
+}
+
+void VulkanRenderer::UpdateSwapchain(
+    vk::SwapchainKHR p_NewSwapchain, vk::Extent2D p_NewExtent,
+    const std::vector<vk::Framebuffer> &p_NewFramebuffers,
+    const std::vector<vk::CommandBuffer> &p_NewCommandBuffers) {
+  m_SwapChain = p_NewSwapchain;
+  m_SwapChainExtent = p_NewExtent;
+  m_SwapChainFramebuffers = p_NewFramebuffers;
+  m_CommandBuffers = p_NewCommandBuffers;
+
+  m_ImageAvailableSemaphores.clear();
+  m_RenderFinishedSemaphores.clear();
+  m_InFlightFences.clear();
+
+  m_CurrentFrame = 0;
 }
 
 } // namespace MyonCore

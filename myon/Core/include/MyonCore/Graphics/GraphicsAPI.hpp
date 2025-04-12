@@ -8,13 +8,11 @@ public:
               const std::string vert, const std::string frag);
   ~GraphicsAPI() = default;
 
-  void DrawFrame() {
-    m_VulkanAPI->DrawFrame();
-  }
+  void DrawFrame() { m_VulkanAPI->DrawFrame(); }
 
-  vk::Device getLogicalDevice() {
-    return m_VulkanAPI->getLogicalDevice();
-  }
+  vk::Device getLogicalDevice() { return m_VulkanAPI->getLogicalDevice(); }
+
+  void RecreateSwapchain() { m_VulkanAPI->RecreateSwapchain(); }
 
 private:
   std::unique_ptr<VulkanAPI> m_VulkanAPI;

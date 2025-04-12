@@ -7,8 +7,8 @@ class VulkanRenderer {
 public:
   VulkanRenderer(vk::Device p_Device, vk::Queue p_GraphicsQueue,
                  vk::Queue p_PresentQueue, vk::SwapchainKHR p_SwapChain,
-                 std::vector<vk::CommandBuffer> p_CommandBuffers, vk::RenderPass p_RenderPass,
-                 vk::Pipeline p_GraphicsPipeline,
+                 std::vector<vk::CommandBuffer> p_CommandBuffers,
+                 vk::RenderPass p_RenderPass, vk::Pipeline p_GraphicsPipeline,
                  vk::Extent2D p_SwapChainExtent,
                  std::vector<vk::Framebuffer> p_SwapChainFramebuffers,
                  std::vector<vk::Semaphore> p_ImageAvailableSemaphores,
@@ -17,6 +17,10 @@ public:
   ~VulkanRenderer() = default;
 
   void DrawFrame();
+
+  void UpdateSwapchain(vk::SwapchainKHR p_NewSwapchain, vk::Extent2D p_NewExtent,
+                       const std::vector<vk::Framebuffer> &p_NewFramebuffers,
+                       const std::vector<vk::CommandBuffer> &p_NewCommandBuffers);
 
 private:
   vk::Device m_Device;

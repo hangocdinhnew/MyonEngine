@@ -17,8 +17,8 @@
 namespace MyonCore {
 class VulkanAPI {
 public:
-  VulkanAPI(SDL_Window *p_Window, const std::string &title,
-            const std::string vert, const std::string frag);
+  VulkanAPI(SDL_Window *p_Window, const std::string &p_Title,
+            const std::string p_Vert, const std::string pFrag);
   ~VulkanAPI();
 
   void DrawFrame() {
@@ -28,6 +28,8 @@ public:
   vk::Device getLogicalDevice() {
     return m_VulkanDevice->getLogicalDevice();
   }
+
+  void RecreateSwapchain();
 
 private:
   std::unique_ptr<VulkanInstance> m_VulkanInstance;
@@ -42,5 +44,9 @@ private:
   std::unique_ptr<VulkanCommandBuffer> m_VulkanCommandBuffers;
   std::unique_ptr<VulkanSyncObjects> m_VulkanSyncObjects;
   std::unique_ptr<VulkanRenderer> m_VulkanRenderer;
+
+  SDL_Window* m_Window;
+
+const std::string m_Vert; const std::string m_Frag;
 };
 } // namespace MyonCore

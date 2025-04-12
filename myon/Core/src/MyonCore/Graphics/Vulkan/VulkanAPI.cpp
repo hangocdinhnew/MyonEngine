@@ -1,9 +1,10 @@
 #include "MyonCore/Graphics/Vulkan/VulkanAPI.hpp"
 
 namespace MyonCore {
-VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &title,
-                     const std::string vert, const std::string frag) {
-  m_VulkanInstance = std::make_unique<VulkanInstance>(title);
+VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &p_Title,
+                     const std::string p_Vert, const std::string p_Frag)
+    : m_Window(p_Window), m_Vert(p_Vert), m_Frag(p_Frag) {
+  m_VulkanInstance = std::make_unique<VulkanInstance>(p_Title);
   m_VulkanValidationLayer =
       std::make_unique<VulkanValidationLayer>(m_VulkanInstance->getInstance());
   m_VulkanSurface = std::make_unique<VulkanSurface>(
@@ -22,7 +23,7 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &title,
       m_VulkanSwapchain->getSwapChainImageFormat());
   m_VulkanGraphicsPipeline = std::make_unique<VulkanGraphicsPipeline>(
       m_VulkanDevice->getLogicalDevice(), m_VulkanRenderPass->getRenderPass(),
-      vert, frag);
+      m_Vert, m_Frag);
   m_VulkanFramebuffer = std::make_unique<VulkanFramebuffer>(
       m_VulkanDevice->getLogicalDevice(), m_VulkanRenderPass->getRenderPass(),
       m_VulkanImageViews->getSwapChainImageViews(),
@@ -50,5 +51,48 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &title,
 }
 
 VulkanAPI::~VulkanAPI() { MYON_CORE_INFO("Shutting down Vulkan..."); }
+
+void VulkanAPI::RecreateSwapchain() {
+  MYON_CORE_INFO("Recreating Swap Chain...");
+
+  m_VulkanDevice->getLogicalDevice().waitIdle();
+
+  m_VulkanCommandBuffers.reset();
+  m_VulkanFramebuffer.reset();
+  m_VulkanGraphicsPipeline.reset();
+  m_VulkanRenderPass.reset();
+  m_VulkanImageViews.reset();
+  m_VulkanSwapchain.reset();
+
+  m_VulkanSwapchain = std::make_unique<VulkanSwapChain>(
+      m_Window, m_VulkanDevice->getPhysicalDevice(),
+      m_VulkanDevice->getLogicalDevice(), m_VulkanSurface->getSurface());
+  m_VulkanImageViews = std::make_unique<VulkanImageViews>(
+      m_VulkanDevice->getLogicalDevice(),
+      m_VulkanSwapchain->getSwapChainImages(),
+      m_VulkanSwapchain->getSwapChainImageFormat());
+  m_VulkanRenderPass = std::make_unique<VulkanRenderPass>(
+      m_VulkanDevice->getLogicalDevice(),
+      m_VulkanSwapchain->getSwapChainImageFormat());
+  m_VulkanGraphicsPipeline = std::make_unique<VulkanGraphicsPipeline>(
+      m_VulkanDevice->getLogicalDevice(), m_VulkanRenderPass->getRenderPass(),
+      m_Vert, m_Frag);
+  m_VulkanFramebuffer = std::make_unique<VulkanFramebuffer>(
+      m_VulkanDevice->getLogicalDevice(), m_VulkanRenderPass->getRenderPass(),
+      m_VulkanImageViews->getSwapChainImageViews(),
+      m_VulkanSwapchain->getSwapChainExtent());
+  m_VulkanCommandBuffers = std::make_unique<VulkanCommandBuffer>(
+      m_VulkanDevice->getLogicalDevice(), m_VulkanDevice->getPhysicalDevice(),
+      m_VulkanSurface->getSurface(), m_VulkanRenderPass->getRenderPass(),
+      m_VulkanFramebuffer->getSwapchainFramebuffers(),
+      m_VulkanSwapchain->getSwapChainExtent(),
+      m_VulkanGraphicsPipeline->getGraphicsPipeline());
+
+  m_VulkanRenderer->UpdateSwapchain(
+      m_VulkanSwapchain->getSwapChain(),
+      m_VulkanSwapchain->getSwapChainExtent(),
+      m_VulkanFramebuffer->getSwapchainFramebuffers(),
+      m_VulkanCommandBuffers->getCommandBuffer());
+}
 
 } // namespace MyonCore
