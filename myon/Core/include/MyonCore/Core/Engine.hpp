@@ -20,7 +20,7 @@ struct EngineInfo {
 
 class Engine {
 public:
-  Engine(EngineInfo* engineInfo);
+  Engine(EngineInfo &engineInfo);
   ~Engine();
 
   bool IsRunning() const { return m_Window->IsRunning(); }
@@ -37,9 +37,7 @@ public:
   void PopOverlay(Layer *layer);
 
   // Graphics
-  void DrawFrame() {
-    m_GraphicsAPI->DrawFrame();
-  }
+  void DrawFrame() { m_GraphicsAPI->DrawFrame(); }
 
 private:
   std::unique_ptr<Log> m_Log;
