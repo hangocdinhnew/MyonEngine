@@ -65,16 +65,13 @@ VulkanSwapChain::VulkanSwapChain(SDL_Window *p_Window,
 
   swapChainImageFormat = surfaceFormat.format;
   swapChainExtent = extent;
-  MYON_CORE_INFO("Successfully created a Swapchain!");
 }
 
 VulkanSwapChain::~VulkanSwapChain() {
-  MYON_CORE_INFO("Destroying Swapchain...");
   m_Device.destroySwapchainKHR(m_SwapChain, nullptr);
 }
 
 void VulkanSwapChain::cleanup() {
-  MYON_CORE_INFO("Destroying Swapchain...");
   m_Device.destroySwapchainKHR(m_SwapChain, nullptr);
 }
 

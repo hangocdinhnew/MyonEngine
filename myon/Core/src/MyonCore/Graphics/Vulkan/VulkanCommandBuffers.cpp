@@ -25,8 +25,6 @@ VulkanCommandBuffer::VulkanCommandBuffer(
     MYON_DO_CORE_ASSERT("Failed to create command pool!");
   }
 
-  MYON_CORE_INFO("Created a command pool!");
-
   vk::CommandBufferAllocateInfo allocInfo{};
   allocInfo.sType = vk::StructureType::eCommandBufferAllocateInfo;
   allocInfo.commandPool = m_CommandPool;
@@ -37,19 +35,13 @@ VulkanCommandBuffer::VulkanCommandBuffer(
       vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to allocate Command buffers!");
   }
-
-  MYON_CORE_INFO("Allocated Command buffers!");
 }
 
 VulkanCommandBuffer::~VulkanCommandBuffer() {
-  MYON_CORE_INFO("Destroying command buffers...");
-
   m_Device.destroyCommandPool(m_CommandPool, nullptr);
 }
 
 void VulkanCommandBuffer::cleanup() {
-  MYON_CORE_INFO("Destroying command buffers...");
-
   m_Device.destroyCommandPool(m_CommandPool, nullptr);
 }
 

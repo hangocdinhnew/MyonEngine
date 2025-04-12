@@ -26,12 +26,22 @@ void VulkanRenderer::DrawFrame() {
   m_Device.waitForFences(1, &m_InFlightFences[m_CurrentFrame], VK_TRUE,
                          UINT64_MAX);
 
-  m_Device.resetFences(1, &m_InFlightFences[m_CurrentFrame]);
-
   uint32_t imageIndex;
-  m_Device.acquireNextImageKHR(m_SwapChain, UINT64_MAX,
-                               m_ImageAvailableSemaphores[m_CurrentFrame],
-                               nullptr, &imageIndex);
+  vk::Result result;
+
+  result = m_Device.acquireNextImageKHR(
+      m_SwapChain, UINT64_MAX, m_ImageAvailableSemaphores[m_CurrentFrame],
+      nullptr, &imageIndex);
+
+  if (result == vk::Result::eErrorOutOfDateKHR) {
+    m_ShouldRecreateSwapChain = true;
+    return;
+  } else if (result != vk::Result::eSuccess &&
+             result != vk::Result::eSuboptimalKHR) {
+    MYON_DO_CORE_ASSERT("Failed to acquire swap chain image!");
+  }
+
+  m_Device.resetFences(1, &m_InFlightFences[m_CurrentFrame]);
 
   m_CommandBuffers[m_CurrentFrame].reset(vk::CommandBufferResetFlags(0));
   recordCommandBuffer(imageIndex);
@@ -128,18 +138,32 @@ void VulkanRenderer::recordCommandBuffer(uint32_t imageIndex) {
   }
 }
 
-void VulkanRenderer::UpdateSwapchain(
-    vk::SwapchainKHR p_NewSwapchain, vk::Extent2D p_NewExtent,
-    const std::vector<vk::Framebuffer> &p_NewFramebuffers,
-    const std::vector<vk::CommandBuffer> &p_NewCommandBuffers) {
-  m_SwapChain = p_NewSwapchain;
-  m_SwapChainExtent = p_NewExtent;
-  m_SwapChainFramebuffers = p_NewFramebuffers;
+
+void VulkanRenderer::UpdateSwapchain(vk::Queue p_NewGraphicsQueue,
+                       vk::Queue p_NewPresentQueue, vk::SwapchainKHR p_NewSwapChain,
+                       std::vector<vk::CommandBuffer> p_NewCommandBuffers,
+                       vk::RenderPass p_NewRenderPass,
+                       vk::Pipeline p_NewGraphicsPipeline,
+                       vk::Extent2D p_NewSwapChainExtent,
+                       std::vector<vk::Framebuffer> p_NewSwapChainFramebuffers,
+                       std::vector<vk::Semaphore> p_NewImageAvailableSemaphores,
+                       std::vector<vk::Semaphore> p_NewRenderFinishedSemaphores,
+                       std::vector<vk::Fence> p_NewInFlightFences)
+ {
+  m_SwapChain = p_NewSwapChain;
+  m_GraphicsQueue = p_NewGraphicsQueue;
+  m_PresentQueue = p_NewPresentQueue;
+  m_RenderPass = p_NewRenderPass;
   m_CommandBuffers = p_NewCommandBuffers;
 
-  m_ImageAvailableSemaphores.clear();
-  m_RenderFinishedSemaphores.clear();
-  m_InFlightFences.clear();
+  m_GraphicsPipeline = p_NewGraphicsPipeline;
+
+  m_SwapChainExtent = p_NewSwapChainExtent;
+  m_SwapChainFramebuffers = p_NewSwapChainFramebuffers;
+
+  m_ImageAvailableSemaphores = p_NewImageAvailableSemaphores;
+  m_RenderFinishedSemaphores = p_NewRenderFinishedSemaphores;
+  m_InFlightFences = p_NewInFlightFences;
 
   m_CurrentFrame = 0;
 }

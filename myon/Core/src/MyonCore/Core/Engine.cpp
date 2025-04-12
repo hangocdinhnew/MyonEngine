@@ -45,6 +45,11 @@ void Engine::PopOverlay(Layer *layer) { m_LayerStack.PopOverlay(layer); }
 
 void Engine::Run() {
   while (IsRunning()) {
+    if (m_GraphicsAPI->ShouldRecreateSwapChain()) {
+      m_GraphicsAPI->RecreateSwapchain();
+      continue;
+    }
+
     m_GraphicsAPI->DrawFrame();
 
     Time::Update();
@@ -59,11 +64,6 @@ void Engine::Run() {
   }
 
   m_GraphicsAPI->getLogicalDevice().waitIdle();
-
-  if (m_Window->WasResized()) {
-    m_Window->ResetResizeFlag();
-    m_GraphicsAPI->RecreateSwapchain();
-  }
 }
 
 } // namespace MyonCore

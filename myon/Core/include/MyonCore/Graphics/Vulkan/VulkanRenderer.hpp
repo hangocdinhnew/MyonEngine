@@ -18,9 +18,21 @@ public:
 
   void DrawFrame();
 
-  void UpdateSwapchain(vk::SwapchainKHR p_NewSwapchain, vk::Extent2D p_NewExtent,
-                       const std::vector<vk::Framebuffer> &p_NewFramebuffers,
-                       const std::vector<vk::CommandBuffer> &p_NewCommandBuffers);
+  void UpdateSwapchain(vk::Queue p_NewGraphicsQueue,
+                       vk::Queue p_NewPresentQueue,
+                       vk::SwapchainKHR p_NewSwapChain,
+                       std::vector<vk::CommandBuffer> p_NewCommandBuffers,
+                       vk::RenderPass p_NewRenderPass,
+                       vk::Pipeline p_NewGraphicsPipeline,
+                       vk::Extent2D p_NewSwapChainExtent,
+                       std::vector<vk::Framebuffer> p_NewSwapChainFramebuffers,
+                       std::vector<vk::Semaphore> p_NewImageAvailableSemaphores,
+                       std::vector<vk::Semaphore> p_NewRenderFinishedSemaphores,
+                       std::vector<vk::Fence> p_NewInFlightFences);
+
+  bool ShouldRecreateSwapChain() { return m_ShouldRecreateSwapChain; };
+
+  void ResetShouldRecreateSwapChain() { m_ShouldRecreateSwapChain = false; };
 
 private:
   vk::Device m_Device;
@@ -42,5 +54,7 @@ private:
   void recordCommandBuffer(uint32_t imageIndex);
 
   uint32_t m_CurrentFrame = 0;
+
+  bool m_ShouldRecreateSwapChain = false;
 };
 } // namespace MyonCore

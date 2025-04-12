@@ -33,8 +33,6 @@ VulkanGraphicsPipeline::VulkanGraphicsPipeline(vk::Device p_Device,
   vk::PipelineShaderStageCreateInfo shaderStages[] = {vertShaderStageInfo,
                                                       fragShaderStageInfo};
 
-  MYON_CORE_INFO("Shader modules created!");
-
   vk::PipelineVertexInputStateCreateInfo vertexInputInfo{};
   vertexInputInfo.sType =
       vk::StructureType::ePipelineVertexInputStateCreateInfo;
@@ -117,8 +115,6 @@ VulkanGraphicsPipeline::VulkanGraphicsPipeline(vk::Device p_Device,
     MYON_DO_CORE_ASSERT("Failed to create Pipeline Layout!");
   }
 
-  MYON_CORE_INFO("Created a Pipeline Layout!");
-
   vk::GraphicsPipelineCreateInfo pipelineInfo{};
   pipelineInfo.sType = vk::StructureType::eGraphicsPipelineCreateInfo;
   pipelineInfo.stageCount = 2;
@@ -143,22 +139,16 @@ VulkanGraphicsPipeline::VulkanGraphicsPipeline(vk::Device p_Device,
     MYON_DO_CORE_ASSERT("Failed to create Graphics pipeline!");
   }
 
-  MYON_CORE_INFO("Created a Graphics Pipeline!");
-
   m_Device.destroyShaderModule(fragShaderModule, nullptr);
   m_Device.destroyShaderModule(vertShaderModule, nullptr);
-
-  MYON_CORE_INFO("Shader modules destroyed!");
 }
 
 VulkanGraphicsPipeline::~VulkanGraphicsPipeline() {
-  MYON_CORE_INFO("Destroying graphics pipeline...");
   m_Device.destroyPipeline(m_GraphicsPipeline, nullptr);
   m_Device.destroyPipelineLayout(m_PipelineLayout, nullptr);
 }
 
 void VulkanGraphicsPipeline::cleanup() {
-  MYON_CORE_INFO("Destroying graphics pipeline...");
   m_Device.destroyPipeline(m_GraphicsPipeline, nullptr);
   m_Device.destroyPipelineLayout(m_PipelineLayout, nullptr);
 }
@@ -197,8 +187,6 @@ VulkanGraphicsPipeline::compileGLSL(const std::string &source,
     MYON_DO_CORE_ASSERT("Shader compilation failed - {}",
                         result.GetErrorMessage());
   }
-
-  MYON_CORE_INFO("Shader \"{}\" compiled successfuly using shaderc!", name);
 
   return {result.cbegin(), result.cend()};
 }

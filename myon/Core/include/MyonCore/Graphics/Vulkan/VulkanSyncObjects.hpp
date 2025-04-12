@@ -18,6 +18,8 @@ public:
 
   std::vector<vk::Fence> getInFlightFence() { return m_InFlightFences; }
 
+  void cleanup();
+
 private:
   std::vector<vk::Semaphore> m_ImageAvailableSemaphores;
   std::vector<vk::Semaphore> m_RenderFinishedSemaphores;

@@ -32,21 +32,15 @@ VulkanImageViews::VulkanImageViews(vk::Device p_Device,
       MYON_DO_CORE_ASSERT("Failed to create image views!");
     }
   }
-
-  MYON_CORE_INFO("Image views created!");
 }
 
 VulkanImageViews::~VulkanImageViews() {
-  MYON_CORE_INFO("Destroying image views...");
-
   for (auto imageView : m_SwapChainImageViews) {
     vkDestroyImageView(m_Device, imageView, nullptr);
   }
 }
 
 void VulkanImageViews::cleanup() {
-  MYON_CORE_INFO("Destroying image views...");
-
   for (auto imageView : m_SwapChainImageViews) {
     vkDestroyImageView(m_Device, imageView, nullptr);
   }

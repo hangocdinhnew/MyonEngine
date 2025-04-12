@@ -14,6 +14,10 @@ public:
 
   void RecreateSwapchain() { m_VulkanAPI->RecreateSwapchain(); }
 
+  bool ShouldRecreateSwapChain() {
+    return m_VulkanAPI->ShouldRecreateSwapChain();
+  }
+
 private:
   std::unique_ptr<VulkanAPI> m_VulkanAPI;
 };
