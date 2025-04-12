@@ -58,10 +58,14 @@ VulkanSwapChain::VulkanSwapChain(SDL_Window *p_Window,
     MYON_DO_CORE_ASSERT("Failed to create Swap chain!");
   }
 
-  m_Device.getSwapchainImagesKHR(m_SwapChain, &imageCount, nullptr);
+  if(m_Device.getSwapchainImagesKHR(m_SwapChain, &imageCount, nullptr) != vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to get Swapchain images!");
+  }
   swapChainImages.resize(imageCount);
-  m_Device.getSwapchainImagesKHR(m_SwapChain, &imageCount,
-                                 swapChainImages.data());
+  if(m_Device.getSwapchainImagesKHR(m_SwapChain, &imageCount,
+                                 swapChainImages.data()) != vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to get Swapchain images!");
+  }
 
   swapChainImageFormat = surfaceFormat.format;
   swapChainExtent = extent;

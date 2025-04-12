@@ -1,5 +1,6 @@
 // CONFIG FILE
 #pragma once
+#include "MyonCore/Core/Log.hpp"
 #include <vector>
 #include <vulkan/vulkan.hpp>
 
@@ -58,7 +59,10 @@ inline QueueFamilyIndices Vulkan_FindQueueFamilies(vk::PhysicalDevice device,
     }
 
     vk::Bool32 presentSupport = false;
-    device.getSurfaceSupportKHR(i, surface, &presentSupport);
+    if (device.getSurfaceSupportKHR(i, surface, &presentSupport) !=
+        vk::Result::eSuccess) {
+      MYON_DO_CORE_ASSERT("Failed to get Surface support.");
+    }
 
     if (presentSupport) {
       indices.presentFamily = i;
@@ -79,23 +83,37 @@ Vulkan_QuerySwapChainSupport(vk::PhysicalDevice device,
                              vk::SurfaceKHR surface) {
   SwapChainSupportDetails details;
 
-  device.getSurfaceCapabilitiesKHR(surface, &details.capabilities);
+  if (device.getSurfaceCapabilitiesKHR(surface, &details.capabilities) !=
+      vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to get surface capabilities!");
+  }
 
   uint32_t formatCount;
-  device.getSurfaceFormatsKHR(surface, &formatCount, nullptr);
+  if (device.getSurfaceFormatsKHR(surface, &formatCount, nullptr) !=
+      vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to get surface formats!");
+  }
 
   if (formatCount != 0) {
     details.formats.resize(formatCount);
-    device.getSurfaceFormatsKHR(surface, &formatCount, details.formats.data());
+    if (device.getSurfaceFormatsKHR(surface, &formatCount,
+                                    details.formats.data()) !=
+        vk::Result::eSuccess) {
+      MYON_DO_CORE_ASSERT("Failed to get surface formats!");
+    }
   }
 
   uint32_t presentModeCount;
-  device.getSurfacePresentModesKHR(surface, &presentModeCount, nullptr);
+  if(device.getSurfacePresentModesKHR(surface, &presentModeCount, nullptr) != vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to get Surface Present Modes!");
+  }
 
   if (presentModeCount != 0) {
     details.presentModes.resize(presentModeCount);
-    device.getSurfacePresentModesKHR(surface, &presentModeCount,
-                                     details.presentModes.data());
+    if(device.getSurfacePresentModesKHR(surface, &presentModeCount,
+                                     details.presentModes.data()) != vk::Result::eSuccess) {
+      MYON_DO_CORE_ASSERT("Failed to get Surface Present Modes!");
+    }
   }
 
   return details;

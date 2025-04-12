@@ -23,8 +23,10 @@ VulkanRenderer::VulkanRenderer(
       m_InFlightFences(p_InFlightFences) {}
 
 void VulkanRenderer::DrawFrame() {
-  m_Device.waitForFences(1, &m_InFlightFences[m_CurrentFrame], VK_TRUE,
-                         UINT64_MAX);
+  if(m_Device.waitForFences(1, &m_InFlightFences[m_CurrentFrame], VK_TRUE,
+                         UINT64_MAX) != vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to wait for Fences!");
+  }
 
   uint32_t imageIndex;
   vk::Result result;
@@ -41,7 +43,9 @@ void VulkanRenderer::DrawFrame() {
     MYON_DO_CORE_ASSERT("Failed to acquire swap chain image!");
   }
 
-  m_Device.resetFences(1, &m_InFlightFences[m_CurrentFrame]);
+  if(m_Device.resetFences(1, &m_InFlightFences[m_CurrentFrame]) != vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to reset Fences!");
+  }
 
   m_CommandBuffers[m_CurrentFrame].reset(vk::CommandBufferResetFlags(0));
   recordCommandBuffer(imageIndex);
@@ -82,7 +86,9 @@ void VulkanRenderer::DrawFrame() {
 
   presentInfo.pImageIndices = &imageIndex;
 
-  m_PresentQueue.presentKHR(&presentInfo);
+  if(m_PresentQueue.presentKHR(&presentInfo) != vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to present!");
+  }
 
   m_CurrentFrame = (m_CurrentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 }

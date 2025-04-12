@@ -6,14 +6,18 @@ VulkanDevice::VulkanDevice(vk::Instance &p_Instance, vk::SurfaceKHR p_Surface)
     : m_Surface(p_Surface) {
 
   uint32_t deviceCount = 0;
-  p_Instance.enumeratePhysicalDevices(&deviceCount, nullptr);
+  if(p_Instance.enumeratePhysicalDevices(&deviceCount, nullptr) != vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to enumerate Physical Devices!");
+  }
 
   if (deviceCount == 0) {
     MYON_DO_CORE_ASSERT("Failed to find GPUs with Vulkan support!");
   }
 
   std::vector<vk::PhysicalDevice> devices(deviceCount);
-  p_Instance.enumeratePhysicalDevices(&deviceCount, devices.data());
+  if(p_Instance.enumeratePhysicalDevices(&deviceCount, devices.data()) != vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to enumerate Physical Devices!");
+  }
 
   for (const auto &device : devices) {
     if (isDeviceSuitable(device)) {
@@ -98,11 +102,16 @@ bool VulkanDevice::isDeviceSuitable(vk::PhysicalDevice device) {
 
 bool VulkanDevice::checkDeviceExtensionSupport(vk::PhysicalDevice device) {
   uint32_t extensionCount;
-  device.enumerateDeviceExtensionProperties(nullptr, &extensionCount, nullptr);
+  if(device.enumerateDeviceExtensionProperties(nullptr, &extensionCount, nullptr) != vk::Result::eSuccess)
+  {
+    MYON_DO_CORE_ASSERT("Failed to enumerate Device Extension Properties!");
+  }
 
   std::vector<vk::ExtensionProperties> availableExtensions(extensionCount);
-  device.enumerateDeviceExtensionProperties(nullptr, &extensionCount,
-                                            availableExtensions.data());
+  if(device.enumerateDeviceExtensionProperties(nullptr, &extensionCount,
+                                            availableExtensions.data()) != vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to enumerate Device Extension Properties!");
+  }
 
   std::set<std::string> requiredExtensions(deviceExtensions.begin(),
                                            deviceExtensions.end());
