@@ -7,6 +7,7 @@ VulkanSyncObjects::VulkanSyncObjects(vk::Device p_Device) : m_Device(p_Device) {
 
   vk::FenceCreateInfo fenceInfo{};
   fenceInfo.sType = vk::StructureType::eFenceCreateInfo;
+  fenceInfo.flags = vk::FenceCreateFlagBits::eSignaled;
 
   if (m_Device.createSemaphore(&semaphoreInfo, nullptr,
                                &m_ImageAvailableSemaphore) !=

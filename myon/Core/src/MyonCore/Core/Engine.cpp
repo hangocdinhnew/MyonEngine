@@ -45,6 +45,8 @@ void Engine::PopOverlay(Layer *layer) { m_LayerStack.PopOverlay(layer); }
 
 void Engine::Run() {
   while (IsRunning()) {
+    m_GraphicsAPI->DrawFrame();
+
     Time::Update();
 
     float deltatime = MyonCore::Time::GetDeltaTime();
@@ -54,7 +56,6 @@ void Engine::Run() {
     }
 
     PollEvents();
-    m_GraphicsAPI->DrawFrame();
   }
 
   m_GraphicsAPI->getLogicalDevice().waitIdle();

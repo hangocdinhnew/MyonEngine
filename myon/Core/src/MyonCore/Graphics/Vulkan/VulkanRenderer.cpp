@@ -22,6 +22,7 @@ VulkanRenderer::VulkanRenderer(
 
 void VulkanRenderer::DrawFrame() {
   m_Device.waitForFences(1, &m_InFlightFence, VK_TRUE, UINT64_MAX);
+
   m_Device.resetFences(1, &m_InFlightFence);
 
   uint32_t imageIndex;

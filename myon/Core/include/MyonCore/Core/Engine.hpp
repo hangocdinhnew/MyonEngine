@@ -36,6 +36,11 @@ public:
   void PopLayer(Layer *layer);
   void PopOverlay(Layer *layer);
 
+  // Graphics
+  void DrawFrame() {
+    m_GraphicsAPI->DrawFrame();
+  }
+
 private:
   std::unique_ptr<Log> m_Log;
   std::unique_ptr<Time> m_Time;
