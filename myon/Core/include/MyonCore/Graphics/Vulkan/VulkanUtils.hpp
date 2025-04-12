@@ -3,6 +3,8 @@
 #include <vector>
 #include <vulkan/vulkan.hpp>
 
+// FIXME: This thing is terrible, TERRIBLE.
+
 #ifdef MYON_DEBUG
 const bool enableValidationLayers = true;
 #else
