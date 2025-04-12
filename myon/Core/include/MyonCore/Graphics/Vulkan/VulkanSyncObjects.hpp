@@ -1,4 +1,5 @@
 #include "MyonCore/Core/Log.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanUtils.hpp"
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
@@ -7,20 +8,20 @@ public:
   VulkanSyncObjects(vk::Device p_Device);
   ~VulkanSyncObjects();
 
-  vk::Semaphore getImageAvailableSemaphore() {
-    return m_ImageAvailableSemaphore;
+  std::vector<vk::Semaphore> getImageAvailableSemaphore() {
+    return m_ImageAvailableSemaphores;
   }
 
-  vk::Semaphore getRenderFinishedSemaphore() {
-    return m_RenderFinishedSemaphore;
+  std::vector<vk::Semaphore> getRenderFinishedSemaphore() {
+    return m_RenderFinishedSemaphores;
   }
 
-  vk::Fence getInFlightFence() { return m_InFlightFence; }
+  std::vector<vk::Fence> getInFlightFence() { return m_InFlightFences; }
 
 private:
-  vk::Semaphore m_ImageAvailableSemaphore;
-  vk::Semaphore m_RenderFinishedSemaphore;
-  vk::Fence m_InFlightFence;
+  std::vector<vk::Semaphore> m_ImageAvailableSemaphores;
+  std::vector<vk::Semaphore> m_RenderFinishedSemaphores;
+  std::vector<vk::Fence> m_InFlightFences;
 
   vk::Device m_Device;
 };

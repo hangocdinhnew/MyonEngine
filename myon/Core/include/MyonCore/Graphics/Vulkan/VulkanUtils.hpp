@@ -3,7 +3,7 @@
 #include <vector>
 #include <vulkan/vulkan.hpp>
 
-// FIXME: This thing is terrible, TERRIBLE.
+// FIXME: This file is terrible, TERRIBLE.
 
 #ifdef MYON_DEBUG
 const bool enableValidationLayers = true;
@@ -21,6 +21,8 @@ const std::vector<const char *> deviceExtensions = {
 const std::vector<const char *> deviceExtensions = {
     vk::KHRSwapchainExtensionName};
 #endif
+
+const int MAX_FRAMES_IN_FLIGHT = 2;
 
 namespace MyonCore {
 

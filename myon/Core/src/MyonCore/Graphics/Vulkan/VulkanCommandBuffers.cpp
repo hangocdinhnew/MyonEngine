@@ -1,4 +1,5 @@
 #include "MyonCore/Graphics/Vulkan/VulkanCommandBuffers.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanUtils.hpp"
 
 namespace MyonCore {
 VulkanCommandBuffer::VulkanCommandBuffer(
@@ -10,6 +11,7 @@ VulkanCommandBuffer::VulkanCommandBuffer(
       m_SwapchainFramebuffers(p_SwapChainFramebuffers),
       m_SwapChainExtent(p_SwapChainExtent),
       m_GraphicsPipeline(p_GraphicsPipeline) {
+  m_CommandBuffers.resize(MAX_FRAMES_IN_FLIGHT);
   QueueFamilyIndices queueFamilyIndices =
       Vulkan_FindQueueFamilies(p_PhysicalDevice, p_Surface);
 
@@ -29,9 +31,9 @@ VulkanCommandBuffer::VulkanCommandBuffer(
   allocInfo.sType = vk::StructureType::eCommandBufferAllocateInfo;
   allocInfo.commandPool = m_CommandPool;
   allocInfo.level = vk::CommandBufferLevel::ePrimary;
-  allocInfo.commandBufferCount = 1;
+  allocInfo.commandBufferCount = m_CommandBuffers.size();
 
-  if (m_Device.allocateCommandBuffers(&allocInfo, &m_CommandBuffer) !=
+  if (m_Device.allocateCommandBuffers(&allocInfo, m_CommandBuffers.data()) !=
       vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to allocate Command buffers!");
   }

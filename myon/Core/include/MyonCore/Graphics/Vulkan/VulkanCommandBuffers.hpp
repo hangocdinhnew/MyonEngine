@@ -14,13 +14,13 @@ public:
 
   void recordCommandBuffer(uint32_t imageIndex);
 
-  vk::CommandBuffer getCommandBuffer() { return m_CommandBuffer; }
+  std::vector<vk::CommandBuffer> getCommandBuffer() { return m_CommandBuffers; }
 
 private:
   vk::Device m_Device;
 
   vk::CommandPool m_CommandPool;
-  vk::CommandBuffer m_CommandBuffer;
+  std::vector<vk::CommandBuffer> m_CommandBuffers;
 
   std::vector<vk::Framebuffer> m_SwapchainFramebuffers;
   vk::RenderPass m_RenderPass;

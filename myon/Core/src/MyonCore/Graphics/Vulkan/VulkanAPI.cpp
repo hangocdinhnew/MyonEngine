@@ -51,14 +51,4 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &title,
 
 VulkanAPI::~VulkanAPI() { MYON_CORE_INFO("Shutting down Vulkan..."); }
 
-/*
-vk::Device p_Device, vk::Queue p_GraphicsQueue, vk::Queue p_PresentQueue,
-    vk::SwapchainKHR p_SwapChain, vk::CommandBuffer p_CommandBuffer,
-    vk::RenderPass p_RenderPass, vk::Pipeline p_GraphicsPipeline,
-    vk::Extent2D p_SwapChainExtent,
-    std::vector<vk::Framebuffer> p_SwapChainFramebuffers,
-    vk::Semaphore p_ImageAvailableSemaphore,
-    vk::Semaphore p_RenderFinishedSemaphore, vk::Fence p_InFlightFence
-  */
-
 } // namespace MyonCore
