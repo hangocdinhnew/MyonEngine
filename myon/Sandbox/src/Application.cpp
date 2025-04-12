@@ -18,7 +18,7 @@ int main() {
   engineInfo.vert = "assets/Shaders/vertshader.vert";
   engineInfo.frag = "assets/Shaders/fragshader.frag";
 
-  MyonCore::Engine engine{&engineInfo};
+  MyonCore::Engine engine{engineInfo};
 
   engine.PushLayer(new SandboxLayer);
   engine.Run();
