@@ -73,6 +73,11 @@ VulkanSwapChain::~VulkanSwapChain() {
   m_Device.destroySwapchainKHR(m_SwapChain, nullptr);
 }
 
+void VulkanSwapChain::cleanup() {
+  MYON_CORE_INFO("Destroying Swapchain...");
+  m_Device.destroySwapchainKHR(m_SwapChain, nullptr);
+}
+
 vk::SurfaceFormatKHR VulkanSwapChain::chooseSwapSurfaceFormat(
     const std::vector<vk::SurfaceFormatKHR> &availableFormats) {
   for (const auto &availableFormat : availableFormats) {

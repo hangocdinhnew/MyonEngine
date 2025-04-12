@@ -37,4 +37,13 @@ VulkanFramebuffer::~VulkanFramebuffer() {
     m_Device.destroyFramebuffer(framebuffer, nullptr);
   }
 }
+
+void VulkanFramebuffer::cleanup() {
+  MYON_CORE_INFO("Destroying Framebuffer...");
+
+  for (auto framebuffer : m_SwapchainFramebuffers) {
+    m_Device.destroyFramebuffer(framebuffer, nullptr);
+  }
+}
+
 } // namespace MyonCore

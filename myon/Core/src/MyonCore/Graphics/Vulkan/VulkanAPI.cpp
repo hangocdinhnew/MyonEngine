@@ -57,12 +57,12 @@ void VulkanAPI::RecreateSwapchain() {
 
   m_VulkanDevice->getLogicalDevice().waitIdle();
 
-  m_VulkanCommandBuffers.reset();
-  m_VulkanFramebuffer.reset();
-  m_VulkanGraphicsPipeline.reset();
-  m_VulkanRenderPass.reset();
-  m_VulkanImageViews.reset();
-  m_VulkanSwapchain.reset();
+  m_VulkanCommandBuffers->cleanup();
+  m_VulkanFramebuffer->cleanup();
+  m_VulkanGraphicsPipeline->cleanup();
+  m_VulkanRenderPass->cleanup();
+  m_VulkanImageViews->cleanup();
+  m_VulkanSwapchain->cleanup();
 
   m_VulkanSwapchain = std::make_unique<VulkanSwapChain>(
       m_Window, m_VulkanDevice->getPhysicalDevice(),

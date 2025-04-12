@@ -44,4 +44,9 @@ VulkanRenderPass::~VulkanRenderPass() {
   m_Device.destroyRenderPass(m_RenderPass, nullptr);
 }
 
+void VulkanRenderPass::cleanup() {
+  MYON_CORE_INFO("Destroying Render Pass...");
+  m_Device.destroyRenderPass(m_RenderPass, nullptr);
+}
+
 } // namespace MyonCore

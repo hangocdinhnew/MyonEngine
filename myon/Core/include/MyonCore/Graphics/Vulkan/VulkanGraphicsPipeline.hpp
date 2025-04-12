@@ -13,6 +13,8 @@ public:
 
   vk::Pipeline getGraphicsPipeline() { return m_GraphicsPipeline; }
 
+  void cleanup();
+
 private:
   vk::Device m_Device;
 

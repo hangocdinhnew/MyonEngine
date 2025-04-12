@@ -16,6 +16,8 @@ public:
 
   std::vector<vk::CommandBuffer> getCommandBuffer() { return m_CommandBuffers; }
 
+  void cleanup();
+
 private:
   vk::Device m_Device;
 

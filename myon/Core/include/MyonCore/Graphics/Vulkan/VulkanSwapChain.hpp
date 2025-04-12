@@ -21,6 +21,8 @@ public:
 
   vk::SwapchainKHR getSwapChain() { return m_SwapChain; }
 
+  void cleanup();
+
 private:
   vk::SwapchainKHR m_SwapChain;
 

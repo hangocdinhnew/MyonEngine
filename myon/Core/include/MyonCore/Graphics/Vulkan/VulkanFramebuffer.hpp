@@ -13,6 +13,8 @@ public:
     return m_SwapchainFramebuffers;
   };
 
+  void cleanup();
+
 private:
   vk::Device m_Device;
 

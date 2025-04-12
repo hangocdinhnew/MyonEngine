@@ -11,6 +11,8 @@ public:
     return m_RenderPass;
   }
 
+  void cleanup();
+
 private:
   vk::Device m_Device;
 

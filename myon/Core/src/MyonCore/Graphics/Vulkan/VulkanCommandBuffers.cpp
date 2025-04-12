@@ -47,4 +47,10 @@ VulkanCommandBuffer::~VulkanCommandBuffer() {
   m_Device.destroyCommandPool(m_CommandPool, nullptr);
 }
 
+void VulkanCommandBuffer::cleanup() {
+  MYON_CORE_INFO("Destroying command buffers...");
+
+  m_Device.destroyCommandPool(m_CommandPool, nullptr);
+}
+
 } // namespace MyonCore

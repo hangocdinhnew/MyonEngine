@@ -43,4 +43,13 @@ VulkanImageViews::~VulkanImageViews() {
     vkDestroyImageView(m_Device, imageView, nullptr);
   }
 }
+
+void VulkanImageViews::cleanup() {
+  MYON_CORE_INFO("Destroying image views...");
+
+  for (auto imageView : m_SwapChainImageViews) {
+    vkDestroyImageView(m_Device, imageView, nullptr);
+  }
+}
+
 } // namespace MyonCore

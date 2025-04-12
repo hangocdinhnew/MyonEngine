@@ -11,6 +11,8 @@ public:
     return m_SwapChainImageViews;
   }
 
+  void cleanup();
+
 private:
   vk::Device m_Device;
 

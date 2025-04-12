@@ -157,6 +157,12 @@ VulkanGraphicsPipeline::~VulkanGraphicsPipeline() {
   m_Device.destroyPipelineLayout(m_PipelineLayout, nullptr);
 }
 
+void VulkanGraphicsPipeline::cleanup() {
+  MYON_CORE_INFO("Destroying graphics pipeline...");
+  m_Device.destroyPipeline(m_GraphicsPipeline, nullptr);
+  m_Device.destroyPipelineLayout(m_PipelineLayout, nullptr);
+}
+
 std::string VulkanGraphicsPipeline::readFile(const std::string &filename) {
   std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
