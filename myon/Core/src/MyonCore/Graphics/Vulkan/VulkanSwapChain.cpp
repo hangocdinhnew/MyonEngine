@@ -109,7 +109,7 @@ vk::Extent2D VulkanSwapChain::chooseSwapExtent(
     return capabilities.currentExtent;
   } else {
     int width, height;
-    SDL_GetWindowSize(m_Window, &width, &height);
+    SDL_GetWindowSizeInPixels(m_Window, &width, &height);
 
     vk::Extent2D actualExtent = {static_cast<uint32_t>(width),
                                  static_cast<uint32_t>(height)};
