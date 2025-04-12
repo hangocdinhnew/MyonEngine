@@ -117,8 +117,6 @@ void VulkanRenderer::recordCommandBuffer(uint32_t imageIndex) {
   } catch (const vk::SystemError &err) {
     MYON_DO_CORE_ASSERT("Failed to record command buffer!");
   }
-
-  MYON_CORE_INFO("Successfully recorded command buffer!");
 }
 
 } // namespace MyonCore
