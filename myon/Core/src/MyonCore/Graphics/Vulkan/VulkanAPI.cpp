@@ -62,7 +62,8 @@ void VulkanAPI::RecreateSwapchain() {
     SDL_GetWindowSizeInPixels(m_Window, &width, &height);
   }
 
-  m_VulkanDevice->getLogicalDevice().waitIdle();
+  vk::Queue graphicsQueue = m_VulkanDevice->getGraphicsQueue();
+  graphicsQueue.waitIdle();
 
   m_VulkanSyncObjects.reset();
 
