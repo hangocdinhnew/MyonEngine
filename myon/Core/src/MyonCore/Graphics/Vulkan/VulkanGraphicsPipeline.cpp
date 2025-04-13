@@ -36,10 +36,15 @@ VulkanGraphicsPipeline::VulkanGraphicsPipeline(vk::Device p_Device,
   vk::PipelineVertexInputStateCreateInfo vertexInputInfo{};
   vertexInputInfo.sType =
       vk::StructureType::ePipelineVertexInputStateCreateInfo;
-  vertexInputInfo.vertexBindingDescriptionCount = 0;
-  vertexInputInfo.pVertexBindingDescriptions = nullptr;
-  vertexInputInfo.vertexAttributeDescriptionCount = 0;
-  vertexInputInfo.pVertexAttributeDescriptions = nullptr;
+
+  auto bindingDescription = Vertex::getBindingDescription();
+  auto attributeDescriptions = Vertex::getAttributeDescriptions();
+
+  vertexInputInfo.vertexBindingDescriptionCount = 1;
+  vertexInputInfo.vertexAttributeDescriptionCount = attributeDescriptions.size();
+
+  vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
+  vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
   vk::PipelineInputAssemblyStateCreateInfo inputAssembly{};
   inputAssembly.sType =
