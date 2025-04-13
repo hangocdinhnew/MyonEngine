@@ -11,7 +11,7 @@ VulkanRenderer::VulkanRenderer(
     std::vector<vk::Framebuffer> p_SwapChainFramebuffers,
     std::vector<vk::Semaphore> p_ImageAvailableSemaphores,
     std::vector<vk::Semaphore> p_RenderFinishedSemaphores,
-    std::vector<vk::Fence> p_InFlightFences)
+    std::vector<vk::Fence> p_InFlightFences, vk::Buffer p_VertexBuffer)
     : m_Device(p_Device), m_GraphicsQueue(p_GraphicsQueue),
       m_PresentQueue(p_PresentQueue), m_SwapChain(p_SwapChain),
       m_CommandBuffers(p_CommandBuffers), m_RenderPass(p_RenderPass),
@@ -20,11 +20,11 @@ VulkanRenderer::VulkanRenderer(
       m_SwapChainFramebuffers(p_SwapChainFramebuffers),
       m_ImageAvailableSemaphores(p_ImageAvailableSemaphores),
       m_RenderFinishedSemaphores(p_RenderFinishedSemaphores),
-      m_InFlightFences(p_InFlightFences) {}
+      m_InFlightFences(p_InFlightFences), m_VertexBuffer(p_VertexBuffer) {}
 
 void VulkanRenderer::DrawFrame() {
-  if(m_Device.waitForFences(1, &m_InFlightFences[m_CurrentFrame], VK_TRUE,
-                         UINT64_MAX) != vk::Result::eSuccess) {
+  if (m_Device.waitForFences(1, &m_InFlightFences[m_CurrentFrame], VK_TRUE,
+                             UINT64_MAX) != vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to wait for Fences!");
   }
 
@@ -43,7 +43,8 @@ void VulkanRenderer::DrawFrame() {
     MYON_DO_CORE_ASSERT("Failed to acquire swap chain image!");
   }
 
-  if(m_Device.resetFences(1, &m_InFlightFences[m_CurrentFrame]) != vk::Result::eSuccess) {
+  if (m_Device.resetFences(1, &m_InFlightFences[m_CurrentFrame]) !=
+      vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to reset Fences!");
   }
 
@@ -88,7 +89,8 @@ void VulkanRenderer::DrawFrame() {
 
   result = m_PresentQueue.presentKHR(&presentInfo);
 
-  if(result == vk::Result::eErrorOutOfDateKHR || result == vk::Result::eSuboptimalKHR) {
+  if (result == vk::Result::eErrorOutOfDateKHR ||
+      result == vk::Result::eSuboptimalKHR) {
     m_ShouldRecreateSwapChain = true;
   } else if (result != vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to present!");
@@ -125,6 +127,12 @@ void VulkanRenderer::recordCommandBuffer(uint32_t imageIndex) {
   m_CommandBuffers[m_CurrentFrame].bindPipeline(
       vk::PipelineBindPoint::eGraphics, m_GraphicsPipeline);
 
+  vk::Buffer vertexBuffers[] = {m_VertexBuffer};
+  vk::DeviceSize offsets[] = {0};
+  m_CommandBuffers[m_CurrentFrame].bindVertexBuffers(0, 1, vertexBuffers,
+                                                     offsets);
+
+
   vk::Viewport viewport{};
   viewport.x = 0.0f;
   viewport.y = 0.0f;
@@ -138,7 +146,8 @@ void VulkanRenderer::recordCommandBuffer(uint32_t imageIndex) {
   scissor.offset = vk::Offset2D{0, 0};
   scissor.extent = m_SwapChainExtent;
   m_CommandBuffers[m_CurrentFrame].setScissor(0, 1, &scissor);
-  m_CommandBuffers[m_CurrentFrame].draw(3, 1, 0, 0);
+
+  m_CommandBuffers[m_CurrentFrame].draw(vertices.size(), 1, 0, 0);
   m_CommandBuffers[m_CurrentFrame].endRenderPass();
 
   try {
@@ -148,18 +157,16 @@ void VulkanRenderer::recordCommandBuffer(uint32_t imageIndex) {
   }
 }
 
-
-void VulkanRenderer::UpdateSwapchain(vk::Queue p_NewGraphicsQueue,
-                       vk::Queue p_NewPresentQueue, vk::SwapchainKHR p_NewSwapChain,
-                       std::vector<vk::CommandBuffer> p_NewCommandBuffers,
-                       vk::RenderPass p_NewRenderPass,
-                       vk::Pipeline p_NewGraphicsPipeline,
-                       vk::Extent2D p_NewSwapChainExtent,
-                       std::vector<vk::Framebuffer> p_NewSwapChainFramebuffers,
-                       std::vector<vk::Semaphore> p_NewImageAvailableSemaphores,
-                       std::vector<vk::Semaphore> p_NewRenderFinishedSemaphores,
-                       std::vector<vk::Fence> p_NewInFlightFences)
- {
+void VulkanRenderer::UpdateSwapchain(
+    vk::Queue p_NewGraphicsQueue, vk::Queue p_NewPresentQueue,
+    vk::SwapchainKHR p_NewSwapChain,
+    std::vector<vk::CommandBuffer> p_NewCommandBuffers,
+    vk::RenderPass p_NewRenderPass, vk::Pipeline p_NewGraphicsPipeline,
+    vk::Extent2D p_NewSwapChainExtent,
+    std::vector<vk::Framebuffer> p_NewSwapChainFramebuffers,
+    std::vector<vk::Semaphore> p_NewImageAvailableSemaphores,
+    std::vector<vk::Semaphore> p_NewRenderFinishedSemaphores,
+    std::vector<vk::Fence> p_NewInFlightFences) {
   m_SwapChain = p_NewSwapChain;
   m_GraphicsQueue = p_NewGraphicsQueue;
   m_PresentQueue = p_NewPresentQueue;

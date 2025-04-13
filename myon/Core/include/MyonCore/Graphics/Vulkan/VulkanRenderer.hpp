@@ -13,7 +13,7 @@ public:
                  std::vector<vk::Framebuffer> p_SwapChainFramebuffers,
                  std::vector<vk::Semaphore> p_ImageAvailableSemaphores,
                  std::vector<vk::Semaphore> p_RenderFinishedSemaphores,
-                 std::vector<vk::Fence> p_InFlightFences);
+                 std::vector<vk::Fence> p_InFlightFences, vk::Buffer p_VertexBuffer);
   ~VulkanRenderer() = default;
 
   void DrawFrame();
@@ -50,6 +50,8 @@ private:
 
   vk::Extent2D m_SwapChainExtent;
   std::vector<vk::Framebuffer> m_SwapChainFramebuffers;
+
+  vk::Buffer m_VertexBuffer;
 
   void recordCommandBuffer(uint32_t imageIndex);
 

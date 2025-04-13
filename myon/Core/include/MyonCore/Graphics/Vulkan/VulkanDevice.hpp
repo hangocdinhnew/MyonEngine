@@ -1,6 +1,5 @@
 #pragma once
 #include "MyonCore/Core/Log.hpp"
-#include "MyonCore/Graphics/Vulkan/VulkanStructs.hpp"
 #include <set>
 #include <vulkan/vulkan.hpp>
 
