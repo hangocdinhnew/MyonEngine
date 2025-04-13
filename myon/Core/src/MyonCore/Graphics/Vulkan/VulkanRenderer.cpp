@@ -172,8 +172,6 @@ void VulkanRenderer::UpdateSwapchain(
   m_RenderPass = p_NewRenderPass;
   m_CommandBuffers = p_NewCommandBuffers;
 
-  MYON_CORE_INFO("Eh?");
-
   m_GraphicsPipeline = p_NewGraphicsPipeline;
 
   m_SwapChainExtent = p_NewSwapChainExtent;
