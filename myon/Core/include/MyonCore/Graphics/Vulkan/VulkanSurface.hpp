@@ -8,12 +8,12 @@ public:
   VulkanSurface(SDL_Window *p_Window, vk::Instance &p_Instance);
   ~VulkanSurface();
 
-  vk::SurfaceKHR getSurface() { return m_Surface; }
+  vk::SurfaceKHR &getSurface() { return m_Surface; }
 
 private:
   SDL_Window *m_Window;
 
-  vk::Instance m_Instance;
+  vk::Instance &m_Instance;
   vk::SurfaceKHR m_Surface;
 };
 } // namespace MyonCore

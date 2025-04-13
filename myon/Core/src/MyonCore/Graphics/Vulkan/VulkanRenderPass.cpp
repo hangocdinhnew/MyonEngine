@@ -2,8 +2,8 @@
 
 namespace MyonCore {
 
-VulkanRenderPass::VulkanRenderPass(vk::Device p_Device,
-                                   vk::Format p_SwapchainImageFormat)
+VulkanRenderPass::VulkanRenderPass(vk::Device &p_Device,
+                                   vk::Format &p_SwapchainImageFormat)
     : m_Device(p_Device) {
   vk::AttachmentDescription colorAttachment{};
   colorAttachment.format = p_SwapchainImageFormat;

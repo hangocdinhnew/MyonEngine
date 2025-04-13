@@ -11,7 +11,7 @@ public:
   VulkanInstance(const std::string &title);
   ~VulkanInstance();
 
-  vk::Instance& getInstance() { return m_Instance; }
+  vk::Instance &getInstance() { return m_Instance; }
 
 private:
   vk::Instance m_Instance;

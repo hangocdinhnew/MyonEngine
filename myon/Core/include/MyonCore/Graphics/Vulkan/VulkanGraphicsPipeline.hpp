@@ -12,16 +12,16 @@
 namespace MyonCore {
 class VulkanGraphicsPipeline {
 public:
-  VulkanGraphicsPipeline(vk::Device p_Device, vk::RenderPass p_RenderPass,
-                         const std::string vert, const std::string frag);
+  VulkanGraphicsPipeline(vk::Device &p_Device, vk::RenderPass &p_RenderPass,
+                         const std::string &vert, const std::string &frag);
   ~VulkanGraphicsPipeline();
 
-  vk::Pipeline getGraphicsPipeline() { return m_GraphicsPipeline; }
+  vk::Pipeline &getGraphicsPipeline() { return m_GraphicsPipeline; }
 
   void cleanup();
 
 private:
-  vk::Device m_Device;
+  vk::Device &m_Device;
 
   std::string readFile(const std::string &filename);
   static std::vector<uint32_t> compileGLSL(const std::string &source,

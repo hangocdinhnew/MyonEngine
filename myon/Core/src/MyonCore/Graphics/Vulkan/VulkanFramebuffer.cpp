@@ -2,9 +2,9 @@
 
 namespace MyonCore {
 VulkanFramebuffer::VulkanFramebuffer(
-    vk::Device p_Device, vk::RenderPass p_RenderPass,
-    std::vector<vk::ImageView> p_SwapChainImageViews,
-    vk::Extent2D p_SwapChainExtent)
+    vk::Device &p_Device, vk::RenderPass &p_RenderPass,
+    std::vector<vk::ImageView> &p_SwapChainImageViews,
+    vk::Extent2D &p_SwapChainExtent)
     : m_Device(p_Device) {
   m_SwapchainFramebuffers.resize(p_SwapChainImageViews.size());
 

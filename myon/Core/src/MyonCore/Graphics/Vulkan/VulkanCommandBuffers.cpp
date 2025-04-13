@@ -3,10 +3,10 @@
 
 namespace MyonCore {
 VulkanCommandBuffer::VulkanCommandBuffer(
-    vk::Device p_Device, vk::PhysicalDevice p_PhysicalDevice,
-    vk::SurfaceKHR p_Surface, vk::RenderPass p_RenderPass,
-    std::vector<vk::Framebuffer> p_SwapChainFramebuffers,
-    vk::Extent2D p_SwapChainExtent, vk::Pipeline p_GraphicsPipeline)
+    vk::Device &p_Device, vk::PhysicalDevice &p_PhysicalDevice,
+    vk::SurfaceKHR &p_Surface, vk::RenderPass &p_RenderPass,
+    std::vector<vk::Framebuffer> &p_SwapChainFramebuffers,
+    vk::Extent2D &p_SwapChainExtent, vk::Pipeline &p_GraphicsPipeline)
     : m_Device(p_Device), m_RenderPass(p_RenderPass),
       m_SwapchainFramebuffers(p_SwapChainFramebuffers),
       m_SwapChainExtent(p_SwapChainExtent),

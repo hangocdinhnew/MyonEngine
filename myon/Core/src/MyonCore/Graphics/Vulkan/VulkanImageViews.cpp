@@ -1,9 +1,9 @@
 #include "MyonCore/Graphics/Vulkan/VulkanImageViews.hpp"
 
 namespace MyonCore {
-VulkanImageViews::VulkanImageViews(vk::Device p_Device,
-                                   std::vector<vk::Image> p_SwapChainImages,
-                                   vk::Format p_SwapChainImageFormat)
+VulkanImageViews::VulkanImageViews(vk::Device &p_Device,
+                                   std::vector<vk::Image> &p_SwapChainImages,
+                                   vk::Format &p_SwapChainImageFormat)
     : m_Device(p_Device) {
   m_SwapChainImageViews.resize(p_SwapChainImages.size());
 

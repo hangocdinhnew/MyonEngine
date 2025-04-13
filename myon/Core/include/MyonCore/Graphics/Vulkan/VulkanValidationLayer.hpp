@@ -23,6 +23,6 @@ public:
 
 private:
   vk::DebugUtilsMessengerEXT m_DebugMessenger;
-  vk::Instance m_Instance;
+  vk::Instance& m_Instance;
 };
 } // namespace MyonCore

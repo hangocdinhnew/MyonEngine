@@ -4,17 +4,17 @@
 namespace MyonCore {
 class VulkanImageViews {
 public:
-  VulkanImageViews(vk::Device p_Device, std::vector<vk::Image> p_SwapChainImages, vk::Format p_SwapChainImageFormat);
+  VulkanImageViews(vk::Device& p_Device, std::vector<vk::Image>& p_SwapChainImages, vk::Format& p_SwapChainImageFormat);
   ~VulkanImageViews();
 
-  std::vector<vk::ImageView> getSwapChainImageViews() {
+  std::vector<vk::ImageView>& getSwapChainImageViews() {
     return m_SwapChainImageViews;
   }
 
   void cleanup();
 
 private:
-  vk::Device m_Device;
+  vk::Device& m_Device;
 
   std::vector<vk::ImageView> m_SwapChainImageViews;
 };

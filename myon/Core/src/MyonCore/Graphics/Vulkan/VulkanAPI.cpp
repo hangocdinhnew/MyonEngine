@@ -2,7 +2,7 @@
 
 namespace MyonCore {
 VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &p_Title,
-                     const std::string p_Vert, const std::string p_Frag)
+                     const std::string &p_Vert, const std::string &p_Frag)
     : m_Window(p_Window), m_Vert(p_Vert), m_Frag(p_Frag) {
   m_VulkanInstance = std::make_unique<VulkanInstance>(p_Title);
   m_VulkanValidationLayer =
@@ -65,8 +65,7 @@ void VulkanAPI::RecreateSwapchain() {
     SDL_GetWindowSizeInPixels(m_Window, &width, &height);
   }
 
-  vk::Device device = m_VulkanDevice->getLogicalDevice();
-  device.waitIdle();
+  m_VulkanDevice->getLogicalDevice().waitIdle();
 
   m_VulkanSyncObjects.reset();
 

@@ -2,10 +2,10 @@
 #include <shaderc/shaderc.hpp>
 
 namespace MyonCore {
-VulkanGraphicsPipeline::VulkanGraphicsPipeline(vk::Device p_Device,
-                                               vk::RenderPass p_RenderPass,
-                                               const std::string vert,
-                                               const std::string frag)
+VulkanGraphicsPipeline::VulkanGraphicsPipeline(vk::Device &p_Device,
+                                               vk::RenderPass &p_RenderPass,
+                                               const std::string &vert,
+                                               const std::string &frag)
     : m_Device(p_Device) {
   auto vertShaderCode = readFile(vert);
   auto fragShaderCode = readFile(frag);
@@ -41,7 +41,8 @@ VulkanGraphicsPipeline::VulkanGraphicsPipeline(vk::Device p_Device,
   auto attributeDescriptions = Vertex::getAttributeDescriptions();
 
   vertexInputInfo.vertexBindingDescriptionCount = 1;
-  vertexInputInfo.vertexAttributeDescriptionCount = attributeDescriptions.size();
+  vertexInputInfo.vertexAttributeDescriptionCount =
+      attributeDescriptions.size();
 
   vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
   vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();

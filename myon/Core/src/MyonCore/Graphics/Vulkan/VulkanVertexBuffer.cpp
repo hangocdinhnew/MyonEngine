@@ -1,8 +1,8 @@
 #include "MyonCore/Graphics/Vulkan/VulkanVertexBuffer.hpp"
 
 namespace MyonCore {
-VulkanVertexBuffer::VulkanVertexBuffer(vk::Device p_LogicalDevice,
-                                       vk::PhysicalDevice p_PhysicalDevice)
+VulkanVertexBuffer::VulkanVertexBuffer(vk::Device &p_LogicalDevice,
+                                       vk::PhysicalDevice &p_PhysicalDevice)
     : m_LogicalDevice(p_LogicalDevice), m_PhysicalDevice(p_PhysicalDevice) {
   vk::BufferCreateInfo bufferInfo{};
   bufferInfo.sType = vk::StructureType::eBufferCreateInfo;

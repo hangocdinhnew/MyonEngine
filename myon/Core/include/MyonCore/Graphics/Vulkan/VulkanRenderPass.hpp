@@ -4,7 +4,7 @@
 namespace MyonCore {
 class VulkanRenderPass {
 public:
-  VulkanRenderPass(vk::Device p_Device, vk::Format p_SwapchainImageFormat);
+  VulkanRenderPass(vk::Device& p_Device, vk::Format& p_SwapchainImageFormat);
   ~VulkanRenderPass();
 
   vk::RenderPass& getRenderPass() {
@@ -14,7 +14,7 @@ public:
   void cleanup();
 
 private:
-  vk::Device m_Device;
+  vk::Device& m_Device;
 
   vk::RenderPass m_RenderPass;
 };

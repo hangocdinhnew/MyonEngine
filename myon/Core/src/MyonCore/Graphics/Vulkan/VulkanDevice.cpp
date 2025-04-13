@@ -2,7 +2,7 @@
 #include "MyonCore/Graphics/Vulkan/VulkanUtils.hpp"
 
 namespace MyonCore {
-VulkanDevice::VulkanDevice(vk::Instance &p_Instance, vk::SurfaceKHR p_Surface)
+VulkanDevice::VulkanDevice(vk::Instance &p_Instance, vk::SurfaceKHR& p_Surface)
     : m_Surface(p_Surface) {
 
   uint32_t deviceCount = 0;

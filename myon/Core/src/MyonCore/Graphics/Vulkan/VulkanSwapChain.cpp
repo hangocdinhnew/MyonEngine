@@ -3,8 +3,9 @@
 namespace MyonCore {
 
 VulkanSwapChain::VulkanSwapChain(SDL_Window *p_Window,
-                                 vk::PhysicalDevice p_PhysicalDevice,
-                                 vk::Device p_Device, vk::SurfaceKHR p_Surface)
+                                 vk::PhysicalDevice &p_PhysicalDevice,
+                                 vk::Device &p_Device,
+                                 vk::SurfaceKHR &p_Surface)
     : m_PhysicalDevice(p_PhysicalDevice), m_Window(p_Window),
       m_Device(p_Device), m_Surface(p_Surface) {
   SwapChainSupportDetails swapChainSupport =
@@ -58,12 +59,14 @@ VulkanSwapChain::VulkanSwapChain(SDL_Window *p_Window,
     MYON_DO_CORE_ASSERT("Failed to create Swap chain!");
   }
 
-  if(m_Device.getSwapchainImagesKHR(m_SwapChain, &imageCount, nullptr) != vk::Result::eSuccess) {
+  if (m_Device.getSwapchainImagesKHR(m_SwapChain, &imageCount, nullptr) !=
+      vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to get Swapchain images!");
   }
   swapChainImages.resize(imageCount);
-  if(m_Device.getSwapchainImagesKHR(m_SwapChain, &imageCount,
-                                 swapChainImages.data()) != vk::Result::eSuccess) {
+  if (m_Device.getSwapchainImagesKHR(m_SwapChain, &imageCount,
+                                     swapChainImages.data()) !=
+      vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to get Swapchain images!");
   }
 
