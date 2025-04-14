@@ -159,4 +159,55 @@ struct Vertex {
 const std::vector<Vertex> vertices = {{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
                                       {{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
                                       {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}};
+
+inline uint32_t findMemoryType(vk::PhysicalDevice &p_PhysicalDevice,
+                               uint32_t &p_TypeFilter,
+                               vk::MemoryPropertyFlags &p_Properties) {
+  vk::PhysicalDeviceMemoryProperties memProperties;
+  p_PhysicalDevice.getMemoryProperties(&memProperties);
+
+  for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
+    if ((p_TypeFilter & (1 << i)) &&
+        (memProperties.memoryTypes[i].propertyFlags & p_Properties) ==
+            p_Properties) {
+      return i;
+    }
+  }
+
+  MYON_DO_CORE_ASSERT("Failed to find suitable memory type!");
+}
+
+inline void
+createBuffer(vk::Device &p_LogicalDevice, vk::PhysicalDevice &p_PhysicalDevice,
+             vk::DeviceSize &p_Size, vk::BufferUsageFlagBits p_Usage,
+             vk::MemoryPropertyFlags p_Properties, vk::Buffer &p_Buffer,
+             vk::DeviceMemory &p_BufferMemory) {
+  vk::BufferCreateInfo bufferInfo{};
+  bufferInfo.sType = vk::StructureType::eBufferCreateInfo;
+  bufferInfo.size = p_Size;
+  bufferInfo.usage = p_Usage;
+  bufferInfo.sharingMode = vk::SharingMode::eExclusive;
+
+  if (p_LogicalDevice.createBuffer(&bufferInfo, nullptr, &p_Buffer) !=
+      vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to create buffer!");
+  }
+
+  vk::MemoryRequirements memRequirements;
+  p_LogicalDevice.getBufferMemoryRequirements(p_Buffer, &memRequirements);
+
+  vk::MemoryAllocateInfo allocInfo{};
+  allocInfo.sType = vk::StructureType::eMemoryAllocateInfo;
+  allocInfo.allocationSize = memRequirements.size;
+  allocInfo.memoryTypeIndex = findMemoryType(
+      p_PhysicalDevice, memRequirements.memoryTypeBits, p_Properties);
+
+  if (p_LogicalDevice.allocateMemory(&allocInfo, nullptr, &p_BufferMemory) !=
+      vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to allocate buffer memory!");
+  }
+
+  p_LogicalDevice.bindBufferMemory(p_Buffer, p_BufferMemory, 0);
+}
+
 } // namespace MyonCore

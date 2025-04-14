@@ -23,8 +23,5 @@ private:
 
   vk::Buffer m_VertexBuffer;
   vk::DeviceMemory m_VertexBufferMemory;
-
-  uint32_t findMemoryType(uint32_t p_TypeFilter,
-                          vk::MemoryPropertyFlags p_Properties);
 };
 } // namespace MyonCore
