@@ -1,7 +1,7 @@
-#include "MyonCore/Graphics/Vulkan/VulkanVertexBuffer.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanBuffer.hpp"
 
 namespace MyonCore {
-VulkanVertexBuffer::VulkanVertexBuffer(vk::Device &p_LogicalDevice,
+VulkanBuffer::VulkanBuffer(vk::Device &p_LogicalDevice,
                                        vk::PhysicalDevice &p_PhysicalDevice)
     : m_LogicalDevice(p_LogicalDevice), m_PhysicalDevice(p_PhysicalDevice) {
   vk::DeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
@@ -20,7 +20,7 @@ VulkanVertexBuffer::VulkanVertexBuffer(vk::Device &p_LogicalDevice,
   m_LogicalDevice.unmapMemory(m_VertexBufferMemory);
 }
 
-VulkanVertexBuffer::~VulkanVertexBuffer() {
+VulkanBuffer::~VulkanBuffer() {
   m_LogicalDevice.destroyBuffer(m_VertexBuffer, nullptr);
   m_LogicalDevice.freeMemory(m_VertexBufferMemory, nullptr);
 }

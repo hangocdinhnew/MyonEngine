@@ -7,11 +7,11 @@
 // clang-format on
 
 namespace MyonCore {
-class VulkanVertexBuffer {
+class VulkanBuffer {
 public:
-  VulkanVertexBuffer(vk::Device &p_LogicalDevice,
+  VulkanBuffer(vk::Device &p_LogicalDevice,
                      vk::PhysicalDevice &p_PhysicalDevice);
-  ~VulkanVertexBuffer();
+  ~VulkanBuffer();
 
   vk::Buffer& getVertexBuffer() { return m_VertexBuffer; }
 
