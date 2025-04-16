@@ -14,6 +14,7 @@ public:
 
   void recordCommandBuffer(uint32_t imageIndex);
 
+  vk::CommandPool& getCommandPool() {  return m_CommandPool; }
   std::vector<vk::CommandBuffer>& getCommandBuffer() { return m_CommandBuffers; }
 
   void cleanup();

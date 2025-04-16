@@ -10,7 +10,7 @@
 #include "MyonCore/Graphics/Vulkan/VulkanGraphicsPipeline.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanFramebuffer.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanCommandBuffers.hpp"
-#include "MyonCore/Graphics/Vulkan/VulkanVertexBuffer.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanBuffer.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanSyncObjects.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanRenderer.hpp"
 // clang-format on
@@ -43,7 +43,7 @@ private:
   std::unique_ptr<VulkanGraphicsPipeline> m_VulkanGraphicsPipeline;
   std::unique_ptr<VulkanFramebuffer> m_VulkanFramebuffer;
   std::unique_ptr<VulkanCommandBuffer> m_VulkanCommandBuffers;
-  std::unique_ptr<VulkanVertexBuffer> m_VulkanVertexBuffer;
+  std::unique_ptr<VulkanBuffer> m_VulkanBuffer;
   std::unique_ptr<VulkanSyncObjects> m_VulkanSyncObjects;
   std::unique_ptr<VulkanRenderer> m_VulkanRenderer;
 

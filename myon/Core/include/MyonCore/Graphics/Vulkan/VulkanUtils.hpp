@@ -159,4 +159,99 @@ struct Vertex {
 const std::vector<Vertex> vertices = {{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
                                       {{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
                                       {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}};
+
+inline uint32_t findMemoryType(vk::PhysicalDevice &p_PhysicalDevice,
+                               uint32_t &p_TypeFilter,
+                               vk::MemoryPropertyFlags &p_Properties) {
+  vk::PhysicalDeviceMemoryProperties memProperties;
+  p_PhysicalDevice.getMemoryProperties(&memProperties);
+
+  for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
+    if ((p_TypeFilter & (1 << i)) &&
+        (memProperties.memoryTypes[i].propertyFlags & p_Properties) ==
+            p_Properties) {
+      return i;
+    }
+  }
+
+  MYON_DO_CORE_ASSERT("Failed to find suitable memory type!");
+}
+
+inline void createBuffer(vk::Device &p_LogicalDevice,
+                         vk::PhysicalDevice &p_PhysicalDevice,
+                         vk::DeviceSize &p_Size, vk::BufferUsageFlags p_Usage,
+                         vk::MemoryPropertyFlags p_Properties,
+                         vk::Buffer &p_Buffer,
+                         vk::DeviceMemory &p_BufferMemory) {
+  vk::BufferCreateInfo bufferInfo{};
+  bufferInfo.sType = vk::StructureType::eBufferCreateInfo;
+  bufferInfo.size = p_Size;
+  bufferInfo.usage = p_Usage;
+  bufferInfo.sharingMode = vk::SharingMode::eExclusive;
+
+  if (p_LogicalDevice.createBuffer(&bufferInfo, nullptr, &p_Buffer) !=
+      vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to create buffer!");
+  }
+
+  vk::MemoryRequirements memRequirements;
+  p_LogicalDevice.getBufferMemoryRequirements(p_Buffer, &memRequirements);
+
+  vk::MemoryAllocateInfo allocInfo{};
+  allocInfo.sType = vk::StructureType::eMemoryAllocateInfo;
+  allocInfo.allocationSize = memRequirements.size;
+  allocInfo.memoryTypeIndex = findMemoryType(
+      p_PhysicalDevice, memRequirements.memoryTypeBits, p_Properties);
+
+  if (p_LogicalDevice.allocateMemory(&allocInfo, nullptr, &p_BufferMemory) !=
+      vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to allocate buffer memory!");
+  }
+
+  p_LogicalDevice.bindBufferMemory(p_Buffer, p_BufferMemory, 0);
+}
+
+inline void copyBuffer(vk::Device &p_LogicalDevice,
+                       vk::CommandPool &p_CommandPool,
+                       vk::Queue &p_GraphicsQueue, vk::Buffer &p_SrcBuffer,
+                       vk::Buffer &p_DstBuffer, vk::DeviceSize &p_Size) {
+  vk::CommandBufferAllocateInfo allocInfo{};
+  allocInfo.sType = vk::StructureType::eCommandBufferAllocateInfo;
+  allocInfo.level = vk::CommandBufferLevel::ePrimary;
+  allocInfo.commandPool = p_CommandPool;
+  allocInfo.commandBufferCount = 1;
+
+  vk::CommandBuffer commandBuffer;
+  if (p_LogicalDevice.allocateCommandBuffers(&allocInfo, &commandBuffer) !=
+      vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to allocate command buffers!");
+  }
+
+  vk::CommandBufferBeginInfo beginInfo{};
+  beginInfo.sType = vk::StructureType::eCommandBufferBeginInfo;
+  beginInfo.flags = vk::CommandBufferUsageFlagBits::eOneTimeSubmit;
+
+  if (commandBuffer.begin(&beginInfo) != vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to begin Command Buffer!");
+  }
+
+  vk::BufferCopy copyRegion{};
+  copyRegion.size = p_Size;
+  commandBuffer.copyBuffer(p_SrcBuffer, p_DstBuffer, 1, &copyRegion);
+
+  commandBuffer.end();
+
+  vk::SubmitInfo submitInfo{};
+  submitInfo.sType = vk::StructureType::eSubmitInfo;
+  submitInfo.commandBufferCount = 1;
+  submitInfo.pCommandBuffers = &commandBuffer;
+
+  if (p_GraphicsQueue.submit(1, &submitInfo, nullptr) != vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to submit queue!");
+  }
+  p_GraphicsQueue.waitIdle();
+
+  p_LogicalDevice.freeCommandBuffers(p_CommandPool, 1, &commandBuffer);
+}
+
 } // namespace MyonCore

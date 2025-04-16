@@ -34,8 +34,10 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &p_Title,
       m_VulkanFramebuffer->getSwapchainFramebuffers(),
       m_VulkanSwapchain->getSwapChainExtent(),
       m_VulkanGraphicsPipeline->getGraphicsPipeline());
-  m_VulkanVertexBuffer = std::make_unique<VulkanVertexBuffer>(
-      m_VulkanDevice->getLogicalDevice(), m_VulkanDevice->getPhysicalDevice());
+  m_VulkanBuffer = std::make_unique<VulkanBuffer>(
+      m_VulkanDevice->getLogicalDevice(), m_VulkanDevice->getPhysicalDevice(),
+      m_VulkanCommandBuffers->getCommandPool(),
+      m_VulkanDevice->getGraphicsQueue());
   m_VulkanSyncObjects =
       std::make_unique<VulkanSyncObjects>(m_VulkanDevice->getLogicalDevice());
   m_VulkanRenderer = std::make_unique<VulkanRenderer>(
@@ -49,9 +51,16 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &p_Title,
       m_VulkanSyncObjects->getImageAvailableSemaphore(),
       m_VulkanSyncObjects->getRenderFinishedSemaphore(),
       m_VulkanSyncObjects->getInFlightFence(),
-      m_VulkanVertexBuffer->getVertexBuffer());
+      m_VulkanBuffer->getVertexBuffer());
   MYON_CORE_INFO("Initialized Vulkan!");
 }
+
+/*
+  VulkanBuffer(vk::Device &p_LogicalDevice,
+               vk::PhysicalDevice &p_PhysicalDevice, vk::CommandPool&
+  p_CommandPool, vk::CommandBuffer& p_CommandBuffer, vk::Queue&
+  p_GraphicsQueue);
+*/
 
 VulkanAPI::~VulkanAPI() { MYON_CORE_INFO("Shutting down Vulkan..."); }
 
