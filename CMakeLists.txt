@@ -51,6 +51,7 @@ find_package(spdlog REQUIRED)
 find_package(glslang REQUIRED)
 find_package(SPIRV-Tools REQUIRED)
 find_package(Vulkan REQUIRED COMPONENTS shaderc_combined)
+find_package(glm REQUIRED)
 
 option(SDL_STATIC "Make SDL a static library" ON)
 option(SDL_SHARED "Make SDL a shared library" OFF)
