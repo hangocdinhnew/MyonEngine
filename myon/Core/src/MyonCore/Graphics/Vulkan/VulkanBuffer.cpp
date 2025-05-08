@@ -6,8 +6,14 @@ VulkanBuffer::VulkanBuffer(vk::Device &p_LogicalDevice,
                            vk::CommandPool &p_CommandPool,
                            vk::Queue &p_GraphicsQueue)
     : m_LogicalDevice(p_LogicalDevice), m_PhysicalDevice(p_PhysicalDevice),
-      m_CommandPool(p_CommandPool),
-      m_GraphicsQueue(p_GraphicsQueue) {
+      m_CommandPool(p_CommandPool), m_GraphicsQueue(p_GraphicsQueue) {
+  createVulkanVertexBuffer(p_LogicalDevice, p_PhysicalDevice, p_CommandPool,
+                           p_GraphicsQueue);
+}
+
+void VulkanBuffer::createVulkanVertexBuffer(
+    vk::Device &p_LogicalDevice, vk::PhysicalDevice &p_PhysicalDevice,
+    vk::CommandPool &p_CommandPool, vk::Queue &p_GraphicsQueue) {
   vk::DeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
 
   vk::Buffer stagingBuffer;
@@ -34,8 +40,8 @@ VulkanBuffer::VulkanBuffer(vk::Device &p_LogicalDevice,
                vk::MemoryPropertyFlagBits::eDeviceLocal, m_VertexBuffer,
                m_VertexBufferMemory);
 
-  copyBuffer(m_LogicalDevice, m_CommandPool, m_GraphicsQueue,
-             stagingBuffer, m_VertexBuffer, bufferSize);
+  copyBuffer(m_LogicalDevice, m_CommandPool, m_GraphicsQueue, stagingBuffer,
+             m_VertexBuffer, bufferSize);
 
   m_LogicalDevice.destroyBuffer(stagingBuffer, nullptr);
   m_LogicalDevice.freeMemory(stagingBufferMemory, nullptr);
