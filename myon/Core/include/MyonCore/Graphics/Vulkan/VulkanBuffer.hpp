@@ -35,12 +35,12 @@ private:
   vk::Buffer m_IndexBuffer;
   vk::DeviceMemory m_IndexBufferMemory;
 
-  void createVulkanVertexBuffer(vk::Device &p_LogicalDevice,
+  void createVertexBuffer(vk::Device &p_LogicalDevice,
                                 vk::PhysicalDevice &p_PhysicalDevice,
                                 vk::CommandPool &p_CommandPool,
                                 vk::Queue &p_GraphicsQueue);
 
-  void createVulkanIndexBuffer(vk::Device &p_LogicalDevice,
+  void createIndexBuffer(vk::Device &p_LogicalDevice,
                                vk::PhysicalDevice &p_PhysicalDevice,
                                vk::CommandPool &p_CommandPool,
                                vk::Queue &p_GraphicsQueue);

@@ -51,16 +51,9 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &p_Title,
       m_VulkanSyncObjects->getImageAvailableSemaphore(),
       m_VulkanSyncObjects->getRenderFinishedSemaphore(),
       m_VulkanSyncObjects->getInFlightFence(),
-      m_VulkanBuffer->getVertexBuffer());
+      m_VulkanBuffer->getVertexBuffer(), m_VulkanBuffer->getIndexBuffer());
   MYON_CORE_INFO("Initialized Vulkan!");
 }
-
-/*
-  VulkanBuffer(vk::Device &p_LogicalDevice,
-               vk::PhysicalDevice &p_PhysicalDevice, vk::CommandPool&
-  p_CommandPool, vk::CommandBuffer& p_CommandBuffer, vk::Queue&
-  p_GraphicsQueue);
-*/
 
 VulkanAPI::~VulkanAPI() { MYON_CORE_INFO("Shutting down Vulkan..."); }
 
