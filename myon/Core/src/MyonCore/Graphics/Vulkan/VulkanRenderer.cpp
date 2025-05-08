@@ -11,7 +11,8 @@ VulkanRenderer::VulkanRenderer(
     std::vector<vk::Framebuffer> &p_SwapChainFramebuffers,
     std::vector<vk::Semaphore> &p_ImageAvailableSemaphores,
     std::vector<vk::Semaphore> &p_RenderFinishedSemaphores,
-    std::vector<vk::Fence> &p_InFlightFences, vk::Buffer &p_VertexBuffer)
+    std::vector<vk::Fence> &p_InFlightFences, vk::Buffer &p_VertexBuffer,
+    vk::Buffer &p_IndexBuffer)
     : m_Device(p_Device), m_GraphicsQueue(p_GraphicsQueue),
       m_PresentQueue(p_PresentQueue), m_SwapChain(p_SwapChain),
       m_CommandBuffers(p_CommandBuffers), m_RenderPass(p_RenderPass),
@@ -20,7 +21,8 @@ VulkanRenderer::VulkanRenderer(
       m_SwapChainFramebuffers(p_SwapChainFramebuffers),
       m_ImageAvailableSemaphores(p_ImageAvailableSemaphores),
       m_RenderFinishedSemaphores(p_RenderFinishedSemaphores),
-      m_InFlightFences(p_InFlightFences), m_VertexBuffer(p_VertexBuffer) {}
+      m_InFlightFences(p_InFlightFences), m_VertexBuffer(p_VertexBuffer),
+      m_IndexBuffer(p_IndexBuffer) {}
 
 void VulkanRenderer::DrawFrame() {
   if (m_Device.waitForFences(1, &m_InFlightFences[m_CurrentFrame], VK_TRUE,
@@ -132,6 +134,9 @@ void VulkanRenderer::recordCommandBuffer(uint32_t imageIndex) {
   m_CommandBuffers[m_CurrentFrame].bindVertexBuffers(0, 1, vertexBuffers,
                                                      offsets);
 
+  m_CommandBuffers[m_CurrentFrame].bindIndexBuffer(m_IndexBuffer, 0,
+                                                   vk::IndexType::eUint16);
+
   vk::Viewport viewport{};
   viewport.x = 0.0f;
   viewport.y = 0.0f;
@@ -146,7 +151,7 @@ void VulkanRenderer::recordCommandBuffer(uint32_t imageIndex) {
   scissor.extent = m_SwapChainExtent;
   m_CommandBuffers[m_CurrentFrame].setScissor(0, 1, &scissor);
 
-  m_CommandBuffers[m_CurrentFrame].draw(vertices.size(), 1, 0, 0);
+  m_CommandBuffers[m_CurrentFrame].drawIndexed(indices.size(), 1, 0, 0, 0);
   m_CommandBuffers[m_CurrentFrame].endRenderPass();
 
   try {
@@ -180,7 +185,6 @@ void VulkanRenderer::UpdateSwapchain(
   m_ImageAvailableSemaphores = p_NewImageAvailableSemaphores;
   m_RenderFinishedSemaphores = p_NewRenderFinishedSemaphores;
   m_InFlightFences = p_NewInFlightFences;
-
 
   m_CurrentFrame = 0;
 }
