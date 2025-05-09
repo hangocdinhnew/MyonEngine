@@ -2,12 +2,9 @@
 
 namespace MyonCore {
 
-VulkanSwapChain::VulkanSwapChain(SDL_Window *p_Window,
-                                 vk::PhysicalDevice &p_PhysicalDevice,
-                                 vk::Device &p_Device,
-                                 vk::SurfaceKHR &p_Surface)
-    : m_PhysicalDevice(p_PhysicalDevice), m_Window(p_Window),
-      m_Device(p_Device), m_Surface(p_Surface) {
+VulkanSwapChain::VulkanSwapChain(VulkanSwapChainConfig& p_SwapChainConfig)
+    : m_PhysicalDevice(p_SwapChainConfig.p_PhysicalDevice), m_Window(p_SwapChainConfig.p_Window),
+      m_Device(p_SwapChainConfig.p_Device), m_Surface(p_SwapChainConfig.p_Surface) {
   SwapChainSupportDetails swapChainSupport =
       Vulkan_QuerySwapChainSupport(m_PhysicalDevice, m_Surface);
 
@@ -34,7 +31,7 @@ VulkanSwapChain::VulkanSwapChain(SDL_Window *p_Window,
   createInfo.imageUsage = vk::ImageUsageFlagBits::eColorAttachment;
 
   QueueFamilyIndices indices =
-      Vulkan_FindQueueFamilies(p_PhysicalDevice, m_Surface);
+      Vulkan_FindQueueFamilies(m_PhysicalDevice, m_Surface);
   uint32_t queueFamilyIndices[] = {indices.graphicsFamily.value(),
                                    indices.presentFamily.value()};
 

@@ -2,27 +2,21 @@
 
 namespace MyonCore {
 
-VulkanRenderer::VulkanRenderer(
-    vk::Device &p_Device, vk::Queue &p_GraphicsQueue, vk::Queue &p_PresentQueue,
-    vk::SwapchainKHR &p_SwapChain,
-    std::vector<vk::CommandBuffer> &p_CommandBuffers,
-    vk::RenderPass &p_RenderPass, vk::Pipeline &p_GraphicsPipeline,
-    vk::Extent2D &p_SwapChainExtent,
-    std::vector<vk::Framebuffer> &p_SwapChainFramebuffers,
-    std::vector<vk::Semaphore> &p_ImageAvailableSemaphores,
-    std::vector<vk::Semaphore> &p_RenderFinishedSemaphores,
-    std::vector<vk::Fence> &p_InFlightFences, vk::Buffer &p_VertexBuffer,
-    vk::Buffer &p_IndexBuffer)
-    : m_Device(p_Device), m_GraphicsQueue(p_GraphicsQueue),
-      m_PresentQueue(p_PresentQueue), m_SwapChain(p_SwapChain),
-      m_CommandBuffers(p_CommandBuffers), m_RenderPass(p_RenderPass),
-      m_GraphicsPipeline(p_GraphicsPipeline),
-      m_SwapChainExtent(p_SwapChainExtent),
-      m_SwapChainFramebuffers(p_SwapChainFramebuffers),
-      m_ImageAvailableSemaphores(p_ImageAvailableSemaphores),
-      m_RenderFinishedSemaphores(p_RenderFinishedSemaphores),
-      m_InFlightFences(p_InFlightFences), m_VertexBuffer(p_VertexBuffer),
-      m_IndexBuffer(p_IndexBuffer) {}
+VulkanRenderer::VulkanRenderer(VulkanRendererConfig &p_RendererConfig)
+    : m_Device(p_RendererConfig.p_Device),
+      m_GraphicsQueue(p_RendererConfig.p_GraphicsQueue),
+      m_PresentQueue(p_RendererConfig.p_PresentQueue),
+      m_SwapChain(p_RendererConfig.p_SwapChain),
+      m_CommandBuffers(p_RendererConfig.p_CommandBuffers),
+      m_RenderPass(p_RendererConfig.p_RenderPass),
+      m_GraphicsPipeline(p_RendererConfig.p_GraphicsPipeline),
+      m_SwapChainExtent(p_RendererConfig.p_SwapChainExtent),
+      m_SwapChainFramebuffers(p_RendererConfig.p_SwapChainFramebuffers),
+      m_ImageAvailableSemaphores(p_RendererConfig.p_ImageAvailableSemaphores),
+      m_RenderFinishedSemaphores(p_RendererConfig.p_RenderFinishedSemaphores),
+      m_InFlightFences(p_RendererConfig.p_InFlightFences),
+      m_VertexBuffer(p_RendererConfig.p_VertexBuffer),
+      m_IndexBuffer(p_RendererConfig.p_IndexBuffer) {}
 
 void VulkanRenderer::DrawFrame() {
   if (m_Device.waitForFences(1, &m_InFlightFences[m_CurrentFrame], VK_TRUE,
@@ -161,30 +155,21 @@ void VulkanRenderer::recordCommandBuffer(uint32_t imageIndex) {
   }
 }
 
-void VulkanRenderer::UpdateSwapchain(
-    vk::Queue &p_NewGraphicsQueue, vk::Queue &p_NewPresentQueue,
-    vk::SwapchainKHR &p_NewSwapChain,
-    std::vector<vk::CommandBuffer> &p_NewCommandBuffers,
-    vk::RenderPass &p_NewRenderPass, vk::Pipeline &p_NewGraphicsPipeline,
-    vk::Extent2D &p_NewSwapChainExtent,
-    std::vector<vk::Framebuffer> &p_NewSwapChainFramebuffers,
-    std::vector<vk::Semaphore> &p_NewImageAvailableSemaphores,
-    std::vector<vk::Semaphore> &p_NewRenderFinishedSemaphores,
-    std::vector<vk::Fence> &p_NewInFlightFences) {
-  m_SwapChain = p_NewSwapChain;
-  m_GraphicsQueue = p_NewGraphicsQueue;
-  m_PresentQueue = p_NewPresentQueue;
-  m_RenderPass = p_NewRenderPass;
-  m_CommandBuffers = p_NewCommandBuffers;
+void VulkanRenderer::UpdateSwapchain(VulkanRendererConfig &p_RendererConfig) {
+  m_SwapChain = p_RendererConfig.p_SwapChain;
+  m_GraphicsQueue = p_RendererConfig.p_GraphicsQueue;
+  m_PresentQueue = p_RendererConfig.p_PresentQueue;
+  m_RenderPass = p_RendererConfig.p_RenderPass;
+  m_CommandBuffers = p_RendererConfig.p_CommandBuffers;
 
-  m_GraphicsPipeline = p_NewGraphicsPipeline;
+  m_GraphicsPipeline = p_RendererConfig.p_GraphicsPipeline;
 
-  m_SwapChainExtent = p_NewSwapChainExtent;
-  m_SwapChainFramebuffers = p_NewSwapChainFramebuffers;
+  m_SwapChainExtent = p_RendererConfig.p_SwapChainExtent;
+  m_SwapChainFramebuffers = p_RendererConfig.p_SwapChainFramebuffers;
 
-  m_ImageAvailableSemaphores = p_NewImageAvailableSemaphores;
-  m_RenderFinishedSemaphores = p_NewRenderFinishedSemaphores;
-  m_InFlightFences = p_NewInFlightFences;
+  m_ImageAvailableSemaphores = p_RendererConfig.p_ImageAvailableSemaphores;
+  m_RenderFinishedSemaphores = p_RendererConfig.p_RenderFinishedSemaphores;
+  m_InFlightFences = p_RendererConfig.p_InFlightFences;
 
   m_CurrentFrame = 0;
 }

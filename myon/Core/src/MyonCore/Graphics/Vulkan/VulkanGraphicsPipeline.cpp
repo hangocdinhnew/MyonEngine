@@ -2,13 +2,10 @@
 #include <shaderc/shaderc.hpp>
 
 namespace MyonCore {
-VulkanGraphicsPipeline::VulkanGraphicsPipeline(vk::Device &p_Device,
-                                               vk::RenderPass &p_RenderPass,
-                                               const std::string &vert,
-                                               const std::string &frag)
-    : m_Device(p_Device) {
-  auto vertShaderCode = readFile(vert);
-  auto fragShaderCode = readFile(frag);
+VulkanGraphicsPipeline::VulkanGraphicsPipeline(VulkanGraphicsPipelineConfig& p_GraphicsPipelineConfig)
+    : m_Device(p_GraphicsPipelineConfig.p_Device) {
+  auto vertShaderCode = readFile(p_GraphicsPipelineConfig.vert);
+  auto fragShaderCode = readFile(p_GraphicsPipelineConfig.frag);
 
   std::vector<uint32_t> vertSPIRV =
       compileGLSL(vertShaderCode, shaderc_glsl_vertex_shader, "Vertex");
@@ -134,7 +131,7 @@ VulkanGraphicsPipeline::VulkanGraphicsPipeline(vk::Device &p_Device,
   pipelineInfo.pColorBlendState = &colorBlending;
   pipelineInfo.pDynamicState = &dynamicState;
   pipelineInfo.layout = m_PipelineLayout;
-  pipelineInfo.renderPass = p_RenderPass;
+  pipelineInfo.renderPass = p_GraphicsPipelineConfig.p_RenderPass;
   pipelineInfo.subpass = 0;
   pipelineInfo.basePipelineHandle = nullptr;
   pipelineInfo.basePipelineIndex = -1;

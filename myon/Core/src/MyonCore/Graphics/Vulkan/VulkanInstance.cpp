@@ -1,11 +1,11 @@
 #include "MyonCore/Graphics/Vulkan/VulkanInstance.hpp"
 
 namespace MyonCore {
-VulkanInstance::VulkanInstance(const std::string &title) {
+VulkanInstance::VulkanInstance(VulkanInstanceConfig& p_InstanceConfig) {
   // Step 1: Vulkan App Info
   vk::ApplicationInfo appInfo{};
   appInfo.sType = vk::StructureType::eApplicationInfo;
-  appInfo.pApplicationName = title.c_str();
+  appInfo.pApplicationName = p_InstanceConfig.title.c_str();
   appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
   appInfo.pEngineName = "Myon Engine";
   appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);

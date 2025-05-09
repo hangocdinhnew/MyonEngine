@@ -2,11 +2,11 @@
 #include "MyonCore/Graphics/Vulkan/VulkanUtils.hpp"
 
 namespace MyonCore {
-VulkanDevice::VulkanDevice(vk::Instance &p_Instance, vk::SurfaceKHR& p_Surface)
-    : m_Surface(p_Surface) {
+VulkanDevice::VulkanDevice(VulkanDeviceConfig& p_DeviceConfig)
+    : m_Surface(p_DeviceConfig.p_Surface) {
 
   uint32_t deviceCount = 0;
-  if(p_Instance.enumeratePhysicalDevices(&deviceCount, nullptr) != vk::Result::eSuccess) {
+  if(p_DeviceConfig.p_Instance.enumeratePhysicalDevices(&deviceCount, nullptr) != vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to enumerate Physical Devices!");
   }
 
@@ -15,7 +15,7 @@ VulkanDevice::VulkanDevice(vk::Instance &p_Instance, vk::SurfaceKHR& p_Surface)
   }
 
   std::vector<vk::PhysicalDevice> devices(deviceCount);
-  if(p_Instance.enumeratePhysicalDevices(&deviceCount, devices.data()) != vk::Result::eSuccess) {
+  if(p_DeviceConfig.p_Instance.enumeratePhysicalDevices(&deviceCount, devices.data()) != vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to enumerate Physical Devices!");
   }
 

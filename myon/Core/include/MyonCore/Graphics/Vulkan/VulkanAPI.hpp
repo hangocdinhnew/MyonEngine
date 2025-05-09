@@ -51,5 +51,19 @@ private:
 
   const std::string& m_Vert;
   const std::string& m_Frag;
+
+  VulkanInstanceConfig m_VulkanInstanceConfig;
+  VulkanValidationLayerConfig m_VulkanValidationLayerConfig;
+  VulkanSurfaceConfig m_VulkanSurfaceConfig;
+  VulkanDeviceConfig m_VulkanDeviceConfig;
+  VulkanSwapChainConfig m_VulkanSwapChainConfig;
+  VulkanImageViewsConfig m_VulkanImageViewsConfig;
+  VulkanRenderPassConfig m_VulkanRenderPassConfig;
+  VulkanGraphicsPipelineConfig m_VulkanGraphicsPipelineConfig;
+  VulkanFramebufferConfig m_VulkanFramebufferConfig;
+  VulkanCommandBufferConfig m_VulkanCommandBufferConfig;
+  VulkanBufferConfig m_VulkanBufferConfig;
+  VulkanSyncObjectsConfig m_VulkanSyncObjectsConfig;
+  VulkanRendererConfig m_VulkanRendererConfig;
 };
 } // namespace MyonCore

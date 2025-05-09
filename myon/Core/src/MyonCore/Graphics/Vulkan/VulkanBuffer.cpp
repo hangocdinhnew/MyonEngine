@@ -1,16 +1,17 @@
 #include "MyonCore/Graphics/Vulkan/VulkanBuffer.hpp"
 
 namespace MyonCore {
-VulkanBuffer::VulkanBuffer(vk::Device &p_LogicalDevice,
-                           vk::PhysicalDevice &p_PhysicalDevice,
-                           vk::CommandPool &p_CommandPool,
-                           vk::Queue &p_GraphicsQueue)
-    : m_LogicalDevice(p_LogicalDevice), m_PhysicalDevice(p_PhysicalDevice),
-      m_CommandPool(p_CommandPool), m_GraphicsQueue(p_GraphicsQueue) {
-  createVertexBuffer(p_LogicalDevice, p_PhysicalDevice, p_CommandPool,
-                     p_GraphicsQueue);
-  createIndexBuffer(p_LogicalDevice, p_PhysicalDevice, p_CommandPool,
-                    p_GraphicsQueue);
+VulkanBuffer::VulkanBuffer(VulkanBufferConfig &p_BufferConfig)
+    : m_LogicalDevice(p_BufferConfig.p_LogicalDevice),
+      m_PhysicalDevice(p_BufferConfig.p_PhysicalDevice),
+      m_CommandPool(p_BufferConfig.p_CommandPool),
+      m_GraphicsQueue(p_BufferConfig.p_GraphicsQueue) {
+  createVertexBuffer(
+      p_BufferConfig.p_LogicalDevice, p_BufferConfig.p_PhysicalDevice,
+      p_BufferConfig.p_CommandPool, p_BufferConfig.p_GraphicsQueue);
+  createIndexBuffer(
+      p_BufferConfig.p_LogicalDevice, p_BufferConfig.p_PhysicalDevice,
+      p_BufferConfig.p_CommandPool, p_BufferConfig.p_GraphicsQueue);
 }
 
 void VulkanBuffer::createVertexBuffer(vk::Device &p_LogicalDevice,

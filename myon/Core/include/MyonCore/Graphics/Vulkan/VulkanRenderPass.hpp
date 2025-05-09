@@ -2,19 +2,22 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+struct VulkanRenderPassConfig {
+  vk::Device p_Device;
+  vk::Format p_SwapchainImageFormat;
+};
+
 class VulkanRenderPass {
 public:
-  VulkanRenderPass(vk::Device& p_Device, vk::Format& p_SwapchainImageFormat);
+  VulkanRenderPass(VulkanRenderPassConfig &p_RenderPassConfig);
   ~VulkanRenderPass();
 
-  vk::RenderPass& getRenderPass() {
-    return m_RenderPass;
-  }
+  vk::RenderPass &getRenderPass() { return m_RenderPass; }
 
   void cleanup();
 
 private:
-  vk::Device& m_Device;
+  vk::Device &m_Device;
 
   vk::RenderPass m_RenderPass;
 };

@@ -3,17 +3,15 @@
 
 namespace MyonCore {
 VulkanCommandBuffer::VulkanCommandBuffer(
-    vk::Device &p_Device, vk::PhysicalDevice &p_PhysicalDevice,
-    vk::SurfaceKHR &p_Surface, vk::RenderPass &p_RenderPass,
-    std::vector<vk::Framebuffer> &p_SwapChainFramebuffers,
-    vk::Extent2D &p_SwapChainExtent, vk::Pipeline &p_GraphicsPipeline)
-    : m_Device(p_Device), m_RenderPass(p_RenderPass),
-      m_SwapchainFramebuffers(p_SwapChainFramebuffers),
-      m_SwapChainExtent(p_SwapChainExtent),
-      m_GraphicsPipeline(p_GraphicsPipeline) {
+    VulkanCommandBufferConfig &p_CommandBufferConfig)
+    : m_Device(p_CommandBufferConfig.p_Device),
+      m_RenderPass(p_CommandBufferConfig.p_RenderPass),
+      m_SwapchainFramebuffers(p_CommandBufferConfig.p_SwapChainFramebuffers),
+      m_SwapChainExtent(p_CommandBufferConfig.p_SwapChainExtent),
+      m_GraphicsPipeline(p_CommandBufferConfig.p_GraphicsPipeline) {
   m_CommandBuffers.resize(MAX_FRAMES_IN_FLIGHT);
-  QueueFamilyIndices queueFamilyIndices =
-      Vulkan_FindQueueFamilies(p_PhysicalDevice, p_Surface);
+  QueueFamilyIndices queueFamilyIndices = Vulkan_FindQueueFamilies(
+      p_CommandBufferConfig.p_PhysicalDevice, p_CommandBufferConfig.p_Surface);
 
   vk::CommandPoolCreateInfo poolInfo{};
   poolInfo.sType = vk::StructureType::eCommandPoolCreateInfo;

@@ -1,19 +1,17 @@
 #include "MyonCore/Graphics/Vulkan/VulkanImageViews.hpp"
 
 namespace MyonCore {
-VulkanImageViews::VulkanImageViews(vk::Device &p_Device,
-                                   std::vector<vk::Image> &p_SwapChainImages,
-                                   vk::Format &p_SwapChainImageFormat)
-    : m_Device(p_Device) {
-  m_SwapChainImageViews.resize(p_SwapChainImages.size());
+VulkanImageViews::VulkanImageViews(VulkanImageViewsConfig &p_ImageViewsConfig)
+    : m_Device(p_ImageViewsConfig.p_Device) {
+  m_SwapChainImageViews.resize(p_ImageViewsConfig.p_SwapChainImages.size());
 
-  for (size_t i = 0; i < p_SwapChainImages.size(); i++) {
+  for (size_t i = 0; i < p_ImageViewsConfig.p_SwapChainImages.size(); i++) {
     vk::ImageViewCreateInfo createInfo{};
     createInfo.sType = vk::StructureType::eImageViewCreateInfo;
-    createInfo.image = p_SwapChainImages[i];
+    createInfo.image = p_ImageViewsConfig.p_SwapChainImages[i];
 
     createInfo.viewType = vk::ImageViewType::e2D;
-    createInfo.format = p_SwapChainImageFormat;
+    createInfo.format = p_ImageViewsConfig.p_SwapChainImageFormat;
 
     createInfo.components.r = vk::ComponentSwizzle::eIdentity;
     createInfo.components.g = vk::ComponentSwizzle::eIdentity;
