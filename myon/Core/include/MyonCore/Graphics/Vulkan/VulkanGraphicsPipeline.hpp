@@ -10,10 +10,16 @@
 // clang-format on
 
 namespace MyonCore {
+struct VulkanGraphicsPipelineConfig {
+  vk::Device p_Device;
+  vk::RenderPass p_RenderPass;
+  std::string vert;
+  std::string frag;
+};
+
 class VulkanGraphicsPipeline {
 public:
-  VulkanGraphicsPipeline(vk::Device &p_Device, vk::RenderPass &p_RenderPass,
-                         const std::string &vert, const std::string &frag);
+  VulkanGraphicsPipeline(VulkanGraphicsPipelineConfig& p_GraphicsPipelineConfig);
   ~VulkanGraphicsPipeline();
 
   vk::Pipeline &getGraphicsPipeline() { return m_GraphicsPipeline; }

@@ -6,20 +6,25 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+struct VulkanSwapChainConfig {
+  SDL_Window *p_Window;
+  vk::PhysicalDevice p_PhysicalDevice;
+  vk::Device p_Device;
+  vk::SurfaceKHR p_Surface;
+};
 
 class VulkanSwapChain {
 public:
-  VulkanSwapChain(SDL_Window *p_Window, vk::PhysicalDevice& p_PhysicalDevice,
-                  vk::Device& p_Device, vk::SurfaceKHR& p_Surface);
+  VulkanSwapChain(VulkanSwapChainConfig& p_SwapChainConfig);
   ~VulkanSwapChain();
 
-  std::vector<vk::Image>& getSwapChainImages() { return swapChainImages; }
+  std::vector<vk::Image> &getSwapChainImages() { return swapChainImages; }
 
-  vk::Format& getSwapChainImageFormat() { return swapChainImageFormat; }
+  vk::Format &getSwapChainImageFormat() { return swapChainImageFormat; }
 
-  vk::Extent2D& getSwapChainExtent() { return swapChainExtent; }
+  vk::Extent2D &getSwapChainExtent() { return swapChainExtent; }
 
-  vk::SwapchainKHR& getSwapChain() { return m_SwapChain; }
+  vk::SwapchainKHR &getSwapChain() { return m_SwapChain; }
 
   void cleanup();
 
@@ -27,9 +32,9 @@ private:
   vk::SwapchainKHR m_SwapChain;
 
   SDL_Window *m_Window;
-  vk::PhysicalDevice& m_PhysicalDevice;
-  vk::Device& m_Device;
-  vk::SurfaceKHR& m_Surface;
+  vk::PhysicalDevice &m_PhysicalDevice;
+  vk::Device &m_Device;
+  vk::SurfaceKHR &m_Surface;
 
   std::vector<vk::Image> swapChainImages;
   vk::Format swapChainImageFormat;

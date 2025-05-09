@@ -1,7 +1,7 @@
 #include "MyonCore/Graphics/Vulkan/VulkanSyncObjects.hpp"
 
 namespace MyonCore {
-VulkanSyncObjects::VulkanSyncObjects(vk::Device& p_Device) : m_Device(p_Device) {
+VulkanSyncObjects::VulkanSyncObjects(VulkanSyncObjectsConfig& p_SyncObjectsConfig) : m_Device(p_SyncObjectsConfig.p_Device) {
   m_ImageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
   m_RenderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
   m_InFlightFences.resize(MAX_FRAMES_IN_FLIGHT);

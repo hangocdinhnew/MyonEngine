@@ -4,9 +4,13 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+struct VulkanValidationLayerConfig {
+  vk::Instance p_Instance;
+};
+
 class VulkanValidationLayer {
 public:
-  VulkanValidationLayer(vk::Instance &p_Instance);
+  VulkanValidationLayer(VulkanValidationLayerConfig& p_ValidationLayerConfig);
   ~VulkanValidationLayer();
 
   vk::Result CreateDebugUtilsMessengerEXT(

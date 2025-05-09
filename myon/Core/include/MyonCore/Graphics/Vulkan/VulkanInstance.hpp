@@ -6,15 +6,21 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+struct VulkanInstanceConfig {
+  std::string title;
+};
+
 class VulkanInstance {
 public:
-  VulkanInstance(const std::string &title);
+  VulkanInstance(VulkanInstanceConfig& p_InstanceConfig);
   ~VulkanInstance();
 
   vk::Instance &getInstance() { return m_Instance; }
 
 private:
   vk::Instance m_Instance;
+
+  const std::string title;
 
   std::vector<const char *> getRequiredExtensions();
 

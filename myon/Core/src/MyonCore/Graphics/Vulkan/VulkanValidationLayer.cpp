@@ -11,15 +11,15 @@ debugCallback(vk::DebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
   return vk::False;
 }
 
-VulkanValidationLayer::VulkanValidationLayer(vk::Instance &p_Instance)
-    : m_Instance(p_Instance) {
+VulkanValidationLayer::VulkanValidationLayer(VulkanValidationLayerConfig& p_ValidationLayerConfig)
+    : m_Instance(p_ValidationLayerConfig.p_Instance) {
   if (!enableValidationLayers)
     return;
 
   vk::DebugUtilsMessengerCreateInfoEXT createInfo;
   populateDebugMessengerCreateInfo(createInfo);
 
-  if (CreateDebugUtilsMessengerEXT(p_Instance, &createInfo, nullptr,
+  if (CreateDebugUtilsMessengerEXT(m_Instance, &createInfo, nullptr,
                                    &m_DebugMessenger) != vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to set up debug messenger!");
   }

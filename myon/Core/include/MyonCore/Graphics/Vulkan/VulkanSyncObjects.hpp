@@ -3,9 +3,13 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+struct VulkanSyncObjectsConfig {
+  vk::Device p_Device;
+};
+
 class VulkanSyncObjects {
 public:
-  VulkanSyncObjects(vk::Device& p_Device);
+  VulkanSyncObjects(VulkanSyncObjectsConfig& p_SyncObjectsConfig);
   ~VulkanSyncObjects();
 
   std::vector<vk::Semaphore> &getImageAvailableSemaphore() {

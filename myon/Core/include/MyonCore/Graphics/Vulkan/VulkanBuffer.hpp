@@ -7,11 +7,16 @@
 // clang-format on
 
 namespace MyonCore {
+struct VulkanBufferConfig {
+  vk::Device p_LogicalDevice;
+  vk::PhysicalDevice p_PhysicalDevice;
+  vk::CommandPool p_CommandPool;
+  vk::Queue p_GraphicsQueue;
+};
+
 class VulkanBuffer {
 public:
-  VulkanBuffer(vk::Device &p_LogicalDevice,
-               vk::PhysicalDevice &p_PhysicalDevice,
-               vk::CommandPool &p_CommandPool, vk::Queue &p_GraphicsQueue);
+  VulkanBuffer(VulkanBufferConfig& p_BufferConfig);
   ~VulkanBuffer();
 
   vk::Buffer &getVertexBuffer() { return m_VertexBuffer; }
@@ -36,13 +41,13 @@ private:
   vk::DeviceMemory m_IndexBufferMemory;
 
   void createVertexBuffer(vk::Device &p_LogicalDevice,
-                                vk::PhysicalDevice &p_PhysicalDevice,
-                                vk::CommandPool &p_CommandPool,
-                                vk::Queue &p_GraphicsQueue);
+                          vk::PhysicalDevice &p_PhysicalDevice,
+                          vk::CommandPool &p_CommandPool,
+                          vk::Queue &p_GraphicsQueue);
 
   void createIndexBuffer(vk::Device &p_LogicalDevice,
-                               vk::PhysicalDevice &p_PhysicalDevice,
-                               vk::CommandPool &p_CommandPool,
-                               vk::Queue &p_GraphicsQueue);
+                         vk::PhysicalDevice &p_PhysicalDevice,
+                         vk::CommandPool &p_CommandPool,
+                         vk::Queue &p_GraphicsQueue);
 };
 } // namespace MyonCore

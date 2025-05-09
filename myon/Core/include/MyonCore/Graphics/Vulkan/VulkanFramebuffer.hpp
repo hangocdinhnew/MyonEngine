@@ -2,21 +2,26 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+struct VulkanFramebufferConfig {
+  vk::Device p_Device;
+  vk::RenderPass p_RenderPass;
+  std::vector<vk::ImageView> p_SwapChainImageViews;
+  vk::Extent2D p_SwapChainExtent;
+};
+
 class VulkanFramebuffer {
 public:
-  VulkanFramebuffer(vk::Device& p_Device, vk::RenderPass& p_RenderPass,
-                    std::vector<vk::ImageView>& p_SwapChainImageViews,
-                    vk::Extent2D& p_SwapChainExtent);
+  VulkanFramebuffer(VulkanFramebufferConfig& p_FramebufferConfig);
   ~VulkanFramebuffer();
 
-  std::vector<vk::Framebuffer>& getSwapchainFramebuffers() {
+  std::vector<vk::Framebuffer> &getSwapchainFramebuffers() {
     return m_SwapchainFramebuffers;
   };
 
   void cleanup();
 
 private:
-  vk::Device& m_Device;
+  vk::Device &m_Device;
 
   std::vector<vk::Framebuffer> m_SwapchainFramebuffers;
 };
