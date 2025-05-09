@@ -189,41 +189,41 @@ void VulkanAPI::RecreateSwapchain() {
       std::make_unique<VulkanFramebuffer>(m_VulkanFramebufferConfig);
 
   // Command Buffer
-  m_VulkanCommandBufferConfig.p_Device = m_VulkanDevice->getLogicalDevice(),
+  m_VulkanCommandBufferConfig.p_Device = m_VulkanDevice->getLogicalDevice();
   m_VulkanCommandBufferConfig.p_PhysicalDevice =
-      m_VulkanDevice->getPhysicalDevice(),
-  m_VulkanCommandBufferConfig.p_Surface = m_VulkanSurface->getSurface(),
+      m_VulkanDevice->getPhysicalDevice();
+  m_VulkanCommandBufferConfig.p_Surface = m_VulkanSurface->getSurface();
   m_VulkanCommandBufferConfig.p_RenderPass =
-      m_VulkanRenderPass->getRenderPass(),
+      m_VulkanRenderPass->getRenderPass();
   m_VulkanCommandBufferConfig.p_SwapChainFramebuffers =
-      m_VulkanFramebuffer->getSwapchainFramebuffers(),
+      m_VulkanFramebuffer->getSwapchainFramebuffers();
   m_VulkanCommandBufferConfig.p_SwapChainExtent =
-      m_VulkanSwapchain->getSwapChainExtent(),
+      m_VulkanSwapchain->getSwapChainExtent();
   m_VulkanCommandBufferConfig.p_GraphicsPipeline =
-      m_VulkanGraphicsPipeline->getGraphicsPipeline(),
+      m_VulkanGraphicsPipeline->getGraphicsPipeline();
   m_VulkanCommandBuffers =
       std::make_unique<VulkanCommandBuffer>(m_VulkanCommandBufferConfig);
 
   // Sync Objects
-  m_VulkanSyncObjectsConfig.p_Device = m_VulkanDevice->getLogicalDevice(),
+  m_VulkanSyncObjectsConfig.p_Device = m_VulkanDevice->getLogicalDevice();
   m_VulkanSyncObjects =
       std::make_unique<VulkanSyncObjects>(m_VulkanSyncObjectsConfig);
 
   // Renderer
-  m_VulkanRendererConfig.p_SwapChain = m_VulkanSwapchain->getSwapChain(),
-  m_VulkanRendererConfig.p_GraphicsQueue = m_VulkanDevice->getGraphicsQueue(),
-  m_VulkanRendererConfig.p_PresentQueue = m_VulkanDevice->getPresentQueue(),
-  m_VulkanRendererConfig.p_RenderPass = m_VulkanRenderPass->getRenderPass(),
-  m_VulkanRendererConfig.p_CommandBuffers = m_VulkanCommandBuffers->getCommandBuffer(),
+  m_VulkanRendererConfig.p_SwapChain = m_VulkanSwapchain->getSwapChain();
+  m_VulkanRendererConfig.p_GraphicsQueue = m_VulkanDevice->getGraphicsQueue();
+  m_VulkanRendererConfig.p_PresentQueue = m_VulkanDevice->getPresentQueue();
+  m_VulkanRendererConfig.p_RenderPass = m_VulkanRenderPass->getRenderPass();
+  m_VulkanRendererConfig.p_CommandBuffers = m_VulkanCommandBuffers->getCommandBuffer();
 
-  m_VulkanRendererConfig.p_GraphicsPipeline = m_VulkanGraphicsPipeline->getGraphicsPipeline(),
+  m_VulkanRendererConfig.p_GraphicsPipeline = m_VulkanGraphicsPipeline->getGraphicsPipeline();
 
-  m_VulkanRendererConfig.p_SwapChainExtent = m_VulkanSwapchain->getSwapChainExtent(),
-  m_VulkanRendererConfig.p_SwapChainFramebuffers = m_VulkanFramebuffer->getSwapchainFramebuffers(),
+  m_VulkanRendererConfig.p_SwapChainExtent = m_VulkanSwapchain->getSwapChainExtent();
+  m_VulkanRendererConfig.p_SwapChainFramebuffers = m_VulkanFramebuffer->getSwapchainFramebuffers();
 
-  m_VulkanRendererConfig.p_ImageAvailableSemaphores = m_VulkanSyncObjects->getImageAvailableSemaphore(),
-  m_VulkanRendererConfig.p_RenderFinishedSemaphores = m_VulkanSyncObjects->getRenderFinishedSemaphore(),
-  m_VulkanRendererConfig.p_InFlightFences = m_VulkanSyncObjects->getInFlightFence(),
+  m_VulkanRendererConfig.p_ImageAvailableSemaphores = m_VulkanSyncObjects->getImageAvailableSemaphore();
+  m_VulkanRendererConfig.p_RenderFinishedSemaphores = m_VulkanSyncObjects->getRenderFinishedSemaphore();
+  m_VulkanRendererConfig.p_InFlightFences = m_VulkanSyncObjects->getInFlightFence();
 
   m_VulkanRenderer->UpdateSwapchain(m_VulkanRendererConfig);
 
