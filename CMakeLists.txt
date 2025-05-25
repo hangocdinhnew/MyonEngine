@@ -52,10 +52,10 @@ find_package(glslang REQUIRED)
 find_package(SPIRV-Tools REQUIRED)
 find_package(Vulkan REQUIRED)
 find_package(unofficial-shaderc REQUIRED)
-find_package(glm REQUIRED)
 
 option(SDL_STATIC "Make SDL a static library" ON)
 option(SDL_SHARED "Make SDL a shared library" OFF)
+add_subdirectory("${PROJECT_ROOT}/thirdparty/glm")
 add_subdirectory("${PROJECT_ROOT}/thirdparty/spdlog")
 add_subdirectory("${PROJECT_ROOT}/thirdparty/SDL")
 
