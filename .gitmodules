@@ -1,12 +1,3 @@
 [submodule "external/glfw"]
 	path = external/glfw
 	url = https://github.com/glfw/glfw
-[submodule "thirdparty/vcpkg"]
-	path = thirdparty/vcpkg
-	url = https://github.com/microsoft/vcpkg
-[submodule "thirdparty/spdlog"]
-	path = thirdparty/spdlog
-	url = https://github.com/gabime/spdlog
-[submodule "thirdparty/SDL"]
-	path = thirdparty/SDL
-	url = https://github.com/libsdl-org/SDL
