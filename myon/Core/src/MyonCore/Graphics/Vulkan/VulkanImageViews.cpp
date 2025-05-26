@@ -1,6 +1,8 @@
 #include "MyonCore/Graphics/Vulkan/VulkanImageViews.hpp"
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 VulkanImageViews::VulkanImageViews(VulkanImageViewsConfig &p_ImageViewsConfig)
     : m_Device(p_ImageViewsConfig.p_Device) {
   m_SwapChainImageViews.resize(p_ImageViewsConfig.p_SwapChainImages.size());
@@ -43,5 +45,6 @@ void VulkanImageViews::cleanup() {
     vkDestroyImageView(m_Device, imageView, nullptr);
   }
 }
-
+}
+}
 } // namespace MyonCore

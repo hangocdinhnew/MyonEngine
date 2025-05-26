@@ -1,8 +1,8 @@
 #include "MyonCore/Core/Engine.hpp"
 
-class SandboxLayer : public MyonCore::Layer {
+class SandboxLayer : public MyonCore::Layers::Layer {
 public:
-  SandboxLayer() : MyonCore::Layer("Sandbox Layer") {}
+  SandboxLayer() : MyonCore::Layers::Layer("Sandbox Layer") {}
 
   void OnAttach() override {}
   void OnDetach() override {}
@@ -11,14 +11,14 @@ public:
 };
 
 int main() {
-  MyonCore::EngineInfo engineInfo{};
+  MyonCore::Core::EngineInfo engineInfo{};
   engineInfo.width = 800;
   engineInfo.height = 600;
   engineInfo.title = "Lol";
   engineInfo.vert = "assets/Shaders/vertshader.vert";
   engineInfo.frag = "assets/Shaders/fragshader.frag";
 
-  MyonCore::Engine engine{engineInfo};
+  MyonCore::Core::Engine engine{engineInfo};
 
   engine.PushLayer(new SandboxLayer);
   engine.Run();

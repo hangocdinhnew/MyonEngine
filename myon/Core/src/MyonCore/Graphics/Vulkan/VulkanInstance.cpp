@@ -1,7 +1,9 @@
 #include "MyonCore/Graphics/Vulkan/VulkanInstance.hpp"
 
 namespace MyonCore {
-VulkanInstance::VulkanInstance(VulkanInstanceConfig& p_InstanceConfig) {
+namespace Graphics {
+namespace Vulkan {
+VulkanInstance::VulkanInstance(VulkanInstanceConfig &p_InstanceConfig) {
   // Step 1: Vulkan App Info
   vk::ApplicationInfo appInfo{};
   appInfo.sType = vk::StructureType::eApplicationInfo;
@@ -126,4 +128,6 @@ bool VulkanInstance::checkValidationLayerSupport() {
   return true;
 }
 
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

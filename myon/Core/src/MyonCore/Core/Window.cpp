@@ -2,6 +2,7 @@
 #include "MyonCore/Core/Log.hpp"
 
 namespace MyonCore {
+namespace Core {
 Window::Window(int width, int height, const std::string &title) {
   initWindow(width, height, title);
 }
@@ -51,5 +52,5 @@ void Window::PollEvents() {
 }
 
 SDL_Window *Window::GetNativeWindow() const { return m_Window; }
-
+} // namespace Core
 } // namespace MyonCore

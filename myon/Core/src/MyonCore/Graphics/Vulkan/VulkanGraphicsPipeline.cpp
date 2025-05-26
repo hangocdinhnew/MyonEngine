@@ -2,7 +2,10 @@
 #include <shaderc/shaderc.hpp>
 
 namespace MyonCore {
-VulkanGraphicsPipeline::VulkanGraphicsPipeline(VulkanGraphicsPipelineConfig& p_GraphicsPipelineConfig)
+namespace Graphics {
+namespace Vulkan {
+VulkanGraphicsPipeline::VulkanGraphicsPipeline(
+    VulkanGraphicsPipelineConfig &p_GraphicsPipelineConfig)
     : m_Device(p_GraphicsPipelineConfig.p_Device) {
   auto vertShaderCode = readFile(p_GraphicsPipelineConfig.vert);
   auto fragShaderCode = readFile(p_GraphicsPipelineConfig.frag);
@@ -209,5 +212,6 @@ VulkanGraphicsPipeline::createShaderModule(const std::vector<uint32_t> &code) {
 
   return shaderModule;
 }
-
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

@@ -3,6 +3,7 @@
 #include <string>
 
 namespace MyonCore {
+namespace Layers {
 
 class Layer {
 public:
@@ -19,5 +20,6 @@ public:
 protected:
   std::string m_DebugName;
 };
+} // namespace Layers
 
 } // namespace MyonCore

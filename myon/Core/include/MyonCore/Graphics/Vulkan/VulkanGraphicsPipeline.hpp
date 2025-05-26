@@ -10,6 +10,8 @@
 // clang-format on
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 struct VulkanGraphicsPipelineConfig {
   vk::Device p_Device;
   vk::RenderPass p_RenderPass;
@@ -19,7 +21,8 @@ struct VulkanGraphicsPipelineConfig {
 
 class VulkanGraphicsPipeline {
 public:
-  VulkanGraphicsPipeline(VulkanGraphicsPipelineConfig& p_GraphicsPipelineConfig);
+  VulkanGraphicsPipeline(
+      VulkanGraphicsPipelineConfig &p_GraphicsPipelineConfig);
   ~VulkanGraphicsPipeline();
 
   vk::Pipeline &getGraphicsPipeline() { return m_GraphicsPipeline; }
@@ -39,4 +42,6 @@ private:
   vk::PipelineLayout m_PipelineLayout;
   vk::Pipeline m_GraphicsPipeline;
 };
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

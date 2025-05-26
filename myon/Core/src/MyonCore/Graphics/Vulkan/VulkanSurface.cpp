@@ -1,8 +1,11 @@
 #include "MyonCore/Graphics/Vulkan/VulkanSurface.hpp"
 
 namespace MyonCore {
-VulkanSurface::VulkanSurface(VulkanSurfaceConfig& p_SurfaceConfig)
-    : m_Window(p_SurfaceConfig.p_Window), m_Instance(p_SurfaceConfig.p_Instance) {
+namespace Graphics {
+namespace Vulkan {
+VulkanSurface::VulkanSurface(VulkanSurfaceConfig &p_SurfaceConfig)
+    : m_Window(p_SurfaceConfig.p_Window),
+      m_Instance(p_SurfaceConfig.p_Instance) {
   if (!SDL_Vulkan_CreateSurface(m_Window, m_Instance, nullptr,
                                 (VkSurfaceKHR *)&m_Surface))
     MYON_DO_CORE_ASSERT("Failed to create a Vulkan Surface!");
@@ -15,4 +18,6 @@ VulkanSurface::~VulkanSurface() {
   vkDestroySurfaceKHR(m_Instance, m_Surface, nullptr);
 }
 
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

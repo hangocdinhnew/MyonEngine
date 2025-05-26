@@ -7,6 +7,7 @@
 // clang-format on
 
 namespace MyonCore {
+namespace Core {
 class Window {
 public:
   Window(int width, int height, const std::string &title);
@@ -24,4 +25,5 @@ private:
   SDL_Window *m_Window = nullptr;
   bool m_IsRunning = true;
 };
+}
 } // namespace MyonCore

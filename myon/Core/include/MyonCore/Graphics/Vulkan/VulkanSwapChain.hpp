@@ -6,6 +6,8 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 struct VulkanSwapChainConfig {
   SDL_Window *p_Window;
   vk::PhysicalDevice p_PhysicalDevice;
@@ -15,7 +17,7 @@ struct VulkanSwapChainConfig {
 
 class VulkanSwapChain {
 public:
-  VulkanSwapChain(VulkanSwapChainConfig& p_SwapChainConfig);
+  VulkanSwapChain(VulkanSwapChainConfig &p_SwapChainConfig);
   ~VulkanSwapChain();
 
   std::vector<vk::Image> &getSwapChainImages() { return swapChainImages; }
@@ -46,4 +48,6 @@ private:
       const std::vector<vk::PresentModeKHR> &availablePresentModes);
   vk::Extent2D chooseSwapExtent(const vk::SurfaceCapabilitiesKHR &capabilities);
 };
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

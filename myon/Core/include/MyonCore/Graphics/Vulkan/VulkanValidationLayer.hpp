@@ -4,6 +4,8 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 struct VulkanValidationLayerConfig {
   vk::Instance p_Instance;
 };
@@ -29,4 +31,6 @@ private:
   vk::DebugUtilsMessengerEXT m_DebugMessenger;
   vk::Instance& m_Instance;
 };
+}
+}
 } // namespace MyonCore

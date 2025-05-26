@@ -1,6 +1,8 @@
 #include "MyonCore/Graphics/Vulkan/VulkanFramebuffer.hpp"
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 VulkanFramebuffer::VulkanFramebuffer(
     VulkanFramebufferConfig &p_FramebufferConfig)
     : m_Device(p_FramebufferConfig.p_Device) {
@@ -40,5 +42,6 @@ void VulkanFramebuffer::cleanup() {
     m_Device.destroyFramebuffer(framebuffer, nullptr);
   }
 }
-
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

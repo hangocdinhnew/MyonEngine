@@ -16,6 +16,8 @@
 // clang-format on
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 class VulkanAPI {
 public:
   VulkanAPI(SDL_Window *p_Window, const std::string &p_Title,
@@ -49,8 +51,8 @@ private:
 
   SDL_Window *m_Window;
 
-  const std::string& m_Vert;
-  const std::string& m_Frag;
+  const std::string &m_Vert;
+  const std::string &m_Frag;
 
   VulkanInstanceConfig m_VulkanInstanceConfig;
   VulkanValidationLayerConfig m_VulkanValidationLayerConfig;
@@ -66,4 +68,6 @@ private:
   VulkanSyncObjectsConfig m_VulkanSyncObjectsConfig;
   VulkanRendererConfig m_VulkanRendererConfig;
 };
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

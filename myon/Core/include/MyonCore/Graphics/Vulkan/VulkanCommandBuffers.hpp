@@ -3,6 +3,8 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 struct VulkanCommandBufferConfig {
   vk::Device p_Device;
   vk::PhysicalDevice p_PhysicalDevice;
@@ -39,4 +41,6 @@ private:
   vk::Extent2D &m_SwapChainExtent;
   vk::Pipeline &m_GraphicsPipeline;
 };
+}
+}
 } // namespace MyonCore

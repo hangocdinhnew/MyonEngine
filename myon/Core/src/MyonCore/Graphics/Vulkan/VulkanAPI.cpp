@@ -1,6 +1,8 @@
 #include "MyonCore/Graphics/Vulkan/VulkanAPI.hpp"
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &p_Title,
                      const std::string &p_Vert, const std::string &p_Frag)
     : m_Window(p_Window), m_Vert(p_Vert), m_Frag(p_Frag) {
@@ -214,20 +216,29 @@ void VulkanAPI::RecreateSwapchain() {
   m_VulkanRendererConfig.p_GraphicsQueue = m_VulkanDevice->getGraphicsQueue();
   m_VulkanRendererConfig.p_PresentQueue = m_VulkanDevice->getPresentQueue();
   m_VulkanRendererConfig.p_RenderPass = m_VulkanRenderPass->getRenderPass();
-  m_VulkanRendererConfig.p_CommandBuffers = m_VulkanCommandBuffers->getCommandBuffer();
+  m_VulkanRendererConfig.p_CommandBuffers =
+      m_VulkanCommandBuffers->getCommandBuffer();
 
-  m_VulkanRendererConfig.p_GraphicsPipeline = m_VulkanGraphicsPipeline->getGraphicsPipeline();
+  m_VulkanRendererConfig.p_GraphicsPipeline =
+      m_VulkanGraphicsPipeline->getGraphicsPipeline();
 
-  m_VulkanRendererConfig.p_SwapChainExtent = m_VulkanSwapchain->getSwapChainExtent();
-  m_VulkanRendererConfig.p_SwapChainFramebuffers = m_VulkanFramebuffer->getSwapchainFramebuffers();
+  m_VulkanRendererConfig.p_SwapChainExtent =
+      m_VulkanSwapchain->getSwapChainExtent();
+  m_VulkanRendererConfig.p_SwapChainFramebuffers =
+      m_VulkanFramebuffer->getSwapchainFramebuffers();
 
-  m_VulkanRendererConfig.p_ImageAvailableSemaphores = m_VulkanSyncObjects->getImageAvailableSemaphore();
-  m_VulkanRendererConfig.p_RenderFinishedSemaphores = m_VulkanSyncObjects->getRenderFinishedSemaphore();
-  m_VulkanRendererConfig.p_InFlightFences = m_VulkanSyncObjects->getInFlightFence();
+  m_VulkanRendererConfig.p_ImageAvailableSemaphores =
+      m_VulkanSyncObjects->getImageAvailableSemaphore();
+  m_VulkanRendererConfig.p_RenderFinishedSemaphores =
+      m_VulkanSyncObjects->getRenderFinishedSemaphore();
+  m_VulkanRendererConfig.p_InFlightFences =
+      m_VulkanSyncObjects->getInFlightFence();
 
   m_VulkanRenderer->UpdateSwapchain(m_VulkanRendererConfig);
 
   m_VulkanRenderer->ResetShouldRecreateSwapChain();
 }
 
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

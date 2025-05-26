@@ -2,6 +2,8 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 struct VulkanFramebufferConfig {
   vk::Device p_Device;
   vk::RenderPass p_RenderPass;
@@ -11,7 +13,7 @@ struct VulkanFramebufferConfig {
 
 class VulkanFramebuffer {
 public:
-  VulkanFramebuffer(VulkanFramebufferConfig& p_FramebufferConfig);
+  VulkanFramebuffer(VulkanFramebufferConfig &p_FramebufferConfig);
   ~VulkanFramebuffer();
 
   std::vector<vk::Framebuffer> &getSwapchainFramebuffers() {
@@ -25,4 +27,6 @@ private:
 
   std::vector<vk::Framebuffer> m_SwapchainFramebuffers;
 };
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

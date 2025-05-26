@@ -2,6 +2,8 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 struct VulkanRenderPassConfig {
   vk::Device p_Device;
   vk::Format p_SwapchainImageFormat;
@@ -21,4 +23,6 @@ private:
 
   vk::RenderPass m_RenderPass;
 };
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

@@ -2,6 +2,7 @@
 #include "MyonCore/Graphics/Vulkan/VulkanAPI.hpp"
 
 namespace MyonCore {
+namespace Graphics {
 class GraphicsAPI {
 public:
   GraphicsAPI(SDL_Window *p_Window, const std::string &title,
@@ -19,6 +20,7 @@ public:
   }
 
 private:
-  std::unique_ptr<VulkanAPI> m_VulkanAPI;
+  std::unique_ptr<Vulkan::VulkanAPI> m_VulkanAPI;
 };
+} // namespace Graphics
 } // namespace MyonCore

@@ -4,6 +4,8 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 struct VulkanDeviceConfig {
   vk::Instance p_Instance;
   vk::SurfaceKHR p_Surface;
@@ -11,7 +13,7 @@ struct VulkanDeviceConfig {
 
 class VulkanDevice {
 public:
-  VulkanDevice(VulkanDeviceConfig& p_DeviceConfig);
+  VulkanDevice(VulkanDeviceConfig &p_DeviceConfig);
   ~VulkanDevice();
 
   vk::PhysicalDevice &getPhysicalDevice() { return m_PhysicalDevice; };
@@ -33,4 +35,6 @@ private:
   vk::SurfaceKHR &m_Surface;
 };
 
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

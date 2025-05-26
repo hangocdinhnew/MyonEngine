@@ -1,7 +1,8 @@
 #include "MyonCore/Graphics/Vulkan/VulkanRenderPass.hpp"
 
 namespace MyonCore {
-
+namespace Graphics {
+namespace Vulkan {
 VulkanRenderPass::VulkanRenderPass(VulkanRenderPassConfig &p_RenderPassConfig)
     : m_Device(p_RenderPassConfig.p_Device) {
   vk::AttachmentDescription colorAttachment{};
@@ -43,5 +44,6 @@ VulkanRenderPass::~VulkanRenderPass() {
 void VulkanRenderPass::cleanup() {
   m_Device.destroyRenderPass(m_RenderPass, nullptr);
 }
-
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

@@ -3,6 +3,8 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 struct VulkanRendererConfig {
   vk::Device p_Device;
   vk::Queue p_GraphicsQueue;
@@ -59,4 +61,6 @@ private:
 
   bool m_ShouldRecreateSwapChain = false;
 };
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

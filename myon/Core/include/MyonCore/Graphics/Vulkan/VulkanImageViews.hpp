@@ -2,6 +2,8 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 struct VulkanImageViewsConfig {
   vk::Device p_Device;
   std::vector<vk::Image> p_SwapChainImages;
@@ -24,4 +26,6 @@ private:
 
   std::vector<vk::ImageView> m_SwapChainImageViews;
 };
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

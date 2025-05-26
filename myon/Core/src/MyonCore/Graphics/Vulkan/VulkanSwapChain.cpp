@@ -1,10 +1,13 @@
 #include "MyonCore/Graphics/Vulkan/VulkanSwapChain.hpp"
 
 namespace MyonCore {
-
-VulkanSwapChain::VulkanSwapChain(VulkanSwapChainConfig& p_SwapChainConfig)
-    : m_PhysicalDevice(p_SwapChainConfig.p_PhysicalDevice), m_Window(p_SwapChainConfig.p_Window),
-      m_Device(p_SwapChainConfig.p_Device), m_Surface(p_SwapChainConfig.p_Surface) {
+namespace Graphics {
+namespace Vulkan {
+VulkanSwapChain::VulkanSwapChain(VulkanSwapChainConfig &p_SwapChainConfig)
+    : m_PhysicalDevice(p_SwapChainConfig.p_PhysicalDevice),
+      m_Window(p_SwapChainConfig.p_Window),
+      m_Device(p_SwapChainConfig.p_Device),
+      m_Surface(p_SwapChainConfig.p_Surface) {
   SwapChainSupportDetails swapChainSupport =
       Vulkan_QuerySwapChainSupport(m_PhysicalDevice, m_Surface);
 
@@ -124,5 +127,6 @@ vk::Extent2D VulkanSwapChain::chooseSwapExtent(
     return actualExtent;
   }
 }
-
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

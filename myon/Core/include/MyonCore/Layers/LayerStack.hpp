@@ -1,10 +1,11 @@
 #pragma once
 
 #include "MyonCore/Layers/Layer.hpp"
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 namespace MyonCore {
+namespace Layers {
 
 class LayerStack {
 public:
@@ -23,5 +24,6 @@ private:
   std::vector<Layer *> m_Layers;
   unsigned int m_LayerInsertIndex = 0;
 };
+} // namespace Layers
 
 } // namespace MyonCore

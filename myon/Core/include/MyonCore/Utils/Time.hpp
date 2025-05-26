@@ -4,7 +4,7 @@
 #include <chrono>
 
 namespace MyonCore {
-
+namespace Utils {
 class Time {
 public:
   Time() { m_LastTime = std::chrono::high_resolution_clock::now(); }
@@ -24,5 +24,5 @@ private:
   static inline std::chrono::high_resolution_clock::time_point m_LastTime;
   static inline float m_DeltaTime = 0.0f;
 };
-
+} // namespace Utils
 } // namespace MyonCore

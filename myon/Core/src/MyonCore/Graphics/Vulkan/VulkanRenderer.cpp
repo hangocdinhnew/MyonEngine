@@ -1,7 +1,8 @@
 #include "MyonCore/Graphics/Vulkan/VulkanRenderer.hpp"
 
 namespace MyonCore {
-
+namespace Graphics {
+namespace Vulkan {
 VulkanRenderer::VulkanRenderer(VulkanRendererConfig &p_RendererConfig)
     : m_Device(p_RendererConfig.p_Device),
       m_GraphicsQueue(p_RendererConfig.p_GraphicsQueue),
@@ -173,5 +174,6 @@ void VulkanRenderer::UpdateSwapchain(VulkanRendererConfig &p_RendererConfig) {
 
   m_CurrentFrame = 0;
 }
-
+}
+}
 } // namespace MyonCore

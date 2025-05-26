@@ -2,6 +2,8 @@
 #include "MyonCore/Graphics/Vulkan/VulkanUtils.hpp"
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 VulkanCommandBuffer::VulkanCommandBuffer(
     VulkanCommandBufferConfig &p_CommandBufferConfig)
     : m_Device(p_CommandBufferConfig.p_Device),
@@ -42,5 +44,6 @@ VulkanCommandBuffer::~VulkanCommandBuffer() {
 void VulkanCommandBuffer::cleanup() {
   m_Device.destroyCommandPool(m_CommandPool, nullptr);
 }
-
+}
+}
 } // namespace MyonCore

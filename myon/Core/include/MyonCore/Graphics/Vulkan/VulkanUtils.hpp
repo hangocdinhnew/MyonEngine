@@ -30,6 +30,8 @@ const std::vector<const char *> deviceExtensions = {
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 
 struct QueueFamilyIndices {
   std::optional<uint32_t> graphicsFamily;
@@ -256,5 +258,6 @@ inline void copyBuffer(vk::Device &p_LogicalDevice,
 
   p_LogicalDevice.freeCommandBuffers(p_CommandPool, 1, &commandBuffer);
 }
-
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

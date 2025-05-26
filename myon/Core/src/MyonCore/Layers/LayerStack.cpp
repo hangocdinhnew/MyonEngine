@@ -1,6 +1,7 @@
 #include "MyonCore/Layers/LayerStack.hpp"
 
 namespace MyonCore {
+namespace Layers {
 
 LayerStack::LayerStack() {}
 
@@ -38,5 +39,6 @@ void LayerStack::PopOverlay(Layer *overlay) {
     m_Layers.erase(it);
   }
 }
+} // namespace Layers
 
 } // namespace MyonCore

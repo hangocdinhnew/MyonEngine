@@ -2,11 +2,14 @@
 #include "MyonCore/Graphics/Vulkan/VulkanUtils.hpp"
 
 namespace MyonCore {
-VulkanDevice::VulkanDevice(VulkanDeviceConfig& p_DeviceConfig)
+namespace Graphics {
+namespace Vulkan {
+VulkanDevice::VulkanDevice(VulkanDeviceConfig &p_DeviceConfig)
     : m_Surface(p_DeviceConfig.p_Surface) {
 
   uint32_t deviceCount = 0;
-  if(p_DeviceConfig.p_Instance.enumeratePhysicalDevices(&deviceCount, nullptr) != vk::Result::eSuccess) {
+  if (p_DeviceConfig.p_Instance.enumeratePhysicalDevices(
+          &deviceCount, nullptr) != vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to enumerate Physical Devices!");
   }
 
@@ -15,7 +18,8 @@ VulkanDevice::VulkanDevice(VulkanDeviceConfig& p_DeviceConfig)
   }
 
   std::vector<vk::PhysicalDevice> devices(deviceCount);
-  if(p_DeviceConfig.p_Instance.enumeratePhysicalDevices(&deviceCount, devices.data()) != vk::Result::eSuccess) {
+  if (p_DeviceConfig.p_Instance.enumeratePhysicalDevices(
+          &deviceCount, devices.data()) != vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to enumerate Physical Devices!");
   }
 
@@ -32,7 +36,8 @@ VulkanDevice::VulkanDevice(VulkanDeviceConfig& p_DeviceConfig)
 
   MYON_CORE_INFO("Vulkan Physicial Devices picked!");
 
-  QueueFamilyIndices indices = Vulkan_FindQueueFamilies(m_PhysicalDevice, m_Surface);
+  QueueFamilyIndices indices =
+      Vulkan_FindQueueFamilies(m_PhysicalDevice, m_Surface);
 
   std::vector<vk::DeviceQueueCreateInfo> queueCreateInfos;
   std::set<uint32_t> uniqueQueueFamilies = {indices.graphicsFamily.value(),
@@ -92,7 +97,8 @@ bool VulkanDevice::isDeviceSuitable(vk::PhysicalDevice device) {
 
   bool swapChainAdequate = false;
   if (extensionsSupported) {
-    SwapChainSupportDetails swapChainSupport = Vulkan_QuerySwapChainSupport(device, m_Surface);
+    SwapChainSupportDetails swapChainSupport =
+        Vulkan_QuerySwapChainSupport(device, m_Surface);
     swapChainAdequate = !swapChainSupport.formats.empty() &&
                         !swapChainSupport.presentModes.empty();
   }
@@ -102,14 +108,15 @@ bool VulkanDevice::isDeviceSuitable(vk::PhysicalDevice device) {
 
 bool VulkanDevice::checkDeviceExtensionSupport(vk::PhysicalDevice device) {
   uint32_t extensionCount;
-  if(device.enumerateDeviceExtensionProperties(nullptr, &extensionCount, nullptr) != vk::Result::eSuccess)
-  {
+  if (device.enumerateDeviceExtensionProperties(
+          nullptr, &extensionCount, nullptr) != vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to enumerate Device Extension Properties!");
   }
 
   std::vector<vk::ExtensionProperties> availableExtensions(extensionCount);
-  if(device.enumerateDeviceExtensionProperties(nullptr, &extensionCount,
-                                            availableExtensions.data()) != vk::Result::eSuccess) {
+  if (device.enumerateDeviceExtensionProperties(nullptr, &extensionCount,
+                                                availableExtensions.data()) !=
+      vk::Result::eSuccess) {
     MYON_DO_CORE_ASSERT("Failed to enumerate Device Extension Properties!");
   }
 
@@ -122,4 +129,6 @@ bool VulkanDevice::checkDeviceExtensionSupport(vk::PhysicalDevice device) {
 
   return requiredExtensions.empty();
 }
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

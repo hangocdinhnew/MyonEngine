@@ -1,7 +1,11 @@
 #include "MyonCore/Graphics/Vulkan/VulkanSyncObjects.hpp"
 
 namespace MyonCore {
-VulkanSyncObjects::VulkanSyncObjects(VulkanSyncObjectsConfig& p_SyncObjectsConfig) : m_Device(p_SyncObjectsConfig.p_Device) {
+namespace Graphics {
+namespace Vulkan {
+VulkanSyncObjects::VulkanSyncObjects(
+    VulkanSyncObjectsConfig &p_SyncObjectsConfig)
+    : m_Device(p_SyncObjectsConfig.p_Device) {
   m_ImageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
   m_RenderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
   m_InFlightFences.resize(MAX_FRAMES_IN_FLIGHT);
@@ -43,5 +47,6 @@ void VulkanSyncObjects::cleanup() {
     m_Device.destroyFence(m_InFlightFences[i], nullptr);
   }
 }
-
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

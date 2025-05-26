@@ -1,6 +1,8 @@
 #include "MyonCore/Graphics/Vulkan/VulkanBuffer.hpp"
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 VulkanBuffer::VulkanBuffer(VulkanBufferConfig &p_BufferConfig)
     : m_LogicalDevice(p_BufferConfig.p_LogicalDevice),
       m_PhysicalDevice(p_BufferConfig.p_PhysicalDevice),
@@ -94,5 +96,6 @@ VulkanBuffer::~VulkanBuffer() {
   m_LogicalDevice.destroyBuffer(m_VertexBuffer, nullptr);
   m_LogicalDevice.freeMemory(m_VertexBufferMemory, nullptr);
 }
-
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

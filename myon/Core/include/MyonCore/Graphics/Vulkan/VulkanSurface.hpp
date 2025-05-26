@@ -3,14 +3,16 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 struct VulkanSurfaceConfig {
-  SDL_Window* p_Window;
+  SDL_Window *p_Window;
   vk::Instance p_Instance;
 };
 
 class VulkanSurface {
 public:
-  VulkanSurface(VulkanSurfaceConfig& p_SurfaceConfig);
+  VulkanSurface(VulkanSurfaceConfig &p_SurfaceConfig);
   ~VulkanSurface();
 
   vk::SurfaceKHR &getSurface() { return m_Surface; }
@@ -21,4 +23,6 @@ private:
   vk::Instance &m_Instance;
   vk::SurfaceKHR m_Surface;
 };
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

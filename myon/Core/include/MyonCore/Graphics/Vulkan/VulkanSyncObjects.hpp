@@ -3,6 +3,8 @@
 #include <vulkan/vulkan.hpp>
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 struct VulkanSyncObjectsConfig {
   vk::Device p_Device;
 };
@@ -31,4 +33,6 @@ private:
 
   vk::Device& m_Device;
 };
+}
+}
 } // namespace MyonCore

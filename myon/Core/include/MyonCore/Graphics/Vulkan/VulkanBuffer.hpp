@@ -7,6 +7,8 @@
 // clang-format on
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 struct VulkanBufferConfig {
   vk::Device p_LogicalDevice;
   vk::PhysicalDevice p_PhysicalDevice;
@@ -16,7 +18,7 @@ struct VulkanBufferConfig {
 
 class VulkanBuffer {
 public:
-  VulkanBuffer(VulkanBufferConfig& p_BufferConfig);
+  VulkanBuffer(VulkanBufferConfig &p_BufferConfig);
   ~VulkanBuffer();
 
   vk::Buffer &getVertexBuffer() { return m_VertexBuffer; }
@@ -50,4 +52,6 @@ private:
                          vk::CommandPool &p_CommandPool,
                          vk::Queue &p_GraphicsQueue);
 };
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

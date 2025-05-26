@@ -1,6 +1,8 @@
 #include "MyonCore/Graphics/Vulkan/VulkanValidationLayer.hpp"
 
 namespace MyonCore {
+namespace Graphics {
+namespace Vulkan {
 static VKAPI_ATTR VkBool32 VKAPI_CALL
 debugCallback(vk::DebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
               vk::DebugUtilsMessageTypeFlagsEXT messageType,
@@ -11,7 +13,8 @@ debugCallback(vk::DebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
   return vk::False;
 }
 
-VulkanValidationLayer::VulkanValidationLayer(VulkanValidationLayerConfig& p_ValidationLayerConfig)
+VulkanValidationLayer::VulkanValidationLayer(
+    VulkanValidationLayerConfig &p_ValidationLayerConfig)
     : m_Instance(p_ValidationLayerConfig.p_Instance) {
   if (!enableValidationLayers)
     return;
@@ -89,4 +92,6 @@ VulkanValidationLayer::~VulkanValidationLayer() {
   }
 }
 
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore
