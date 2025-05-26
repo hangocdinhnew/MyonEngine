@@ -13,8 +13,7 @@ VulkanSwapChain::VulkanSwapChain(VulkanSwapChainConfig &p_SwapChainConfig)
 
   vk::SurfaceFormatKHR surfaceFormat =
       chooseSwapSurfaceFormat(swapChainSupport.formats);
-  vk::PresentModeKHR presentMode =
-      chooseSwapPresentMode(swapChainSupport.presentModes);
+  vk::PresentModeKHR presentMode = vk::PresentModeKHR::eFifo;
   vk::Extent2D extent = chooseSwapExtent(swapChainSupport.capabilities);
 
   uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
@@ -92,17 +91,6 @@ vk::SurfaceFormatKHR VulkanSwapChain::chooseSwapSurfaceFormat(
   }
 
   return availableFormats[0];
-}
-
-vk::PresentModeKHR VulkanSwapChain::chooseSwapPresentMode(
-    const std::vector<vk::PresentModeKHR> &availablePresentModes) {
-  for (const auto &availablePresentMode : availablePresentModes) {
-    if (availablePresentMode == vk::PresentModeKHR::eMailbox) {
-      return availablePresentMode;
-    }
-  }
-
-  return vk::PresentModeKHR::eFifo;
 }
 
 vk::Extent2D VulkanSwapChain::chooseSwapExtent(
