@@ -3,6 +3,7 @@
 #include "MyonCore/Graphics/Vulkan/VulkanInstance.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanValidationLayer.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanDevice.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanAllocator.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanSurface.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanSwapChain.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanImageViews.hpp"
@@ -39,6 +40,7 @@ private:
   std::unique_ptr<VulkanValidationLayer> m_VulkanValidationLayer;
   std::unique_ptr<VulkanSurface> m_VulkanSurface;
   std::unique_ptr<VulkanDevice> m_VulkanDevice;
+  std::unique_ptr<VulkanAllocator> m_VulkanAllocator;
   std::unique_ptr<VulkanSwapChain> m_VulkanSwapchain;
   std::unique_ptr<VulkanImageViews> m_VulkanImageViews;
   std::unique_ptr<VulkanRenderPass> m_VulkanRenderPass;
@@ -58,6 +60,7 @@ private:
   VulkanValidationLayerConfig m_VulkanValidationLayerConfig;
   VulkanSurfaceConfig m_VulkanSurfaceConfig;
   VulkanDeviceConfig m_VulkanDeviceConfig;
+  VulkanAllocatorConfig m_VulkanAllocatorConfig;
   VulkanSwapChainConfig m_VulkanSwapChainConfig;
   VulkanImageViewsConfig m_VulkanImageViewsConfig;
   VulkanRenderPassConfig m_VulkanRenderPassConfig;
