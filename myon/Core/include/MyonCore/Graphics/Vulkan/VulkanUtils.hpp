@@ -5,6 +5,7 @@
 #include "MyonCore/Core/Log.hpp"
 #include <vector>
 #include <vulkan/vulkan.hpp>
+#include <vk_mem_alloc.hpp>
 #include <glm/glm.hpp>
 // clang-format on
 
@@ -182,38 +183,29 @@ inline uint32_t findMemoryType(vk::PhysicalDevice &p_PhysicalDevice,
   MYON_DO_CORE_ASSERT("Failed to find suitable memory type!");
 }
 
-inline void createBuffer(vk::Device &p_LogicalDevice,
-                         vk::PhysicalDevice &p_PhysicalDevice,
-                         vk::DeviceSize &p_Size, vk::BufferUsageFlags p_Usage,
-                         vk::MemoryPropertyFlags p_Properties,
-                         vk::Buffer &p_Buffer,
-                         vk::DeviceMemory &p_BufferMemory) {
+inline void createBuffer(vma::Allocator &p_Allocator, vk::DeviceSize &p_Size,
+                         vk::BufferUsageFlags p_Usage,
+                         vma::MemoryUsage p_MemoryUsage, vk::Buffer &p_Buffer,
+                         vma::Allocation &p_Allocation) {
+
   vk::BufferCreateInfo bufferInfo{};
   bufferInfo.sType = vk::StructureType::eBufferCreateInfo;
   bufferInfo.size = p_Size;
   bufferInfo.usage = p_Usage;
   bufferInfo.sharingMode = vk::SharingMode::eExclusive;
 
-  if (p_LogicalDevice.createBuffer(&bufferInfo, nullptr, &p_Buffer) !=
-      vk::Result::eSuccess) {
-    MYON_DO_CORE_ASSERT("Failed to create buffer!");
+  vma::AllocationCreateInfo allocInfo{};
+  allocInfo.usage = p_MemoryUsage;
+
+  if (p_MemoryUsage == vma::MemoryUsage::eAutoPreferHost) {
+    allocInfo.flags = vma::AllocationCreateFlagBits::eHostAccessSequentialWrite;
   }
 
-  vk::MemoryRequirements memRequirements;
-  p_LogicalDevice.getBufferMemoryRequirements(p_Buffer, &memRequirements);
-
-  vk::MemoryAllocateInfo allocInfo{};
-  allocInfo.sType = vk::StructureType::eMemoryAllocateInfo;
-  allocInfo.allocationSize = memRequirements.size;
-  allocInfo.memoryTypeIndex = findMemoryType(
-      p_PhysicalDevice, memRequirements.memoryTypeBits, p_Properties);
-
-  if (p_LogicalDevice.allocateMemory(&allocInfo, nullptr, &p_BufferMemory) !=
-      vk::Result::eSuccess) {
-    MYON_DO_CORE_ASSERT("Failed to allocate buffer memory!");
+  if (p_Allocator.createBuffer(&bufferInfo, &allocInfo, &p_Buffer,
+                               &p_Allocation,
+                               nullptr) != vk::Result::eSuccess) {
+    MYON_DO_CORE_ASSERT("Failed to create VMA buffer!");
   }
-
-  p_LogicalDevice.bindBufferMemory(p_Buffer, p_BufferMemory, 0);
 }
 
 inline void copyBuffer(vk::Device &p_LogicalDevice,
