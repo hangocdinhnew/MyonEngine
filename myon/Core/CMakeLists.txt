@@ -36,6 +36,4 @@ target_link_libraries(MyonCore PUBLIC spdlog::spdlog)
 target_link_libraries(MyonCore PUBLIC SDL3::SDL3)
 
 target_link_libraries(MyonCore PUBLIC glslang::glslang SPIRV-Tools-opt SPIRV-Tools Vulkan::Vulkan
-                                                          unofficial::shaderc::shaderc glm::glm
-                                                          GPUOpen::VulkanMemoryAllocator
-                                                          unofficial::VulkanMemoryAllocator-Hpp::VulkanMemoryAllocator-Hpp)
+                                                          unofficial::shaderc::shaderc glm::glm)
