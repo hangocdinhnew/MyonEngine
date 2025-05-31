@@ -55,6 +55,8 @@ find_package(unofficial-shaderc REQUIRED)
 
 option(SDL_STATIC "Make SDL a static library" ON)
 option(SDL_SHARED "Make SDL a shared library" OFF)
+add_subdirectory("${PROJECT_ROOT}/thirdparty/VulkanMemoryAllocator-Hpp/VulkanMemoryAllocator")
+add_subdirectory("${PROJECT_ROOT}/thirdparty/VulkanMemoryAllocator-Hpp")
 add_subdirectory("${PROJECT_ROOT}/thirdparty/glm")
 add_subdirectory("${PROJECT_ROOT}/thirdparty/spdlog")
 add_subdirectory("${PROJECT_ROOT}/thirdparty/SDL")

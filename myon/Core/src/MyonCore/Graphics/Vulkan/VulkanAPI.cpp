@@ -27,6 +27,14 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &p_Title,
                          .p_Surface = m_VulkanSurface->getSurface()};
   m_VulkanDevice = std::make_unique<VulkanDevice>(m_VulkanDeviceConfig);
 
+  // Memory Allocator
+  m_VulkanAllocatorConfig = VulkanAllocatorConfig{
+      .p_Instance = m_VulkanInstance->getInstance(),
+      .p_PhysicalDevice = m_VulkanDevice->getPhysicalDevice(),
+      .p_LogicalDevice = m_VulkanDevice->getLogicalDevice()};
+  m_VulkanAllocator =
+      std::make_unique<VulkanAllocator>(m_VulkanAllocatorConfig);
+
   // SwapChain
   m_VulkanSwapChainConfig = VulkanSwapChainConfig{
       .p_Window = m_Window,
@@ -90,7 +98,8 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &p_Title,
       .p_LogicalDevice = m_VulkanDevice->getLogicalDevice(),
       .p_PhysicalDevice = m_VulkanDevice->getPhysicalDevice(),
       .p_CommandPool = m_VulkanCommandBuffers->getCommandPool(),
-      .p_GraphicsQueue = m_VulkanDevice->getGraphicsQueue()};
+      .p_GraphicsQueue = m_VulkanDevice->getGraphicsQueue(),
+      .p_MemoryAllocator = m_VulkanAllocator->getAllocator()};
   m_VulkanBuffer = std::make_unique<VulkanBuffer>(m_VulkanBufferConfig);
 
   // Sync Objects

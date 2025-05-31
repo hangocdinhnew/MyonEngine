@@ -3,6 +3,7 @@
 // clang-format off
 #include "MyonCore/Graphics/Vulkan/VulkanUtils.hpp"
 #include <vulkan/vulkan.hpp>
+#include <vk_mem_alloc.hpp>
 #include <cstring>
 // clang-format on
 
@@ -14,6 +15,7 @@ struct VulkanBufferConfig {
   vk::PhysicalDevice p_PhysicalDevice;
   vk::CommandPool p_CommandPool;
   vk::Queue p_GraphicsQueue;
+  vma::Allocator p_MemoryAllocator;
 };
 
 class VulkanBuffer {
@@ -23,34 +25,29 @@ public:
 
   vk::Buffer &getVertexBuffer() { return m_VertexBuffer; }
 
-  vk::DeviceMemory &getVertexBufferMemory() { return m_VertexBufferMemory; }
+  vma::Allocation &getVertexBufferMemory() { return m_VertexBufferMemory; }
 
   vk::Buffer &getIndexBuffer() { return m_IndexBuffer; }
 
-  vk::DeviceMemory &getIndexBufferMemory() { return m_IndexBufferMemory; }
+  vma::Allocation &getIndexBufferMemory() { return m_IndexBufferMemory; }
 
 private:
   vk::Device &m_LogicalDevice;
   vk::PhysicalDevice &m_PhysicalDevice;
+  vma::Allocator &m_MemoryAllocator;
 
   vk::CommandPool &m_CommandPool;
   vk::Queue &m_GraphicsQueue;
 
   vk::Buffer m_VertexBuffer;
-  vk::DeviceMemory m_VertexBufferMemory;
+  vma::Allocation m_VertexBufferMemory;
 
   vk::Buffer m_IndexBuffer;
-  vk::DeviceMemory m_IndexBufferMemory;
+  vma::Allocation m_IndexBufferMemory;
 
-  void createVertexBuffer(vk::Device &p_LogicalDevice,
-                          vk::PhysicalDevice &p_PhysicalDevice,
-                          vk::CommandPool &p_CommandPool,
-                          vk::Queue &p_GraphicsQueue);
+  void createVertexBuffer();
 
-  void createIndexBuffer(vk::Device &p_LogicalDevice,
-                         vk::PhysicalDevice &p_PhysicalDevice,
-                         vk::CommandPool &p_CommandPool,
-                         vk::Queue &p_GraphicsQueue);
+  void createIndexBuffer();
 };
 } // namespace Vulkan
 } // namespace Graphics
