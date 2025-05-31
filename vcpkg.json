@@ -3,6 +3,7 @@
     "glslang",
     "shaderc",
     "spirv-tools",
-    "vulkan"
+    "vulkan",
+    "vulkan-memory-allocator-hpp"
   ]
 }

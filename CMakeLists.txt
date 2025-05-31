@@ -51,6 +51,8 @@ message(STATUS "Myon (Root): Preparing thirdparty dependencies...")
 find_package(glslang REQUIRED)
 find_package(SPIRV-Tools REQUIRED)
 find_package(Vulkan REQUIRED)
+find_package(VulkanMemoryAllocator CONFIG REQUIRED)
+find_package(unofficial-vulkan-memory-allocator-hpp CONFIG REQUIRED)
 find_package(unofficial-shaderc REQUIRED)
 
 option(SDL_STATIC "Make SDL a static library" ON)
