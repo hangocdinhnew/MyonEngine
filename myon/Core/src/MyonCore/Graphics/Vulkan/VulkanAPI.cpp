@@ -60,12 +60,20 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &p_Title,
   m_VulkanRenderPass =
       std::make_unique<VulkanRenderPass>(m_VulkanRenderPassConfig);
 
+  // Descriptor Set Layout
+  m_VulkanDescriptorSetLayoutConfig = VulkanDescriptorSetLayoutConfig{
+      .p_LogicalDevice = m_VulkanDevice->getLogicalDevice()};
+  m_VulkanDescriptorSetLayout = std::make_unique<VulkanDescriptorSetLayout>(
+      m_VulkanDescriptorSetLayoutConfig);
+
   // Graphics Pipeline
   m_VulkanGraphicsPipelineConfig = VulkanGraphicsPipelineConfig{
       .p_Device = m_VulkanDevice->getLogicalDevice(),
       .p_RenderPass = m_VulkanRenderPass->getRenderPass(),
-      .vert = m_Vert,
-      .frag = m_Frag};
+      .p_Vert = m_Vert,
+      .p_Frag = m_Frag,
+      .p_DescriptorSetLayout =
+          m_VulkanDescriptorSetLayout->getDescriptorSetLayout()};
   m_VulkanGraphicsPipeline =
       std::make_unique<VulkanGraphicsPipeline>(m_VulkanGraphicsPipelineConfig);
 

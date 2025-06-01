@@ -49,6 +49,12 @@ struct SwapChainSupportDetails {
   std::vector<vk::PresentModeKHR> presentModes;
 };
 
+struct UniformBufferObject {
+  glm::mat4 model;
+  glm::mat4 view;
+  glm::mat4 proj;
+};
+
 inline QueueFamilyIndices Vulkan_FindQueueFamilies(vk::PhysicalDevice device,
                                                    vk::SurfaceKHR surface) {
   QueueFamilyIndices indices;

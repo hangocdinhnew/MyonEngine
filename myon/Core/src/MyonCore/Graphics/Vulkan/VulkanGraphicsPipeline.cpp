@@ -7,8 +7,8 @@ namespace Vulkan {
 VulkanGraphicsPipeline::VulkanGraphicsPipeline(
     VulkanGraphicsPipelineConfig &p_GraphicsPipelineConfig)
     : m_Device(p_GraphicsPipelineConfig.p_Device) {
-  auto vertShaderCode = readFile(p_GraphicsPipelineConfig.vert);
-  auto fragShaderCode = readFile(p_GraphicsPipelineConfig.frag);
+  auto vertShaderCode = readFile(p_GraphicsPipelineConfig.p_Vert);
+  auto fragShaderCode = readFile(p_GraphicsPipelineConfig.p_Frag);
 
   std::vector<uint32_t> vertSPIRV =
       compileGLSL(vertShaderCode, shaderc_glsl_vertex_shader, "Vertex");
@@ -111,7 +111,8 @@ VulkanGraphicsPipeline::VulkanGraphicsPipeline(
   vk::PipelineLayoutCreateInfo pipelineLayoutInfo{};
   pipelineLayoutInfo.sType = vk::StructureType::ePipelineLayoutCreateInfo;
   pipelineLayoutInfo.setLayoutCount = 0;
-  pipelineLayoutInfo.pSetLayouts = nullptr;
+  pipelineLayoutInfo.pSetLayouts =
+      &p_GraphicsPipelineConfig.p_DescriptorSetLayout;
   pipelineLayoutInfo.pushConstantRangeCount = 0;
   pipelineLayoutInfo.pPushConstantRanges = nullptr;
 

@@ -15,6 +15,7 @@ set(MyonCore_SOURCES
     "src/MyonCore/Graphics/Vulkan/VulkanSwapChain.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanImageViews.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanRenderPass.cpp"
+    "src/MyonCore/Graphics/Vulkan/VulkanDescriptorSetLayout.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanGraphicsPipeline.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanFramebuffer.cpp"
     "src/MyonCore/Graphics/Vulkan/VulkanCommandBuffers.cpp"

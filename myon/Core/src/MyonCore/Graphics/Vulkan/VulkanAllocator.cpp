@@ -18,8 +18,9 @@ VulkanAllocator::VulkanAllocator(VulkanAllocatorConfig &p_AllocatorConfig) {
 }
 
 VulkanAllocator::~VulkanAllocator() {
+  MYON_CORE_INFO("Destorying Vulkan Memory Allocator...");
+
   m_Allocator.destroy();
-  MYON_CORE_INFO("Vulkan Memory Allocator destroyed!");
 }
 } // namespace Vulkan
 } // namespace Graphics

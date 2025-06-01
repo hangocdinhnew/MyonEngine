@@ -8,6 +8,7 @@
 #include "MyonCore/Graphics/Vulkan/VulkanSwapChain.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanImageViews.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanRenderPass.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanDescriptorSetLayout.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanGraphicsPipeline.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanFramebuffer.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanCommandBuffers.hpp"
@@ -44,6 +45,7 @@ private:
   std::unique_ptr<VulkanSwapChain> m_VulkanSwapchain;
   std::unique_ptr<VulkanImageViews> m_VulkanImageViews;
   std::unique_ptr<VulkanRenderPass> m_VulkanRenderPass;
+  std::unique_ptr<VulkanDescriptorSetLayout> m_VulkanDescriptorSetLayout;
   std::unique_ptr<VulkanGraphicsPipeline> m_VulkanGraphicsPipeline;
   std::unique_ptr<VulkanFramebuffer> m_VulkanFramebuffer;
   std::unique_ptr<VulkanCommandBuffer> m_VulkanCommandBuffers;
@@ -64,6 +66,7 @@ private:
   VulkanSwapChainConfig m_VulkanSwapChainConfig;
   VulkanImageViewsConfig m_VulkanImageViewsConfig;
   VulkanRenderPassConfig m_VulkanRenderPassConfig;
+  VulkanDescriptorSetLayoutConfig m_VulkanDescriptorSetLayoutConfig;
   VulkanGraphicsPipelineConfig m_VulkanGraphicsPipelineConfig;
   VulkanFramebufferConfig m_VulkanFramebufferConfig;
   VulkanCommandBufferConfig m_VulkanCommandBufferConfig;

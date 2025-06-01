@@ -15,8 +15,9 @@ namespace Vulkan {
 struct VulkanGraphicsPipelineConfig {
   vk::Device p_Device;
   vk::RenderPass p_RenderPass;
-  std::string vert;
-  std::string frag;
+  std::string p_Vert;
+  std::string p_Frag;
+  vk::DescriptorSetLayout p_DescriptorSetLayout;
 };
 
 class VulkanGraphicsPipeline {
