@@ -45,9 +45,13 @@ private:
   vk::Buffer m_IndexBuffer;
   vma::Allocation m_IndexBufferMemory;
 
-  void createVertexBuffer();
+  std::vector<vk::Buffer> m_UniformBuffers;
+  std::vector<vma::Allocation> m_UniformBuffersMemory;
+  std::vector<void *> m_UniformBuffersMapped;
 
+  void createVertexBuffer();
   void createIndexBuffer();
+  void createUniformBuffer();
 };
 } // namespace Vulkan
 } // namespace Graphics

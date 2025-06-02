@@ -1,4 +1,5 @@
 #include "MyonCore/Graphics/Vulkan/VulkanBuffer.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanUtils.hpp"
 
 namespace MyonCore {
 namespace Graphics {
@@ -30,11 +31,14 @@ void VulkanBuffer::createVertexBuffer() {
   data = allocInfo.pMappedData;
 
   if (!data) {
-    vmaMapMemory(m_MemoryAllocator, stagingBufferMemory, &data);
+    if (m_MemoryAllocator.mapMemory(stagingBufferMemory, &data) !=
+        vk::Result::eSuccess) {
+      MYON_DO_CORE_ASSERT("Failed to map Vertex buffer memory!");
+    }
   }
 
   memcpy(data, vertices.data(), (size_t)bufferSize);
-  vmaUnmapMemory(m_MemoryAllocator, stagingBufferMemory);
+  m_MemoryAllocator.unmapMemory(stagingBufferMemory);
 
   createBuffer(m_MemoryAllocator, bufferSize,
                vk::BufferUsageFlagBits::eTransferDst |
@@ -45,7 +49,7 @@ void VulkanBuffer::createVertexBuffer() {
   copyBuffer(m_LogicalDevice, m_CommandPool, m_GraphicsQueue, stagingBuffer,
              m_VertexBuffer, bufferSize);
 
-  vmaDestroyBuffer(m_MemoryAllocator, stagingBuffer, stagingBufferMemory);
+  m_MemoryAllocator.destroyBuffer(stagingBuffer, stagingBufferMemory);
 }
 
 void VulkanBuffer::createIndexBuffer() {
@@ -64,11 +68,14 @@ void VulkanBuffer::createIndexBuffer() {
   data = allocInfo.pMappedData;
 
   if (!data) {
-    vmaMapMemory(m_MemoryAllocator, stagingBufferMemory, &data);
+    if (m_MemoryAllocator.mapMemory(stagingBufferMemory, &data) !=
+        vk::Result::eSuccess) {
+      MYON_DO_CORE_ASSERT("Failed to map index buffer memory!");
+    }
   }
 
   memcpy(data, indices.data(), (size_t)bufferSize);
-  vmaUnmapMemory(m_MemoryAllocator, stagingBufferMemory);
+  m_MemoryAllocator.unmapMemory(stagingBufferMemory);
 
   createBuffer(m_MemoryAllocator, bufferSize,
                vk::BufferUsageFlagBits::eTransferDst |
@@ -79,12 +86,44 @@ void VulkanBuffer::createIndexBuffer() {
   copyBuffer(m_LogicalDevice, m_CommandPool, m_GraphicsQueue, stagingBuffer,
              m_IndexBuffer, bufferSize);
 
-  vmaDestroyBuffer(m_MemoryAllocator, stagingBuffer, stagingBufferMemory);
+  m_MemoryAllocator.destroyBuffer(stagingBuffer, stagingBufferMemory);
+}
+
+void VulkanBuffer::createUniformBuffer() {
+  vk::DeviceSize bufferSize = sizeof(UniformBufferObject);
+
+  m_UniformBuffers.resize(MAX_FRAMES_IN_FLIGHT);
+  m_UniformBuffersMemory.resize(MAX_FRAMES_IN_FLIGHT);
+  m_UniformBuffersMapped.resize(MAX_FRAMES_IN_FLIGHT);
+
+  for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+    createBuffer(m_MemoryAllocator, bufferSize,
+                 vk::BufferUsageFlagBits::eUniformBuffer,
+                 vma::MemoryUsage::eAutoPreferHost, m_UniformBuffers[i],
+                 m_UniformBuffersMemory[i]);
+
+    vma::AllocationInfo allocInfo{};
+    m_MemoryAllocator.getAllocationInfo(m_UniformBuffersMemory[i], &allocInfo);
+    m_UniformBuffersMapped[i] = allocInfo.pMappedData;
+
+    if (!m_UniformBuffersMapped[i]) {
+      if (m_MemoryAllocator.mapMemory(m_UniformBuffersMemory[i],
+                                      &m_UniformBuffersMapped[i]) !=
+          vk::Result::eSuccess) {
+        MYON_DO_CORE_ASSERT("Failed to map uniform buffer memory!");
+      }
+    }
+  }
 }
 
 VulkanBuffer::~VulkanBuffer() {
-  vmaDestroyBuffer(m_MemoryAllocator, m_IndexBuffer, m_IndexBufferMemory);
-  vmaDestroyBuffer(m_MemoryAllocator, m_VertexBuffer, m_VertexBufferMemory);
+  for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+    m_MemoryAllocator.destroyBuffer(m_UniformBuffers[i],
+                                    m_UniformBuffersMemory[i]);
+  }
+
+  m_MemoryAllocator.destroyBuffer(m_IndexBuffer, m_IndexBufferMemory);
+  m_MemoryAllocator.destroyBuffer(m_VertexBuffer, m_VertexBufferMemory);
 }
 
 } // namespace Vulkan
