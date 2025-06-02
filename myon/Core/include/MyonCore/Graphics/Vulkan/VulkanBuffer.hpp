@@ -24,12 +24,12 @@ public:
   ~VulkanBuffer();
 
   vk::Buffer &getVertexBuffer() { return m_VertexBuffer; }
-
   vma::Allocation &getVertexBufferMemory() { return m_VertexBufferMemory; }
-
   vk::Buffer &getIndexBuffer() { return m_IndexBuffer; }
-
   vma::Allocation &getIndexBufferMemory() { return m_IndexBufferMemory; }
+  std::vector<void *> &getUniformBuffersMapped() {
+    return m_UniformBuffersMapped;
+  }
 
 private:
   vk::Device &m_LogicalDevice;

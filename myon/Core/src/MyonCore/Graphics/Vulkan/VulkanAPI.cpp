@@ -136,7 +136,7 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &p_Title,
       .p_InFlightFences = m_VulkanSyncObjects->getInFlightFence(),
       .p_VertexBuffer = m_VulkanBuffer->getVertexBuffer(),
       .p_IndexBuffer = m_VulkanBuffer->getIndexBuffer(),
-  };
+      .p_UniformBuffersMapped = m_VulkanBuffer->getUniformBuffersMapped()};
   m_VulkanRenderer = std::make_unique<VulkanRenderer>(m_VulkanRendererConfig);
 
   // Logs

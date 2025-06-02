@@ -13,6 +13,7 @@ VulkanBuffer::VulkanBuffer(VulkanBufferConfig &p_BufferConfig)
       m_MemoryAllocator(p_BufferConfig.p_MemoryAllocator) {
   createVertexBuffer();
   createIndexBuffer();
+  createUniformBuffer();
 }
 
 void VulkanBuffer::createVertexBuffer() {

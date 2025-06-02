@@ -17,7 +17,30 @@ VulkanRenderer::VulkanRenderer(VulkanRendererConfig &p_RendererConfig)
       m_RenderFinishedSemaphores(p_RendererConfig.p_RenderFinishedSemaphores),
       m_InFlightFences(p_RendererConfig.p_InFlightFences),
       m_VertexBuffer(p_RendererConfig.p_VertexBuffer),
-      m_IndexBuffer(p_RendererConfig.p_IndexBuffer) {}
+      m_IndexBuffer(p_RendererConfig.p_IndexBuffer),
+      m_UniformBuffersMapped(p_RendererConfig.p_UniformBuffersMapped) {}
+
+void VulkanRenderer::UpdateUniformBuffer() {
+  static auto startTime = std::chrono::high_resolution_clock::now();
+
+  auto currentTime = std::chrono::high_resolution_clock::now();
+  float time = std::chrono::duration<float, std::chrono::seconds::period>(
+                   currentTime - startTime)
+                   .count();
+
+  UniformBufferObject ubo{};
+  ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f),
+                          glm::vec3(0.0f, 0.0f, 1.0f));
+  ubo.view =
+      glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                  glm::vec3(0.0f, 0.0f, 1.0f));
+  ubo.proj = glm::perspective(
+      glm::radians(45.0f),
+      m_SwapChainExtent.width / (float)m_SwapChainExtent.height, 0.1f, 10.0f);
+  ubo.proj[1][1] *= -1;
+
+  memcpy(m_UniformBuffersMapped[m_CurrentFrame], &ubo, sizeof(ubo));
+}
 
 void VulkanRenderer::DrawFrame() {
   if (m_Device.waitForFences(1, &m_InFlightFences[m_CurrentFrame], VK_TRUE,
@@ -47,6 +70,8 @@ void VulkanRenderer::DrawFrame() {
 
   m_CommandBuffers[m_CurrentFrame].reset(vk::CommandBufferResetFlags(0));
   recordCommandBuffer(imageIndex);
+
+  UpdateUniformBuffer();
 
   vk::SubmitInfo submitInfo{};
   submitInfo.sType = vk::StructureType::eSubmitInfo;
@@ -174,6 +199,6 @@ void VulkanRenderer::UpdateSwapchain(VulkanRendererConfig &p_RendererConfig) {
 
   m_CurrentFrame = 0;
 }
-}
-}
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace MyonCore

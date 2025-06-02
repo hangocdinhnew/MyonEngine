@@ -1,6 +1,14 @@
+#pragma once
+
+// clang-format off
 #include "MyonCore/Core/Log.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanUtils.hpp"
 #include <vulkan/vulkan.hpp>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <chrono>
+// clang-format on
 
 namespace MyonCore {
 namespace Graphics {
@@ -20,12 +28,15 @@ struct VulkanRendererConfig {
   std::vector<vk::Fence> p_InFlightFences;
   vk::Buffer p_VertexBuffer;
   vk::Buffer p_IndexBuffer;
+  std::vector<void *> p_UniformBuffersMapped;
 };
 
 class VulkanRenderer {
 public:
   VulkanRenderer(VulkanRendererConfig &p_RendererConfig);
   ~VulkanRenderer() = default;
+
+  void UpdateUniformBuffer();
 
   void DrawFrame();
 
@@ -54,6 +65,8 @@ private:
 
   vk::Buffer m_VertexBuffer;
   vk::Buffer m_IndexBuffer;
+
+  std::vector<void *> m_UniformBuffersMapped;
 
   void recordCommandBuffer(uint32_t imageIndex);
 

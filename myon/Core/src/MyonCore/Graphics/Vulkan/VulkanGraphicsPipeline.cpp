@@ -110,7 +110,7 @@ VulkanGraphicsPipeline::VulkanGraphicsPipeline(
 
   vk::PipelineLayoutCreateInfo pipelineLayoutInfo{};
   pipelineLayoutInfo.sType = vk::StructureType::ePipelineLayoutCreateInfo;
-  pipelineLayoutInfo.setLayoutCount = 0;
+  pipelineLayoutInfo.setLayoutCount = 1;
   pipelineLayoutInfo.pSetLayouts =
       &p_GraphicsPipelineConfig.p_DescriptorSetLayout;
   pipelineLayoutInfo.pushConstantRangeCount = 0;
