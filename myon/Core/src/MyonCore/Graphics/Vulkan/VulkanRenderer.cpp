@@ -10,6 +10,7 @@ VulkanRenderer::VulkanRenderer(VulkanRendererConfig &p_RendererConfig)
       m_SwapChain(p_RendererConfig.p_SwapChain),
       m_CommandBuffers(p_RendererConfig.p_CommandBuffers),
       m_RenderPass(p_RendererConfig.p_RenderPass),
+      m_PipelineLayout(p_RendererConfig.p_PipelineLayout),
       m_GraphicsPipeline(p_RendererConfig.p_GraphicsPipeline),
       m_SwapChainExtent(p_RendererConfig.p_SwapChainExtent),
       m_SwapChainFramebuffers(p_RendererConfig.p_SwapChainFramebuffers),
@@ -18,7 +19,8 @@ VulkanRenderer::VulkanRenderer(VulkanRendererConfig &p_RendererConfig)
       m_InFlightFences(p_RendererConfig.p_InFlightFences),
       m_VertexBuffer(p_RendererConfig.p_VertexBuffer),
       m_IndexBuffer(p_RendererConfig.p_IndexBuffer),
-      m_UniformBuffersMapped(p_RendererConfig.p_UniformBuffersMapped) {}
+      m_UniformBuffersMapped(p_RendererConfig.p_UniformBuffersMapped),
+      m_DescriptorSets(p_RendererConfig.p_DescriptorSets) {}
 
 void VulkanRenderer::UpdateUniformBuffer() {
   static auto startTime = std::chrono::high_resolution_clock::now();
@@ -171,6 +173,9 @@ void VulkanRenderer::recordCommandBuffer(uint32_t imageIndex) {
   scissor.extent = m_SwapChainExtent;
   m_CommandBuffers[m_CurrentFrame].setScissor(0, 1, &scissor);
 
+  m_CommandBuffers[m_CurrentFrame].bindDescriptorSets(
+      vk::PipelineBindPoint::eGraphics, m_PipelineLayout, 0, 1,
+      &m_DescriptorSets[m_CurrentFrame], 0, nullptr);
   m_CommandBuffers[m_CurrentFrame].drawIndexed(indices.size(), 1, 0, 0, 0);
   m_CommandBuffers[m_CurrentFrame].endRenderPass();
 
@@ -188,6 +193,7 @@ void VulkanRenderer::UpdateSwapchain(VulkanRendererConfig &p_RendererConfig) {
   m_RenderPass = p_RendererConfig.p_RenderPass;
   m_CommandBuffers = p_RendererConfig.p_CommandBuffers;
 
+  m_PipelineLayout = p_RendererConfig.p_PipelineLayout;
   m_GraphicsPipeline = p_RendererConfig.p_GraphicsPipeline;
 
   m_SwapChainExtent = p_RendererConfig.p_SwapChainExtent;

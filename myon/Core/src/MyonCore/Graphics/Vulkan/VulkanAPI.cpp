@@ -1,4 +1,5 @@
 #include "MyonCore/Graphics/Vulkan/VulkanAPI.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanDescriptorPool.hpp"
 
 namespace MyonCore {
 namespace Graphics {
@@ -110,6 +111,29 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &p_Title,
       .p_MemoryAllocator = m_VulkanAllocator->getAllocator()};
   m_VulkanBuffer = std::make_unique<VulkanBuffer>(m_VulkanBufferConfig);
 
+  // Descriptor Pool
+  m_VulkanDescriptorPoolConfig = VulkanDescriptorPoolConfig{
+      .p_LogicalDevice = m_VulkanDevice->getLogicalDevice()};
+  m_VulkanDescriptorPool =
+      std::make_unique<VulkanDescriptorPool>(m_VulkanDescriptorPoolConfig);
+
+  // Descriptor Sets
+  /*
+  vk::DescriptorSetLayout p_DescriptorSetLayout;
+  vk::DescriptorPool p_DescriptorPool;
+  vk::Device p_LogicalDevice;
+  std::vector<vk::Buffer> p_UniformBuffers;
+   */
+  m_VulkanDescriptorSetsConfig = VulkanDescriptorSetsConfig{
+      .p_DescriptorSetLayout =
+          m_VulkanDescriptorSetLayout->getDescriptorSetLayout(),
+      .p_DescriptorPool = m_VulkanDescriptorPool->getDescriptorPool(),
+      .p_LogicalDevice = m_VulkanDevice->getLogicalDevice(),
+      .p_UniformBuffers = m_VulkanBuffer->getUniformBuffers(),
+  };
+  m_VulkanDescriptorSets =
+      std::make_unique<VulkanDescriptorSets>(m_VulkanDescriptorSetsConfig);
+
   // Sync Objects
   m_VulkanSyncObjectsConfig = VulkanSyncObjectsConfig{
       .p_Device = m_VulkanDevice->getLogicalDevice(),
@@ -125,6 +149,7 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &p_Title,
       .p_SwapChain = m_VulkanSwapchain->getSwapChain(),
       .p_CommandBuffers = m_VulkanCommandBuffers->getCommandBuffer(),
       .p_RenderPass = m_VulkanRenderPass->getRenderPass(),
+      .p_PipelineLayout = m_VulkanGraphicsPipeline->getPipelineLayout(),
       .p_GraphicsPipeline = m_VulkanGraphicsPipeline->getGraphicsPipeline(),
       .p_SwapChainExtent = m_VulkanSwapchain->getSwapChainExtent(),
       .p_SwapChainFramebuffers =
@@ -136,7 +161,8 @@ VulkanAPI::VulkanAPI(SDL_Window *p_Window, const std::string &p_Title,
       .p_InFlightFences = m_VulkanSyncObjects->getInFlightFence(),
       .p_VertexBuffer = m_VulkanBuffer->getVertexBuffer(),
       .p_IndexBuffer = m_VulkanBuffer->getIndexBuffer(),
-      .p_UniformBuffersMapped = m_VulkanBuffer->getUniformBuffersMapped()};
+      .p_UniformBuffersMapped = m_VulkanBuffer->getUniformBuffersMapped(),
+      .p_DescriptorSets = m_VulkanDescriptorSets->getDescriptorSets()};
   m_VulkanRenderer = std::make_unique<VulkanRenderer>(m_VulkanRendererConfig);
 
   // Logs
@@ -236,6 +262,8 @@ void VulkanAPI::RecreateSwapchain() {
   m_VulkanRendererConfig.p_CommandBuffers =
       m_VulkanCommandBuffers->getCommandBuffer();
 
+  m_VulkanRendererConfig.p_PipelineLayout =
+      m_VulkanGraphicsPipeline->getPipelineLayout();
   m_VulkanRendererConfig.p_GraphicsPipeline =
       m_VulkanGraphicsPipeline->getGraphicsPipeline();
 

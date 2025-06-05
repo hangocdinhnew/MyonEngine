@@ -20,6 +20,7 @@ struct VulkanRendererConfig {
   vk::SwapchainKHR p_SwapChain;
   std::vector<vk::CommandBuffer> p_CommandBuffers;
   vk::RenderPass p_RenderPass;
+  vk::PipelineLayout p_PipelineLayout;
   vk::Pipeline p_GraphicsPipeline;
   vk::Extent2D p_SwapChainExtent;
   std::vector<vk::Framebuffer> p_SwapChainFramebuffers;
@@ -29,6 +30,7 @@ struct VulkanRendererConfig {
   vk::Buffer p_VertexBuffer;
   vk::Buffer p_IndexBuffer;
   std::vector<void *> p_UniformBuffersMapped;
+  std::vector<vk::DescriptorSet> p_DescriptorSets;
 };
 
 class VulkanRenderer {
@@ -51,6 +53,7 @@ private:
 
   std::vector<vk::CommandBuffer> m_CommandBuffers;
   vk::RenderPass m_RenderPass;
+  vk::PipelineLayout m_PipelineLayout;
   vk::Pipeline m_GraphicsPipeline;
   vk::SwapchainKHR m_SwapChain;
   vk::Queue m_GraphicsQueue;
@@ -67,6 +70,7 @@ private:
   vk::Buffer m_IndexBuffer;
 
   std::vector<void *> m_UniformBuffersMapped;
+  std::vector<vk::DescriptorSet> m_DescriptorSets;
 
   void recordCommandBuffer(uint32_t imageIndex);
 

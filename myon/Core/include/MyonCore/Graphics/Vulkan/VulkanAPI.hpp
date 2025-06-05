@@ -12,6 +12,8 @@
 #include "MyonCore/Graphics/Vulkan/VulkanGraphicsPipeline.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanFramebuffer.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanCommandBuffers.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanDescriptorPool.hpp"
+#include "MyonCore/Graphics/Vulkan/VulkanDescriptorSets.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanBuffer.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanSyncObjects.hpp"
 #include "MyonCore/Graphics/Vulkan/VulkanRenderer.hpp"
@@ -50,6 +52,8 @@ private:
   std::unique_ptr<VulkanFramebuffer> m_VulkanFramebuffer;
   std::unique_ptr<VulkanCommandBuffer> m_VulkanCommandBuffers;
   std::unique_ptr<VulkanBuffer> m_VulkanBuffer;
+  std::unique_ptr<VulkanDescriptorPool> m_VulkanDescriptorPool;
+  std::unique_ptr<VulkanDescriptorSets> m_VulkanDescriptorSets;
   std::unique_ptr<VulkanSyncObjects> m_VulkanSyncObjects;
   std::unique_ptr<VulkanRenderer> m_VulkanRenderer;
 
@@ -71,6 +75,8 @@ private:
   VulkanFramebufferConfig m_VulkanFramebufferConfig;
   VulkanCommandBufferConfig m_VulkanCommandBufferConfig;
   VulkanBufferConfig m_VulkanBufferConfig;
+  VulkanDescriptorPoolConfig m_VulkanDescriptorPoolConfig;
+  VulkanDescriptorSetsConfig m_VulkanDescriptorSetsConfig;
   VulkanSyncObjectsConfig m_VulkanSyncObjectsConfig;
   VulkanRendererConfig m_VulkanRendererConfig;
 };

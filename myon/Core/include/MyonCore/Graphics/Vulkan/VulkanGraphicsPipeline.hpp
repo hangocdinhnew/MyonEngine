@@ -26,6 +26,7 @@ public:
       VulkanGraphicsPipelineConfig &p_GraphicsPipelineConfig);
   ~VulkanGraphicsPipeline();
 
+  vk::PipelineLayout &getPipelineLayout() { return m_PipelineLayout; }
   vk::Pipeline &getGraphicsPipeline() { return m_GraphicsPipeline; }
 
   void cleanup();

@@ -25,8 +25,14 @@ public:
 
   vk::Buffer &getVertexBuffer() { return m_VertexBuffer; }
   vma::Allocation &getVertexBufferMemory() { return m_VertexBufferMemory; }
+
   vk::Buffer &getIndexBuffer() { return m_IndexBuffer; }
   vma::Allocation &getIndexBufferMemory() { return m_IndexBufferMemory; }
+
+  std::vector<vk::Buffer> getUniformBuffers() { return m_UniformBuffers; }
+  std::vector<vma::Allocation> getUniformBuffersMemory() {
+    return m_UniformBuffersMemory;
+  }
   std::vector<void *> &getUniformBuffersMapped() {
     return m_UniformBuffersMapped;
   }

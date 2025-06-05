@@ -119,6 +119,11 @@ void VulkanBuffer::createUniformBuffer() {
 
 VulkanBuffer::~VulkanBuffer() {
   for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+    if (m_UniformBuffersMapped[i]) {
+      m_MemoryAllocator.unmapMemory(m_UniformBuffersMemory[i]);
+      m_UniformBuffersMapped[i] = nullptr;
+    }
+
     m_MemoryAllocator.destroyBuffer(m_UniformBuffers[i],
                                     m_UniformBuffersMemory[i]);
   }
