@@ -14,8 +14,8 @@ void Window::initWindow(int width, int height, const std::string &title) {
     MYON_DO_CORE_ASSERT("SDL_Init failed: {}", SDL_GetError());
   }
 
-  m_Window = SDL_CreateWindow(title.c_str(), width, height,
-                              SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
+  m_Window =
+      SDL_CreateWindow(title.c_str(), width, height, SDL_WINDOW_RESIZABLE);
 
   if (!m_Window) {
     MYON_CORE_ERROR("Failed to create the requested SDL3 Window: {}",

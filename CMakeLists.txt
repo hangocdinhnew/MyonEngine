@@ -48,6 +48,7 @@ project(
 # Thirdparties
 message(STATUS "Myon (Root): Preparing thirdparty dependencies...")
 set(WEBGPU_BACKEND "WGPU")
+set(WEBGPU_LINK_TYPE "STATIC")
 add_subdirectory("${PROJECT_ROOT}/thirdparty/WebGPU")
 
 option(SDL_STATIC "Make SDL a static library" ON)
