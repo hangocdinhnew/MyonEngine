@@ -14,22 +14,22 @@ static void WebGPULogCallback(WGPULogLevel m_Level, WGPUStringView m_Message,
 
   switch (m_Level) {
   case WGPULogLevel_Error:
-    MYON_CORE_ERROR("[WebGPU] {}", msgView);
+    MYON_CORE_ERROR("WebGPU - {}", msgView);
     break;
   case WGPULogLevel_Warn:
-    MYON_CORE_WARN("[WebGPU] {}", msgView);
+    MYON_CORE_WARN("WebGPU - {}", msgView);
     break;
   case WGPULogLevel_Info:
-    MYON_CORE_INFO("[WebGPU] {}", msgView);
+    MYON_CORE_INFO("WebGPU - {}", msgView);
     break;
   case WGPULogLevel_Debug:
-    MYON_CORE_DEBUG("[WebGPU] {}", msgView);
+    MYON_CORE_DEBUG("WebGPU - {}", msgView);
     break;
   case WGPULogLevel_Trace:
-    MYON_CORE_TRACE("[WebGPU] {}", msgView);
+    MYON_CORE_TRACE("WebGPU - {}", msgView);
     break;
   default:
-    MYON_CORE_WARN("[WebGPU UnknownLevel: {}] {}", static_cast<int>(m_Level),
+    MYON_CORE_WARN("WebGPU (UnknownLevel: {}) {}", static_cast<int>(m_Level),
                    msgView);
     break;
   }
@@ -49,14 +49,14 @@ WebGPUInstance::WebGPUInstance() {
 
   m_Instance = wgpuCreateInstance(&l_Desc);
   if (!m_Instance) {
-    MYON_DO_CORE_ASSERT("Could not initialize WebGPU Instance!");
+    MYON_DO_CORE_ASSERT("WebGPU - Could not initialize WebGPU Instance!");
   }
 
-  MYON_CORE_INFO("WebGPU Instance initialized!");
+  MYON_CORE_INFO("WebGPU - WebGPU Instance initialized!");
 }
 
 WebGPUInstance::~WebGPUInstance() {
-  MYON_CORE_INFO("Releasing WebGPU Instance...");
+  MYON_CORE_INFO("WebGPU - Releasing WebGPU Instance...");
 
   wgpuInstanceRelease(m_Instance);
 }
