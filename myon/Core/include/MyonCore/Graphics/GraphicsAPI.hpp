@@ -1,26 +1,18 @@
 #pragma once
-#include "MyonCore/Graphics/Vulkan/VulkanAPI.hpp"
+
+// clang-format off
+#include "MyonCore/Graphics/WebGPU/WebGPUAPI.hpp"
+// clang-format on
 
 namespace MyonCore {
 namespace Graphics {
 class GraphicsAPI {
 public:
-  GraphicsAPI(SDL_Window *p_Window, const std::string &title,
-              const std::string &vert, const std::string &frag);
+  GraphicsAPI();
   ~GraphicsAPI() = default;
 
-  void DrawFrame() { m_VulkanAPI->DrawFrame(); }
-
-  vk::Device getLogicalDevice() { return m_VulkanAPI->getLogicalDevice(); }
-
-  void RecreateSwapchain() { m_VulkanAPI->RecreateSwapchain(); }
-
-  bool ShouldRecreateSwapChain() {
-    return m_VulkanAPI->ShouldRecreateSwapChain();
-  }
-
 private:
-  std::unique_ptr<Vulkan::VulkanAPI> m_VulkanAPI;
+  std::unique_ptr<WebGPU::WebGPUAPI> m_WebGPUAPI;
 };
 } // namespace Graphics
 } // namespace MyonCore

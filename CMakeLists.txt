@@ -28,7 +28,6 @@ endif()
 
 # Add variables
 set(PROJECT_ROOT "${CMAKE_CURRENT_LIST_DIR}")
-set(CMAKE_TOOLCHAIN_FILE "${PROJECT_ROOT}/thirdparty/vcpkg/scripts/buildsystems/vcpkg.cmake")
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 20)
@@ -48,15 +47,11 @@ project(
 
 # Thirdparties
 message(STATUS "Myon (Root): Preparing thirdparty dependencies...")
-find_package(glslang REQUIRED)
-find_package(SPIRV-Tools REQUIRED)
-find_package(Vulkan REQUIRED)
-find_package(unofficial-shaderc REQUIRED)
+set(WEBGPU_BACKEND "WGPU")
+add_subdirectory("${PROJECT_ROOT}/thirdparty/WebGPU")
 
 option(SDL_STATIC "Make SDL a static library" ON)
 option(SDL_SHARED "Make SDL a shared library" OFF)
-add_subdirectory("${PROJECT_ROOT}/thirdparty/VulkanMemoryAllocator-Hpp/VulkanMemoryAllocator")
-add_subdirectory("${PROJECT_ROOT}/thirdparty/VulkanMemoryAllocator-Hpp")
 add_subdirectory("${PROJECT_ROOT}/thirdparty/glm")
 add_subdirectory("${PROJECT_ROOT}/thirdparty/spdlog")
 add_subdirectory("${PROJECT_ROOT}/thirdparty/SDL")

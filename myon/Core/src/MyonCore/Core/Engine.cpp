@@ -10,9 +10,7 @@ Engine::Engine(EngineInfo &engineInfo) {
   m_Window = std::make_unique<Core::Window>(engineInfo.width, engineInfo.height,
                                             engineInfo.title);
 
-  m_GraphicsAPI = std::make_unique<Graphics::GraphicsAPI>(
-      m_Window->GetNativeWindow(), engineInfo.title, engineInfo.vert,
-      engineInfo.frag);
+  m_GraphicsAPI = std::make_unique<Graphics::GraphicsAPI>();
 
   // Log
   MYON_CORE_INFO("Engine initialized!");
@@ -48,13 +46,6 @@ void Engine::PopOverlay(Layers::Layer *layer) {
 
 void Engine::Run() {
   while (IsRunning()) {
-    if (m_GraphicsAPI->ShouldRecreateSwapChain()) {
-      m_GraphicsAPI->RecreateSwapchain();
-      continue;
-    }
-
-    m_GraphicsAPI->DrawFrame();
-
     Utils::Time::Update();
 
     float deltatime = Utils::Time::GetDeltaTime();
@@ -65,8 +56,6 @@ void Engine::Run() {
 
     PollEvents();
   }
-
-  m_GraphicsAPI->getLogicalDevice().waitIdle();
 }
 } // namespace Core
 } // namespace MyonCore

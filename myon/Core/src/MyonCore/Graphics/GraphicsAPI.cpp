@@ -2,10 +2,8 @@
 
 namespace MyonCore {
 namespace Graphics {
-GraphicsAPI::GraphicsAPI(SDL_Window *p_Window, const std::string &title,
-                         const std::string &vert, const std::string &frag) {
-  m_VulkanAPI =
-      std::make_unique<Vulkan::VulkanAPI>(p_Window, title, vert, frag);
+GraphicsAPI::GraphicsAPI() {
+  m_WebGPUAPI = std::make_unique<WebGPU::WebGPUAPI>();
 }
 } // namespace Graphics
 } // namespace MyonCore

@@ -5,6 +5,7 @@ set(MyonSandbox_SHADER_INPUT "${PROJECT_ROOT}/Shaders")
 
 add_executable(MyonSandbox "${MyonSandbox_SOURCES}")
 target_link_libraries(MyonSandbox PRIVATE MyonCore)
+target_copy_webgpu_binaries(MyonSandbox)
 
 install(TARGETS MyonSandbox
   RUNTIME DESTINATION bin
