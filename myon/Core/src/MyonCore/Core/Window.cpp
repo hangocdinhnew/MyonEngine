@@ -10,9 +10,8 @@ Window::Window(int width, int height, const std::string &title) {
 Window::~Window() { cleanupWindow(); }
 
 void Window::initWindow(int width, int height, const std::string &title) {
-  if (!SDL_Init(SDL_INIT_VIDEO)) {
-    MYON_DO_CORE_ASSERT("SDL - SDL_Init failed: {}", SDL_GetError());
-  }
+  MYON_CORE_ASSERT(!SDL_Init(SDL_INIT_VIDEO), "SDL - SDL_Init failed: {}",
+                   SDL_GetError());
 
   m_Window =
       SDL_CreateWindow(title.c_str(), width, height, SDL_WINDOW_RESIZABLE);
@@ -24,8 +23,8 @@ void Window::initWindow(int width, int height, const std::string &title) {
     std::abort();
   }
 
-  MYON_CORE_INFO("SDL - Requested SDL3 window ({}x{}) created successfully!", width,
-                 height);
+  MYON_CORE_INFO("SDL - Requested SDL3 window ({}x{}) created successfully!",
+                 width, height);
 }
 
 void Window::cleanupWindow() {

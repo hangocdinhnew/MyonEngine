@@ -48,9 +48,7 @@ WebGPUInstance::WebGPUInstance() {
   l_Desc.nextInChain = nullptr;
 
   m_Instance = wgpuCreateInstance(&l_Desc);
-  if (!m_Instance) {
-    MYON_DO_CORE_ASSERT("WebGPU - Could not initialize WebGPU Instance!");
-  }
+  MYON_CORE_ASSERT(!m_Instance, "WebGPU - Could not initialize WebGPU Instance!");
 
   MYON_CORE_INFO("WebGPU - WebGPU Instance initialized!");
 }

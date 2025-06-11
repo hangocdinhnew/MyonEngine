@@ -67,7 +67,7 @@ private:
 
 #define MYON_CORE_ASSERT(condition, ...)                                       \
   do {                                                                         \
-    if (!(condition)) {                                                        \
+    if (condition) {                                                        \
       ::MyonCore::Core::Log::GetCoreLogger()->error(__VA_ARGS__);              \
       std::abort();                                                            \
     }                                                                          \
@@ -75,7 +75,7 @@ private:
 
 #define MYON_ASSERT(condition, ...)                                            \
   do {                                                                         \
-    if (!(condition)) {                                                        \
+    if (condition) {                                                        \
       ::MyonCore::Core::Log::GetClientLogger()->error(__VA_ARGS__);            \
       std::abort();                                                            \
     }                                                                          \
