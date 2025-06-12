@@ -7,11 +7,6 @@ if(NOT CMAKE_BUILD_TYPE)
       CACHE STRING "Sets build type" FORCE)
 endif()
 
-# Detect compiler
-if(MSVC)
-  message(FATAL_ERROR "Please do not use MSVC for this project!")
-endif()
-
 # Set optimization and debug flags based on build type
 if(CMAKE_BUILD_TYPE MATCHES "Dist")
   set(CMAKE_CXX_FLAGS "-O3")
