@@ -6,15 +6,21 @@
 namespace MyonCore {
 namespace Graphics {
 namespace WebGPU {
-WebGPUAPI::WebGPUAPI() {
+WebGPUAPI::WebGPUAPI(std::string &title) {
   // WebGPU Instance
   m_WebGPUInstance = std::make_unique<WebGPUInstance>();
 
   // WebGPU Adapter
-  m_WebGPUAdapterConfig = WebGPUAdapterConfig{
-    .p_Instance = m_WebGPUInstance->getInstance()
-  };
+  m_WebGPUAdapterConfig =
+      WebGPUAdapterConfig{.p_Instance = m_WebGPUInstance->getInstance()};
   m_WebGPUAdapter = std::make_unique<WebGPUAdapter>(m_WebGPUAdapterConfig);
+
+  // WebGPU Device
+  m_WebGPUDeviceConfig = WebGPUDeviceConfig{
+      .p_Name = title,
+      .p_Adapter = m_WebGPUAdapter->getAdapter(),
+  };
+  m_WebGPUDevice = std::make_unique<WebGPUDevice>(m_WebGPUDeviceConfig);
 }
 
 WebGPUAPI::~WebGPUAPI() { MYON_CORE_INFO("Shutting down WebGPU..."); }

@@ -8,9 +8,9 @@ Engine::Engine(EngineInfo &engineInfo) {
   m_Time = std::make_unique<Utils::Time>();
 
   m_Window = std::make_unique<Core::Window>(engineInfo.width, engineInfo.height,
-                                            engineInfo.title);
+                                            engineInfo.name);
 
-  m_GraphicsAPI = std::make_unique<Graphics::GraphicsAPI>();
+  m_GraphicsAPI = std::make_unique<Graphics::GraphicsAPI>(engineInfo.name);
 
   // Log
   MYON_CORE_INFO("Engine initialized!");

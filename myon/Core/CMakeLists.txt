@@ -8,6 +8,7 @@ set(MyonCore_SOURCES
     "src/MyonCore/Core/Window.cpp"
     "src/MyonCore/Graphics/WebGPU/WebGPUInstance.cpp"
     "src/MyonCore/Graphics/WebGPU/WebGPUAdapter.cpp"
+    "src/MyonCore/Graphics/WebGPU/WebGPUDevice.cpp"
     "src/MyonCore/Graphics/WebGPU/WebGPUAPI.cpp"
     "src/MyonCore/Graphics/GraphicsAPI.cpp")
 

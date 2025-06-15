@@ -14,7 +14,7 @@ namespace Core {
 struct EngineInfo {
   int width;
   int height;
-  std::string title;
+  std::string name;
   std::string vert;
   std::string frag;
 };

@@ -8,7 +8,7 @@ namespace MyonCore {
 namespace Graphics {
 class GraphicsAPI {
 public:
-  GraphicsAPI();
+  GraphicsAPI(std::string &name);
   ~GraphicsAPI() = default;
 
 private:
