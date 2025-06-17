@@ -16,6 +16,13 @@ set(MyonCore_SOURCES
 add_library(MyonCore STATIC "${MyonCore_SOURCES}")
 target_include_directories(MyonCore PUBLIC "include/")
 
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+  set(SANITIZE_FLAGS "-fsanitize=address" "-fno-omit-frame-pointer")
+
+  target_compile_options(MyonCore PRIVATE ${SANITIZE_FLAGS})
+  target_link_options(MyonCore PRIVATE ${SANITIZE_FLAGS})
+endif()
+
 # Definitions
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
   target_compile_definitions(MyonCore PUBLIC MYON_DEBUG)
