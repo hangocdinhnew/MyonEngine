@@ -7,6 +7,7 @@ set(MyonCore_SOURCES
     "src/MyonCore/Core/Engine.cpp"
     "src/MyonCore/Core/Window.cpp"
     "src/MyonCore/Graphics/WebGPU/WebGPUInstance.cpp"
+    "src/MyonCore/Graphics/WebGPU/WebGPUSurface.cpp"
     "src/MyonCore/Graphics/WebGPU/WebGPUAdapter.cpp"
     "src/MyonCore/Graphics/WebGPU/WebGPUDevice.cpp"
     "src/MyonCore/Graphics/WebGPU/WebGPUAPI.cpp"
@@ -33,4 +34,4 @@ endif()
 target_link_libraries(MyonCore PUBLIC spdlog::spdlog)
 target_link_libraries(MyonCore PUBLIC SDL3::SDL3)
 
-target_link_libraries(MyonCore PUBLIC webgpu)
+target_link_libraries(MyonCore PUBLIC webgpu sdl3webgpu)

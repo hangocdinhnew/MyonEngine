@@ -13,3 +13,6 @@
 [submodule "thirdparty/WebGPU"]
 	path = thirdparty/WebGPU
 	url = https://github.com/eliemichel/WebGPU-distribution
+[submodule "thirdparty/sdl3webgpu"]
+	path = thirdparty/sdl3webgpu
+	url = https://github.com/eliemichel/sdl3webgpu

@@ -52,8 +52,8 @@ static WGPUDevice requestDeviceSync(WGPUAdapter adapter,
 
 WebGPUDevice::WebGPUDevice(WebGPUDeviceConfig &p_DeviceConfig)
     : m_Adapter(p_DeviceConfig.p_Adapter), m_Name(p_DeviceConfig.p_Name) {
-  MYON_CORE_ASSERT(!m_Adapter.has_value(), "Failed to access m_Adapter!");
-  MYON_CORE_ASSERT(!m_Name.has_value(), "Failed to access m_Name!");
+  MYON_CORE_ASSERT(!m_Adapter.has_value(), "Device - Failed to access m_Adapter!");
+  MYON_CORE_ASSERT(!m_Name.has_value(), "Device - Failed to access m_Name!");
 
   WGPUDeviceDescriptor deviceDesc = {};
   deviceDesc.nextInChain = nullptr;

@@ -8,8 +8,10 @@ namespace MyonCore {
 namespace Graphics {
 class GraphicsAPI {
 public:
-  GraphicsAPI(std::string &name);
+  GraphicsAPI(SDL_Window *m_Window, std::string &title);
   ~GraphicsAPI() = default;
+
+  void PollDevice();
 
 private:
   std::unique_ptr<WebGPU::WebGPUAPI> m_WebGPUAPI;

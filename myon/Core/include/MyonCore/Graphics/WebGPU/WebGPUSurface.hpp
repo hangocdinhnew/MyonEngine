@@ -1,28 +1,30 @@
 // clang-format off
 #include <optional>
+
 #include <webgpu/webgpu.h>
+#include <SDL3/SDL.h>
 // clang-format on
 
 namespace MyonCore {
 namespace Graphics {
 namespace WebGPU {
-struct WebGPUAdapterConfig {
+struct WebGPUSurfaceConfig {
   std::optional<WGPUInstance> p_Instance;
-  std::optional<WGPUSurface> p_Surface;
+  std::optional<SDL_Window *> p_Window;
 };
 
-class WebGPUAdapter {
+class WebGPUSurface {
 public:
-  WebGPUAdapter(WebGPUAdapterConfig &p_AdapterConfig);
-  ~WebGPUAdapter();
+  WebGPUSurface(WebGPUSurfaceConfig &p_SurfaceConfig);
+  ~WebGPUSurface();
 
-  WGPUAdapter &getAdapter() { return m_Adapter; }
+  WGPUSurface &getSurface() { return m_Surface; }
 
 private:
   std::optional<WGPUInstance> &m_Instance;
-  std::optional<WGPUSurface> &m_Surface;
+  std::optional<SDL_Window *> &m_Window;
 
-  WGPUAdapter m_Adapter;
+  WGPUSurface m_Surface;
 };
 } // namespace WebGPU
 } // namespace Graphics

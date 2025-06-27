@@ -10,7 +10,8 @@ Engine::Engine(EngineInfo &engineInfo) {
   m_Window = std::make_unique<Core::Window>(engineInfo.width, engineInfo.height,
                                             engineInfo.name);
 
-  m_GraphicsAPI = std::make_unique<Graphics::GraphicsAPI>(engineInfo.name);
+  m_GraphicsAPI = std::make_unique<Graphics::GraphicsAPI>(
+      m_Window->GetNativeWindow(), engineInfo.name);
 
   // Log
   MYON_CORE_INFO("Engine initialized!");

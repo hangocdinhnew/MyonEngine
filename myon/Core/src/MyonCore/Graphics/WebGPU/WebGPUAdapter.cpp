@@ -44,11 +44,13 @@ requestAdapterSync(WGPUInstance instance,
 }
 
 WebGPUAdapter::WebGPUAdapter(WebGPUAdapterConfig &p_AdapterConfig)
-    : m_Instance(p_AdapterConfig.p_Instance) {
-  MYON_CORE_ASSERT(!m_Instance.has_value(), "Failed to access m_Instance!");
+    : m_Instance(p_AdapterConfig.p_Instance), m_Surface(p_AdapterConfig.p_Surface) {
+  MYON_CORE_ASSERT(!m_Instance.has_value(), "Adapter - Failed to access m_Instance!");
+  MYON_CORE_ASSERT(!m_Surface.has_value(), "Adapter - Failed to access m_Surface!");
 
   WGPURequestAdapterOptions adapterOpts = {};
   adapterOpts.nextInChain = nullptr;
+  adapterOpts.compatibleSurface = m_Surface.value();
   m_Adapter = requestAdapterSync(m_Instance.value(), &adapterOpts);
 
   MYON_CORE_ASSERT(!m_Adapter, "WebGPU - Failed to request Adapter sync!");

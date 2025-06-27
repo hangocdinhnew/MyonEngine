@@ -51,6 +51,7 @@ option(SDL_SHARED "Make SDL a shared library" OFF)
 add_subdirectory("${PROJECT_ROOT}/thirdparty/glm")
 add_subdirectory("${PROJECT_ROOT}/thirdparty/spdlog")
 add_subdirectory("${PROJECT_ROOT}/thirdparty/SDL")
+add_subdirectory("${PROJECT_ROOT}/thirdparty/sdl3webgpu")
 
 message(
   STATUS "Myon (ROOT): Preparing Core, Core Extensions and the Applications...")

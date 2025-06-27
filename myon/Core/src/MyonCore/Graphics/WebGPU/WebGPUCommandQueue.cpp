@@ -12,7 +12,7 @@ namespace WebGPU {
 WebGPUCommandQueue::WebGPUCommandQueue(
     WebGPUCommandQueueConfig &p_CommandQueueConfig)
     : m_Device(p_CommandQueueConfig.p_Device) {
-  MYON_CORE_ASSERT(!m_Device.has_value(), "Failed to access m_Device!");
+  MYON_CORE_ASSERT(!m_Device.has_value(), "Command Queue - Failed to access m_Device!");
 
   m_Queue = wgpuDeviceGetQueue(m_Device.value());
 
@@ -68,15 +68,11 @@ WebGPUCommandQueue::WebGPUCommandQueue(
 
   wgpuQueueSubmit(m_Queue, 1, &m_Command);
 
-  for (int i = 0; i < 5; i++) {
-    wgpuDevicePoll(m_Device.value(), false, nullptr);
-  }
-
-  MYON_CORE_INFO("Command queue created!");
+  MYON_CORE_INFO("WebGPU - Command queue created!");
 }
 
 WebGPUCommandQueue::~WebGPUCommandQueue() {
-  MYON_CORE_INFO("Command queue destroyed...");
+  MYON_CORE_INFO("WebGPU - Destroying Command Queue...");
 
   wgpuCommandBufferRelease(m_Command);
   wgpuCommandEncoderRelease(m_Encoder);
