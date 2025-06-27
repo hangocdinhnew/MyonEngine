@@ -10,6 +10,7 @@ set(MyonCore_SOURCES
     "src/MyonCore/Graphics/WebGPU/WebGPUAdapter.cpp"
     "src/MyonCore/Graphics/WebGPU/WebGPUDevice.cpp"
     "src/MyonCore/Graphics/WebGPU/WebGPUAPI.cpp"
+    "src/MyonCore/Graphics/WebGPU/WebGPUCommandQueue.cpp"
     "src/MyonCore/Graphics/GraphicsAPI.cpp")
 
 # Make the library

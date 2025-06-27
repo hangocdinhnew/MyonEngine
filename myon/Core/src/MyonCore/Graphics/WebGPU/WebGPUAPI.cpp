@@ -21,6 +21,12 @@ WebGPUAPI::WebGPUAPI(std::string &title) {
       .p_Adapter = m_WebGPUAdapter->getAdapter(),
   };
   m_WebGPUDevice = std::make_unique<WebGPUDevice>(m_WebGPUDeviceConfig);
+
+  // WebGPU Command Queue
+  m_WebGPUCommandQueueConfig =
+      WebGPUCommandQueueConfig{.p_Device = m_WebGPUDevice->getDevice()};
+  m_WebGPUCommandQueue =
+      std::make_unique<WebGPUCommandQueue>(m_WebGPUCommandQueueConfig);
 }
 
 WebGPUAPI::~WebGPUAPI() { MYON_CORE_INFO("Shutting down WebGPU..."); }

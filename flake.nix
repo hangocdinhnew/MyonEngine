@@ -41,6 +41,7 @@
             libusb1
             xorg.libXext
             libxkbcommon
+            vulkan-loader
           ];
 
           libraryPath = pkgs.lib.makeLibraryPath runtimeDeps;
