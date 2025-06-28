@@ -21,6 +21,8 @@
             cppcheck
             doxygen
             makeWrapper
+            lua-language-server
+            xmake
           ];
 
           runtimeDeps = with pkgs; [
@@ -42,6 +44,9 @@
             xorg.libXext
             libxkbcommon
             vulkan-loader
+            wgpu-native
+            spdlog
+            glm
           ];
 
           libraryPath = pkgs.lib.makeLibraryPath runtimeDeps;
