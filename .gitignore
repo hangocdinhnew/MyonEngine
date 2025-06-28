@@ -5,3 +5,5 @@
 **/result
 **/.xmake
 **/compile_commands.json
+**/vs*
+**/.vs*
