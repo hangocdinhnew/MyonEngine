@@ -4,3 +4,4 @@
 **/installdir
 **/result
 **/.xmake
+**/compile_commands.json
