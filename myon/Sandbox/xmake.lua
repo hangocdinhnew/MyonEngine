@@ -5,3 +5,4 @@ target("myonsandbox")
     add_files("src/Application.cpp")
 
     add_deps("myoncore")
+
