@@ -13,8 +13,7 @@ std::string_view toStdStringView(WGPUStringView p_wgpuStringView) {
 }
 
 WGPUStringView toWGPUStringView(const std::string &p_stdString) {
-  WGPUStringView wgpustringview = {p_stdString.data(), p_stdString.size()};
-  return wgpustringview;
+  return {p_stdString.data(), p_stdString.size()};
 }
 
 WGPUStringView toWGPUStringView(const char *p_stringliteral) {
