@@ -1,4 +1,4 @@
-target("myoncore")
+target("MyonCore")
     set_kind("static")
     set_languages("cxx20")
 
