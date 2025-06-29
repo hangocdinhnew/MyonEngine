@@ -1,5 +1,6 @@
 // clang-format off
 #include "MyonCore/Core/Log.hpp"
+#include "MyonCore/Graphics/WebGPU/WebGPUUtils.hpp"
 #include <string_view>
 #include <webgpu.h>
 #include "MyonCore/Graphics/WebGPU/WebGPUDevice.hpp"
@@ -57,12 +58,6 @@ WebGPUDevice::WebGPUDevice(WebGPUDeviceConfig &p_DeviceConfig)
 
   WGPUDeviceDescriptor deviceDesc = {};
   deviceDesc.nextInChain = nullptr;
-  std::string label = m_Name.value();
-  WGPUStringView strview_label = {label.c_str(), label.length()};
-
-  std::string defaultQueuelabel = "The default queue";
-  WGPUStringView strview_defaultQueuelabel = {defaultQueuelabel.c_str(),
-                                              defaultQueuelabel.length()};
 
   WGPUDeviceLostCallbackInfo deviceLostCallbackInfo = {};
   deviceLostCallbackInfo.callback = [](WGPUDevice const *,
@@ -91,11 +86,11 @@ WebGPUDevice::WebGPUDevice(WebGPUDeviceConfig &p_DeviceConfig)
     MYON_DO_CORE_ASSERT("WebGPU\t- Message: {}", conv_message);
   };
 
-  deviceDesc.label = strview_label;
+  deviceDesc.label = toWGPUStringView(m_Name.value());
   deviceDesc.requiredFeatureCount = 0;
   deviceDesc.requiredLimits = nullptr;
   deviceDesc.defaultQueue.nextInChain = nullptr;
-  deviceDesc.defaultQueue.label = strview_defaultQueuelabel;
+  deviceDesc.defaultQueue.label = toWGPUStringView("The default queue.");
   deviceDesc.deviceLostCallbackInfo = deviceLostCallbackInfo;
 
   m_Device = requestDeviceSync(m_Adapter.value(), &deviceDesc);

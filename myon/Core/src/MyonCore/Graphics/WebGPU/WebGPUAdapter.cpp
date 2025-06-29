@@ -1,5 +1,6 @@
 // clang-format off
 #include "MyonCore/Core/Log.hpp"
+#include "MyonCore/Graphics/WebGPU/WebGPUUtils.hpp"
 #include "MyonCore/Graphics/WebGPU/WebGPUAdapter.hpp"
 // clang-format on
 
@@ -22,7 +23,7 @@ requestAdapterSync(WGPUInstance instance,
     if (status == WGPURequestAdapterStatus_Success) {
       userData.adapter = adapter;
     } else {
-      std::string_view msgView(message.data, message.length);
+      std::string_view msgView = toStdStringView(message);
 
       MYON_CORE_ERROR("WebGPU - Could not get WebGPU adapter: {}", msgView);
     }

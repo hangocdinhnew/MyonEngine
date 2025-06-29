@@ -26,8 +26,6 @@ public:
 
   bool IsRunning() const { return m_Window->IsRunning(); }
 
-  void PollEvents() { m_Window->PollEvents(); }
-
   void Run();
 
   // Layers

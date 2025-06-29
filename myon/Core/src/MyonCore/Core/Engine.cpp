@@ -55,7 +55,9 @@ void Engine::Run() {
       layer->OnRender();
     }
 
-    PollEvents();
+    m_Window->PollEvents();
+
+    m_GraphicsAPI->PollDevice();
   }
 }
 } // namespace Core

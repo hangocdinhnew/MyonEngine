@@ -1,5 +1,6 @@
 // clang-format off
 #include "MyonCore/Core/Log.hpp"
+#include "MyonCore/Graphics/WebGPU/WebGPUUtils.hpp"
 #include <wgpu.h>
 #include <webgpu.h>
 
@@ -12,7 +13,8 @@ namespace WebGPU {
 WebGPUCommandQueue::WebGPUCommandQueue(
     WebGPUCommandQueueConfig &p_CommandQueueConfig)
     : m_Device(p_CommandQueueConfig.p_Device) {
-  MYON_CORE_ASSERT(!m_Device.has_value(), "Command Queue - Failed to access m_Device!");
+  MYON_CORE_ASSERT(!m_Device.has_value(),
+                   "Command Queue - Failed to access m_Device!");
 
   m_Queue = wgpuDeviceGetQueue(m_Device.value());
 
@@ -41,18 +43,13 @@ WebGPUCommandQueue::WebGPUCommandQueue(
 
   WGPUCommandEncoderDescriptor encoderDesc = {};
   encoderDesc.nextInChain = nullptr;
-  std::string_view label = "WebGPU Command Encoder";
-  WGPUStringView labelconverted = {label.data(), label.size()};
-  encoderDesc.label = labelconverted;
+  encoderDesc.label = toWGPUStringView("WebGPU Command Encoder.");
 
   m_Encoder = wgpuDeviceCreateCommandEncoder(m_Device.value(), &encoderDesc);
 
 #ifdef MYON_DEBUG
-  std::string_view marker1 = "Marker1";
-  std::string_view marker2 = "Marker2";
-
-  WGPUStringView marker1conv = {marker1.data(), marker1.size()};
-  WGPUStringView marker2conv = {marker2.data(), marker2.size()};
+  WGPUStringView marker1conv = toWGPUStringView("Marker1");
+  WGPUStringView marker2conv = toWGPUStringView("Marker2");
 
   wgpuCommandEncoderInsertDebugMarker(m_Encoder, marker1conv);
   wgpuCommandEncoderInsertDebugMarker(m_Encoder, marker2conv);
@@ -60,9 +57,7 @@ WebGPUCommandQueue::WebGPUCommandQueue(
 
   WGPUCommandBufferDescriptor cmdBufferDescriptor = {};
   cmdBufferDescriptor.nextInChain = nullptr;
-  std::string_view label2 = "WebGPU Command Buffer";
-  WGPUStringView label2converted = {label2.data(), label2.size()};
-  cmdBufferDescriptor.label = label2converted;
+  cmdBufferDescriptor.label = toWGPUStringView("WebGPU Command Buffer.");
 
   m_Command = wgpuCommandEncoderFinish(m_Encoder, &cmdBufferDescriptor);
 

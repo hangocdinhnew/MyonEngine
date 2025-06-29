@@ -1,5 +1,6 @@
 // clang-format off
 #include "MyonCore/Core/Log.hpp"
+#include "MyonCore/Graphics/WebGPU/WebGPUUtils.hpp"
 #include "MyonCore/Graphics/WebGPU/WebGPUInstance.hpp"
 
 #include <webgpu/wgpu.h>
@@ -10,7 +11,7 @@ namespace Graphics {
 namespace WebGPU {
 static void WebGPULogCallback(WGPULogLevel m_Level, WGPUStringView m_Message,
                               void *m_Userdata) {
-  std::string_view msgView(m_Message.data, m_Message.length);
+  std::string_view msgView = toStdStringView(m_Message);
 
   switch (m_Level) {
   case WGPULogLevel_Error:
