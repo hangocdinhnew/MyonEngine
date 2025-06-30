@@ -20,7 +20,7 @@ public:
   ~WebGPUAPI();
 
   void PollDevices() {
-    wgpuDevicePoll(m_WebGPUDevice->getDevice(), false, nullptr);
+    wgpuInstanceProcessEvents(m_WebGPUInstance->getInstance());
   }
 
 private:

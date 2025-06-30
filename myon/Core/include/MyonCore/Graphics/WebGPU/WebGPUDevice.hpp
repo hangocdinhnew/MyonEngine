@@ -11,6 +11,7 @@ namespace Graphics {
 namespace WebGPU {
 struct WebGPUDeviceConfig {
   std::optional<std::string> p_Name;
+  std::optional<WGPUInstance> p_Instance;
   std::optional<WGPUAdapter> p_Adapter;
 };
 
@@ -23,6 +24,7 @@ public:
 
 private:
   std::optional<std::string> &m_Name;
+  std::optional<WGPUInstance> &m_Instance;
   std::optional<WGPUAdapter> &m_Adapter;
 
   WGPUDevice m_Device;

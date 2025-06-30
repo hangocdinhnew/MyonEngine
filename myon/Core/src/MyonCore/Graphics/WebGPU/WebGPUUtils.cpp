@@ -1,5 +1,7 @@
 // clang-format off
 #include <cstring>
+#include <thread>
+#include <chrono>
 
 #include "MyonCore/Graphics/WebGPU/WebGPUUtils.hpp"
 // clang-format on
@@ -18,6 +20,10 @@ WGPUStringView toWGPUStringView(const std::string &p_stdString) {
 
 WGPUStringView toWGPUStringView(const char *p_stringliteral) {
   return {p_stringliteral, strlen(p_stringliteral)};
+}
+
+void sleepForMSec(unsigned int msec) {
+  std::this_thread::sleep_for(std::chrono::milliseconds(msec));
 }
 
 } // namespace WebGPU

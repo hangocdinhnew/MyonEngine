@@ -2,14 +2,15 @@
 #include "MyonCore/Core/Log.hpp"
 #include "MyonCore/Graphics/WebGPU/WebGPUUtils.hpp"
 #include <string_view>
-#include <webgpu.h>
+#include <webgpu/wgpu.h>
+#include <webgpu/webgpu.h>
 #include "MyonCore/Graphics/WebGPU/WebGPUDevice.hpp"
 // clang-format on
 
 namespace MyonCore {
 namespace Graphics {
 namespace WebGPU {
-static WGPUDevice requestDeviceSync(WGPUAdapter adapter,
+static WGPUDevice requestDeviceSync(WGPUInstance instance, WGPUAdapter adapter,
                                     WGPUDeviceDescriptor const *descriptor) {
   struct UserData {
     WGPUDevice device = nullptr;
@@ -33,27 +34,30 @@ static WGPUDevice requestDeviceSync(WGPUAdapter adapter,
 
   WGPURequestDeviceCallbackInfo deviceCallbackInfo = {};
   deviceCallbackInfo.nextInChain = nullptr;
+  deviceCallbackInfo.mode = WGPUCallbackMode_AllowProcessEvents;
   deviceCallbackInfo.callback = onDeviceRequestEnded;
   deviceCallbackInfo.userdata1 = &userData;
   deviceCallbackInfo.userdata2 = nullptr;
 
   wgpuAdapterRequestDevice(adapter, descriptor, deviceCallbackInfo);
 
-#ifdef __EMSCRIPTEN__
-  while (!userData.requestEnded) {
-    emscripten_sleep(100);
-  }
-#endif // __EMSCRIPTEN__
+  wgpuInstanceProcessEvents(instance);
 
-  MYON_CORE_ASSERT(!userData.requestEnded,
-                   "WebGPU - WebGPU device request never completed!");
+  while (!userData.requestEnded) {
+    sleepForMSec(200);
+    wgpuInstanceProcessEvents(instance);
+  }
 
   return userData.device;
 }
 
 WebGPUDevice::WebGPUDevice(WebGPUDeviceConfig &p_DeviceConfig)
-    : m_Adapter(p_DeviceConfig.p_Adapter), m_Name(p_DeviceConfig.p_Name) {
-  MYON_CORE_ASSERT(!m_Adapter.has_value(), "Device - Failed to access m_Adapter!");
+    : m_Instance(p_DeviceConfig.p_Instance),
+      m_Adapter(p_DeviceConfig.p_Adapter), m_Name(p_DeviceConfig.p_Name) {
+  MYON_CORE_ASSERT(!m_Instance.has_value(),
+                   "Device - Failed to access m_Instance!");
+  MYON_CORE_ASSERT(!m_Adapter.has_value(),
+                   "Device - Failed to access m_Adapter!");
   MYON_CORE_ASSERT(!m_Name.has_value(), "Device - Failed to access m_Name!");
 
   WGPUDeviceDescriptor deviceDesc = {};
@@ -80,7 +84,8 @@ WebGPUDevice::WebGPUDevice(WebGPUDeviceConfig &p_DeviceConfig)
       break;
     }
 
-    MYON_CORE_ERROR("WebGPU - WebGPU Device lost! Reason: {}.", convertedreason);
+    MYON_CORE_ERROR("WebGPU - WebGPU Device lost! Reason: {}.",
+                    convertedreason);
     std::string_view conv_message = {message.data, message.length};
 
     MYON_DO_CORE_ASSERT("WebGPU\t- Message: {}", conv_message);
@@ -93,7 +98,8 @@ WebGPUDevice::WebGPUDevice(WebGPUDeviceConfig &p_DeviceConfig)
   deviceDesc.defaultQueue.label = toWGPUStringView("The default queue.");
   deviceDesc.deviceLostCallbackInfo = deviceLostCallbackInfo;
 
-  m_Device = requestDeviceSync(m_Adapter.value(), &deviceDesc);
+  m_Device =
+      requestDeviceSync(m_Instance.value(), m_Adapter.value(), &deviceDesc);
 
   MYON_CORE_ASSERT(!m_Device, "WebGPU - Failed to create WebGPU Device!");
 

@@ -24,13 +24,15 @@ WebGPUAPI::WebGPUAPI(SDL_Window *m_Window, std::string &title) {
   // WebGPU Device
   m_WebGPUDeviceConfig = WebGPUDeviceConfig{
       .p_Name = title,
+      .p_Instance = m_WebGPUInstance->getInstance(),
       .p_Adapter = m_WebGPUAdapter->getAdapter(),
   };
   m_WebGPUDevice = std::make_unique<WebGPUDevice>(m_WebGPUDeviceConfig);
 
   // WebGPU Command Queue
   m_WebGPUCommandQueueConfig =
-      WebGPUCommandQueueConfig{.p_Device = m_WebGPUDevice->getDevice()};
+      WebGPUCommandQueueConfig{.p_Instance = m_WebGPUInstance->getInstance(),
+                               .p_Device = m_WebGPUDevice->getDevice()};
   m_WebGPUCommandQueue =
       std::make_unique<WebGPUCommandQueue>(m_WebGPUCommandQueueConfig);
 }

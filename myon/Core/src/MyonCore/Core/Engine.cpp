@@ -47,6 +47,9 @@ void Engine::PopOverlay(Layers::Layer *layer) {
 
 void Engine::Run() {
   while (IsRunning()) {
+    m_Window->PollEvents();
+    m_GraphicsAPI->PollDevice();
+
     Utils::Time::Update();
 
     float deltatime = Utils::Time::GetDeltaTime();
@@ -54,10 +57,6 @@ void Engine::Run() {
       layer->OnUpdate(deltatime);
       layer->OnRender();
     }
-
-    m_Window->PollEvents();
-
-    m_GraphicsAPI->PollDevice();
   }
 }
 } // namespace Core

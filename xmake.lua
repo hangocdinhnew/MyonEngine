@@ -21,4 +21,13 @@ add_requires("libsdl3")
 add_requires("glm")
 add_requires("spdlog")
 
+option("enable_logtofile")
+  set_default(false)
+  set_showmenu(true)
+  set_description("Enable spdlog to log to a file (by default Myon.log)")
+  add_defines("LOGTOFILE")
+option_end()
+
+add_options("enable_logtofile")
+
 includes("myon/Core", "myon/Sandbox", "thirdparty/sdl3webgpu.lua")

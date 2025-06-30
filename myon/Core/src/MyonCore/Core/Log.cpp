@@ -1,7 +1,12 @@
+// clang-format off
 #include "MyonCore/Core/Log.hpp"
 
+#ifdef LOGTOFILE
 #include <spdlog/sinks/basic_file_sink.h>
+#endif
+
 #include <spdlog/sinks/stdout_color_sinks.h>
+// clang-format on
 
 namespace MyonCore {
 namespace Core {
@@ -12,8 +17,11 @@ Log::Log() {
   std::vector<spdlog::sink_ptr> logSinks;
   logSinks.emplace_back(
       std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
+
+#ifdef LOGTOFILE
   logSinks.emplace_back(
       std::make_shared<spdlog::sinks::basic_file_sink_mt>("Myon.log", true));
+#endif
 
   logSinks[0]->set_pattern("%^[%T] %n: %v%$");
   logSinks[1]->set_pattern("[%T] [%l] %n: %v");
@@ -33,8 +41,6 @@ Log::Log() {
   MYON_CORE_INFO("Log system initialized!");
 }
 
-Log::~Log() {
-  MYON_CORE_INFO("Log system shutting down...");
-}
-}
+Log::~Log() { MYON_CORE_INFO("Log system shutting down..."); }
+} // namespace Core
 } // namespace MyonCore

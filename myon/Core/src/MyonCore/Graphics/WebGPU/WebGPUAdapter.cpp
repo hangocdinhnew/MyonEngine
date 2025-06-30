@@ -32,14 +32,20 @@ requestAdapterSync(WGPUInstance instance,
 
   WGPURequestAdapterCallbackInfo callbackInfo = {};
   callbackInfo.nextInChain = nullptr;
+  callbackInfo.mode = WGPUCallbackMode_AllowProcessEvents;
   callbackInfo.callback = onAdapterRequestEnded;
   callbackInfo.userdata1 = &userData;
   callbackInfo.userdata2 = nullptr;
 
   wgpuInstanceRequestAdapter(instance, options, callbackInfo);
 
-  MYON_CORE_ASSERT(!userData.requestEnded,
-                   "WebGPU - WebGPU adapter request never completed!");
+  wgpuInstanceProcessEvents(instance);
+
+  while (!userData.requestEnded) {
+    sleepForMSec(200);
+
+    wgpuInstanceProcessEvents(instance);
+  }
 
   return userData.adapter;
 }
