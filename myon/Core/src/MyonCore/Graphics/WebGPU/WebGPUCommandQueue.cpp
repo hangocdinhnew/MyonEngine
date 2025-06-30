@@ -13,11 +13,23 @@ namespace WebGPU {
 WebGPUCommandQueue::WebGPUCommandQueue(
     WebGPUCommandQueueConfig &p_CommandQueueConfig)
     : m_Instance(p_CommandQueueConfig.p_Instance),
-      m_Device(p_CommandQueueConfig.p_Device) {
+      m_Device(p_CommandQueueConfig.p_Device),
+      m_BufferA(p_CommandQueueConfig.p_BufferA),
+      m_BufferB(p_CommandQueueConfig.p_BufferB),
+      m_BufferADesc(p_CommandQueueConfig.p_BufferADesc),
+      m_BufferBDesc(p_CommandQueueConfig.p_BufferBDesc) {
   MYON_CORE_ASSERT(!m_Instance.has_value(),
-                   "Command Queue - Failed to access m_Device!");
+                   "Command Queue - Failed to access m_Instance!");
   MYON_CORE_ASSERT(!m_Device.has_value(),
                    "Command Queue - Failed to access m_Device!");
+  MYON_CORE_ASSERT(!m_BufferA.has_value(),
+                   "Command Queue - Failed to access m_BufferA!");
+  MYON_CORE_ASSERT(!m_BufferB.has_value(),
+                   "Command Queue - Failed to access m_BufferB!");
+  MYON_CORE_ASSERT(!m_BufferADesc.has_value(),
+                   "Command Queue - Failed to access m_BufferADesc!");
+  MYON_CORE_ASSERT(!m_BufferBDesc.has_value(),
+                   "Command Queue - Failed to access m_BufferBDesc!");
 
   auto onQueueWorkDone = [](WGPUQueueWorkDoneStatus status, void *, void *) {
     switch (status) {
@@ -42,8 +54,10 @@ WebGPUCommandQueue::WebGPUCommandQueue(
   WGPUCommandEncoderDescriptor encoderDesc = {};
   encoderDesc.nextInChain = nullptr;
   encoderDesc.label = toWGPUStringView("WebGPU Command Encoder.");
-
   m_Encoder = wgpuDeviceCreateCommandEncoder(m_Device.value(), &encoderDesc);
+  wgpuCommandEncoderCopyBufferToBuffer(m_Encoder, m_BufferA.value(), 16,
+                                       m_BufferB.value(), 0,
+                                       m_BufferBDesc.value().size);
 
 #ifdef MYON_DEBUG
   WGPUStringView marker1conv = toWGPUStringView("Marker1");

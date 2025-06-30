@@ -1,5 +1,6 @@
 // clang-format off
 #include "MyonCore/Core/Log.hpp"
+#include "MyonCore/Graphics/WebGPU/WebGPUUtils.hpp"
 #include "MyonCore/Graphics/WebGPU/WebGPUAPI.hpp"
 // clang-format on
 
@@ -29,12 +30,35 @@ WebGPUAPI::WebGPUAPI(SDL_Window *m_Window, std::string &title) {
   };
   m_WebGPUDevice = std::make_unique<WebGPUDevice>(m_WebGPUDeviceConfig);
 
+  // WebGPU Buffer
+  m_WebGPUBufferConfig =
+      WebGPUBufferConfig{.p_Device = m_WebGPUDevice->getDevice()};
+  m_WebGPUBuffer = std::make_unique<WebGPUBuffer>(m_WebGPUBufferConfig);
+
   // WebGPU Command Queue
-  m_WebGPUCommandQueueConfig =
-      WebGPUCommandQueueConfig{.p_Instance = m_WebGPUInstance->getInstance(),
-                               .p_Device = m_WebGPUDevice->getDevice()};
+  m_WebGPUCommandQueueConfig = WebGPUCommandQueueConfig{
+      .p_Instance = m_WebGPUInstance->getInstance(),
+      .p_Device = m_WebGPUDevice->getDevice(),
+      .p_BufferA = m_WebGPUBuffer->getBufferA(),
+      .p_BufferB = m_WebGPUBuffer->getBufferB(),
+      .p_BufferADesc = m_WebGPUBuffer->getBufferADesc(),
+      .p_BufferBDesc = m_WebGPUBuffer->getBufferBDesc()};
   m_WebGPUCommandQueue =
       std::make_unique<WebGPUCommandQueue>(m_WebGPUCommandQueueConfig);
+
+  // Fetch buffer Data sync
+  fetchBufferDataSync(
+      m_WebGPUInstance->getInstance(), m_WebGPUBuffer->getBufferB(),
+      m_WebGPUBuffer->getBufferBDesc(), [&](const void *data) {
+        auto *bufferDataB = static_cast<const char *>(data);
+        MYON_CORE_INFO("WebGPU - Buffer B: [");
+        for (size_t i = 0; i < m_WebGPUBuffer->getBufferBDesc().size; ++i) {
+          if (i > 0)
+            MYON_CORE_INFO("WebGPU - , ");
+          MYON_CORE_INFO("WebGPU - {}", static_cast<int>(bufferDataB[i]));
+        }
+        MYON_CORE_INFO("]");
+      });
 }
 
 WebGPUAPI::~WebGPUAPI() { MYON_CORE_INFO("Shutting down WebGPU..."); }

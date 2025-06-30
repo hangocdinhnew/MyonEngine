@@ -8,6 +8,7 @@
 #include "MyonCore/Graphics/WebGPU/WebGPUSurface.hpp"
 #include "MyonCore/Graphics/WebGPU/WebGPUAdapter.hpp"
 #include "MyonCore/Graphics/WebGPU/WebGPUDevice.hpp"
+#include "MyonCore/Graphics/WebGPU/WebGPUBuffer.hpp"
 #include "MyonCore/Graphics/WebGPU/WebGPUCommandQueue.hpp"
 // clang-format on
 
@@ -28,11 +29,13 @@ private:
   std::unique_ptr<WebGPUSurface> m_WebGPUSurface;
   std::unique_ptr<WebGPUAdapter> m_WebGPUAdapter;
   std::unique_ptr<WebGPUDevice> m_WebGPUDevice;
+  std::unique_ptr<WebGPUBuffer> m_WebGPUBuffer;
   std::unique_ptr<WebGPUCommandQueue> m_WebGPUCommandQueue;
 
   WebGPUSurfaceConfig m_WebGPUSurfaceConfig;
   WebGPUAdapterConfig m_WebGPUAdapterConfig;
   WebGPUDeviceConfig m_WebGPUDeviceConfig;
+  WebGPUBufferConfig m_WebGPUBufferConfig;
   WebGPUCommandQueueConfig m_WebGPUCommandQueueConfig;
 };
 } // namespace WebGPU

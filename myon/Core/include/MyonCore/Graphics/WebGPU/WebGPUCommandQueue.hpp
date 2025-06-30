@@ -12,6 +12,10 @@ namespace WebGPU {
 struct WebGPUCommandQueueConfig {
   std::optional<WGPUInstance> p_Instance;
   std::optional<WGPUDevice> p_Device;
+  std::optional<WGPUBuffer> p_BufferA;
+  std::optional<WGPUBuffer> p_BufferB;
+  std::optional<WGPUBufferDescriptor> p_BufferADesc;
+  std::optional<WGPUBufferDescriptor> p_BufferBDesc;
 };
 
 class WebGPUCommandQueue {
@@ -26,6 +30,10 @@ public:
 private:
   std::optional<WGPUInstance> &m_Instance;
   std::optional<WGPUDevice> &m_Device;
+  std::optional<WGPUBuffer>& m_BufferA;
+  std::optional<WGPUBuffer>& m_BufferB;
+  std::optional<WGPUBufferDescriptor>& m_BufferADesc;
+  std::optional<WGPUBufferDescriptor>& m_BufferBDesc;
 
   WGPUQueue m_Queue;
   WGPUCommandEncoder m_Encoder;

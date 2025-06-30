@@ -21,7 +21,8 @@ target("MyonCore")
         "src/MyonCore/Graphics/WebGPU/WebGPUSurface.cpp",
         "src/MyonCore/Graphics/WebGPU/WebGPUAdapter.cpp",
         "src/MyonCore/Graphics/WebGPU/WebGPUDevice.cpp",
-        "src/MyonCore/Graphics/WebGPU/WebGPUAPI.cpp",
+        "src/MyonCore/Graphics/WebGPU/WebGPUBuffer.cpp",
         "src/MyonCore/Graphics/WebGPU/WebGPUCommandQueue.cpp",
+        "src/MyonCore/Graphics/WebGPU/WebGPUAPI.cpp",
         "src/MyonCore/Graphics/GraphicsAPI.cpp"
     )
