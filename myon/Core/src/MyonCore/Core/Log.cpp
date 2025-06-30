@@ -24,7 +24,9 @@ Log::Log() {
 #endif
 
   logSinks[0]->set_pattern("%^[%T] %n: %v%$");
+#ifdef LOGTOFILE
   logSinks[1]->set_pattern("[%T] [%l] %n: %v");
+#endif
 
   s_CoreLogger =
       std::make_shared<spdlog::logger>("Myon", begin(logSinks), end(logSinks));
