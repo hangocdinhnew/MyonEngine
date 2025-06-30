@@ -19,8 +19,6 @@ WebGPUCommandQueue::WebGPUCommandQueue(
   MYON_CORE_ASSERT(!m_Device.has_value(),
                    "Command Queue - Failed to access m_Device!");
 
-  m_Queue = wgpuDeviceGetQueue(m_Device.value());
-
   auto onQueueWorkDone = [](WGPUQueueWorkDoneStatus status, void *, void *) {
     switch (status) {
     case WGPUQueueWorkDoneStatus_Success:
