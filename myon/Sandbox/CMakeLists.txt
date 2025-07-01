@@ -31,8 +31,4 @@ install(TARGETS MyonSandbox
 )
 endif()
 
-if (NOT WIN32)
-install(DIRECTORY "${MyonSandbox_SHADER_INPUT}" DESTINATION share/myonsandbox/assets)
-else()
-install(DIRECTORY "${MyonSandbox_SHADER_INPUT}" DESTINATION assets)
-endif()
+install(DIRECTORY "${MyonSandbox_SHADER_INPUT}" DESTINATION bin/assets)
