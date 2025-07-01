@@ -53,7 +53,11 @@ add_subdirectory("${PROJECT_ROOT}/thirdparty/spdlog")
 add_subdirectory("${PROJECT_ROOT}/thirdparty/SDL")
 add_subdirectory("${PROJECT_ROOT}/thirdparty/sdl3webgpu")
 
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
 option(MYON_LOGTOFILE "Enables the log to file feature." OFF)
+else()
+option(MYON_LOGTOFILE "Enables the log to file feature." OFF)
+endif()
 
 message(
   STATUS "Myon (ROOT): Preparing Core, Core Extensions and the Applications...")
