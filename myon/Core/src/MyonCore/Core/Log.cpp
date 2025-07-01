@@ -1,7 +1,7 @@
 // clang-format off
 #include "MyonCore/Core/Log.hpp"
 
-#ifdef LOGTOFILE
+#ifdef MYON_LOGTOFILE
 #include <spdlog/sinks/basic_file_sink.h>
 #endif
 
@@ -18,13 +18,13 @@ Log::Log() {
   logSinks.emplace_back(
       std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
 
-#ifdef LOGTOFILE
+#ifdef MYON_LOGTOFILE
   logSinks.emplace_back(
       std::make_shared<spdlog::sinks::basic_file_sink_mt>("Myon.log", true));
 #endif
 
   logSinks[0]->set_pattern("%^[%T] %n: %v%$");
-#ifdef LOGTOFILE
+#ifdef MYON_LOGTOFILE
   logSinks[1]->set_pattern("[%T] [%l] %n: %v");
 #endif
 
