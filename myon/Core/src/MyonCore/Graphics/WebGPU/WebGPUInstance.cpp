@@ -45,10 +45,10 @@ WebGPUInstance::WebGPUInstance() {
 
   wgpuSetLogCallback(WebGPULogCallback, nullptr);
 
-  wgpu::InstanceDescriptor l_Desc = {};
+  WGPUInstanceDescriptor l_Desc = {};
   l_Desc.nextInChain = nullptr;
 
-  m_Instance = wgpu::createInstance(l_Desc);
+  m_Instance = wgpuCreateInstance(&l_Desc);
   MYON_CORE_ASSERT(!m_Instance, "WebGPU - Could not initialize WebGPU Instance!");
 
   MYON_CORE_INFO("WebGPU - WebGPU Instance initialized!");
@@ -57,7 +57,7 @@ WebGPUInstance::WebGPUInstance() {
 WebGPUInstance::~WebGPUInstance() {
   MYON_CORE_INFO("WebGPU - Releasing WebGPU Instance...");
 
-  m_Instance.release();
+  wgpuInstanceRelease(m_Instance);
 }
 } // namespace WebGPU
 } // namespace Graphics

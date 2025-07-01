@@ -2,6 +2,7 @@
 #include "MyonCore/Core/Log.hpp"
 #include "MyonCore/Graphics/WebGPU/WebGPUUtils.hpp"
 #include <wgpu.h>
+#include <webgpu.h>
 
 #include "MyonCore/Graphics/WebGPU/WebGPUCommandQueue.hpp"
 // clang-format on
@@ -30,33 +31,7 @@ WebGPUCommandQueue::WebGPUCommandQueue(
   MYON_CORE_ASSERT(!m_BufferBDesc.has_value(),
                    "Command Queue - Failed to access m_BufferBDesc!");
 
-  m_Queue = m_Device.value().getQueue();
-
-  wgpu::CommandEncoderDescriptor encoderDesc = {};
-  encoderDesc.nextInChain = nullptr;
-  encoderDesc.label = toWGPUStringView("WebGPU Command Encoder.");
-  m_Encoder = m_Device.value().createCommandEncoder(encoderDesc);
-  m_Encoder.copyBufferToBuffer(m_BufferA.value(), 16, m_BufferB.value(), 0,
-                               m_BufferBDesc.value().size);
-
-#ifdef MYON_DEBUG
-  wgpu::StringView marker1conv = toWGPUStringView("Marker1");
-  wgpu::StringView marker2conv = toWGPUStringView("Marker2");
-
-  m_Encoder.insertDebugMarker(marker1conv);
-  m_Encoder.insertDebugMarker(marker2conv);
-#endif
-
-  wgpu::CommandBufferDescriptor cmdBufferDescriptor = {};
-  cmdBufferDescriptor.nextInChain = nullptr;
-  cmdBufferDescriptor.label = toWGPUStringView("WebGPU Command Buffer.");
-
-  m_Command = m_Encoder.finish(cmdBufferDescriptor);
-
-  m_Queue.submit(1, &m_Command);
-
-  auto onQueuedWorkDone = [](WGPUQueueWorkDoneStatus status, void *userdata1,
-                             void *userdata2) {
+  auto onQueueWorkDone = [](WGPUQueueWorkDoneStatus status, void *, void *) {
     switch (status) {
     case WGPUQueueWorkDoneStatus_Success:
       MYON_CORE_INFO("WebGPU - Queue work done success!");
@@ -72,6 +47,40 @@ WebGPUCommandQueue::WebGPUCommandQueue(
                       &""[static_cast<int>(status)]);
       break;
     }
+  };
+
+  m_Queue = wgpuDeviceGetQueue(m_Device.value());
+
+  WGPUCommandEncoderDescriptor encoderDesc = {};
+  encoderDesc.nextInChain = nullptr;
+  encoderDesc.label = toWGPUStringView("WebGPU Command Encoder.");
+  m_Encoder = wgpuDeviceCreateCommandEncoder(m_Device.value(), &encoderDesc);
+  wgpuCommandEncoderCopyBufferToBuffer(m_Encoder, m_BufferA.value(), 16,
+                                       m_BufferB.value(), 0,
+                                       m_BufferBDesc.value().size);
+
+#ifdef MYON_DEBUG
+  WGPUStringView marker1conv = toWGPUStringView("Marker1");
+  WGPUStringView marker2conv = toWGPUStringView("Marker2");
+
+  wgpuCommandEncoderInsertDebugMarker(m_Encoder, marker1conv);
+  wgpuCommandEncoderInsertDebugMarker(m_Encoder, marker2conv);
+#endif
+
+  WGPUCommandBufferDescriptor cmdBufferDescriptor = {};
+  cmdBufferDescriptor.nextInChain = nullptr;
+  cmdBufferDescriptor.label = toWGPUStringView("WebGPU Command Buffer.");
+
+  m_Command = wgpuCommandEncoderFinish(m_Encoder, &cmdBufferDescriptor);
+
+  wgpuQueueSubmit(m_Queue, 1, &m_Command);
+
+  auto onQueuedWorkDone = [](WGPUQueueWorkDoneStatus status, void *userdata1,
+                             void *userdata2) {
+    if (status != WGPUQueueWorkDoneStatus_Success) {
+      MYON_DO_CORE_ASSERT(
+          "WebGPU - Queue Work Done with Status Error! This is suspicious.");
+    }
 
     bool &workDone = *reinterpret_cast<bool *>(userdata1);
     workDone = true;
@@ -79,18 +88,18 @@ WebGPUCommandQueue::WebGPUCommandQueue(
 
   bool workDone = false;
 
-  wgpu::QueueWorkDoneCallbackInfo callbackInfo = {};
-  callbackInfo.mode = wgpu::CallbackMode::AllowProcessEvents;
+  WGPUQueueWorkDoneCallbackInfo callbackInfo = {};
+  callbackInfo.mode = WGPUCallbackMode_AllowProcessEvents;
   callbackInfo.callback = onQueuedWorkDone;
   callbackInfo.userdata1 = &workDone;
 
-  m_Queue.onSubmittedWorkDone(callbackInfo);
-  m_Instance.value().processEvents();
+  wgpuQueueOnSubmittedWorkDone(m_Queue, callbackInfo);
+  wgpuInstanceProcessEvents(m_Instance.value());
 
   while (!workDone) {
     sleepForMSec(200);
 
-    m_Instance.value().processEvents();
+    wgpuInstanceProcessEvents(m_Instance.value());
   }
 
   MYON_CORE_INFO("WebGPU - Command queue created!");
@@ -99,9 +108,9 @@ WebGPUCommandQueue::WebGPUCommandQueue(
 WebGPUCommandQueue::~WebGPUCommandQueue() {
   MYON_CORE_INFO("WebGPU - Destroying Command Queue...");
 
-  m_Command.release();
-  m_Encoder.release();
-  m_Queue.release();
+  wgpuCommandBufferRelease(m_Command);
+  wgpuCommandEncoderRelease(m_Encoder);
+  wgpuQueueRelease(m_Queue);
 }
 } // namespace WebGPU
 } // namespace Graphics

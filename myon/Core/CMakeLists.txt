@@ -6,7 +6,6 @@ set(MyonCore_SOURCES
     "src/MyonCore/Layers/LayerStack.cpp"
     "src/MyonCore/Core/Engine.cpp"
     "src/MyonCore/Core/Window.cpp"
-    "src/MyonCore/Utils/WebGPUDefine.cpp"
     "src/MyonCore/Graphics/WebGPU/WebGPUUtils.cpp"
     "src/MyonCore/Graphics/WebGPU/WebGPUInstance.cpp"
     "src/MyonCore/Graphics/WebGPU/WebGPUSurface.cpp"

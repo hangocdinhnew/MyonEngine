@@ -10,24 +10,23 @@
 namespace MyonCore {
 namespace Graphics {
 namespace WebGPU {
-std::string_view toStdStringView(wgpu::StringView p_wgpuStringView) {
+std::string_view toStdStringView(WGPUStringView p_wgpuStringView) {
   return std::string_view(p_wgpuStringView.data, p_wgpuStringView.length);
 }
 
-wgpu::StringView toWGPUStringView(const std::string &p_stdString) {
-  return wgpu::StringView(p_stdString);
+WGPUStringView toWGPUStringView(const std::string &p_stdString) {
+  return {p_stdString.data(), p_stdString.size()};
 }
 
-wgpu::StringView toWGPUStringView(const char *p_stringliteral) {
-  return wgpu::StringView(std::string_view(p_stringliteral));
+WGPUStringView toWGPUStringView(const char *p_stringliteral) {
+  return {p_stringliteral, strlen(p_stringliteral)};
 }
 
 void sleepForMSec(unsigned int msec) {
   std::this_thread::sleep_for(std::chrono::milliseconds(msec));
 }
 
-void fetchBufferDataSync(wgpu::Instance instance, wgpu::Buffer bufferB,
-                         wgpu::BufferDescriptor bufferBDesc,
+void fetchBufferDataSync(WGPUInstance instance, WGPUBuffer bufferB, WGPUBufferDescriptor bufferBDesc,
                          std::function<void(const void *)> processBufferData) {
   struct OnBufferBMappedContext {
     bool operationEnded = false;
@@ -50,22 +49,24 @@ void fetchBufferDataSync(wgpu::Instance instance, wgpu::Buffer bufferB,
 
   OnBufferBMappedContext context;
 
-  wgpu::BufferMapCallbackInfo callbackInfo = {};
+  WGPUBufferMapCallbackInfo callbackInfo = {};
   callbackInfo.mode = WGPUCallbackMode_AllowProcessEvents;
   callbackInfo.callback = onBufferBMapped;
   callbackInfo.userdata1 = &context;
 
-  bufferB.mapAsync(WGPUMapMode_Read, 0, bufferBDesc.size, callbackInfo);
+  wgpuBufferMapAsync(bufferB, WGPUMapMode_Read, 0, bufferBDesc.size,
+                     callbackInfo);
 
-  instance.processEvents();
+  wgpuInstanceProcessEvents(instance);
   while (!context.operationEnded) {
     sleepForMSec(200);
 
-    instance.processEvents();
+    wgpuInstanceProcessEvents(instance);
   }
 
   if (context.mappingIsSuccessful) {
-    const void *bufferData = bufferB.getConstMappedRange(0, bufferBDesc.size);
+    const void *bufferData =
+        wgpuBufferGetConstMappedRange(bufferB, 0, bufferBDesc.size);
     processBufferData(bufferData);
   }
 }

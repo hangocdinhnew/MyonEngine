@@ -4,23 +4,23 @@
 #include <string>
 #include <functional>
 
-#include <webgpu/webgpu.hpp>
+#include <webgpu/webgpu.h>
 // clang-format on
 
 namespace MyonCore {
 namespace Graphics {
 namespace WebGPU {
 // Strings
-std::string_view toStdStringView(wgpu::StringView p_wgpuStringView);
-wgpu::StringView toWGPUStringView(const std::string &p_stdString);
-wgpu::StringView toWGPUStringView(const char *p_stringliteral);
+std::string_view toStdStringView(WGPUStringView p_wgpuStringView);
+WGPUStringView toWGPUStringView(const std::string &p_stdString);
+WGPUStringView toWGPUStringView(const char *p_stringliteral);
 
 // Sleep
 void sleepForMSec(unsigned int msec);
 
 // Fetch Buffer Data Sync
-void fetchBufferDataSync(wgpu::Instance instance, wgpu::Buffer bufferB,
-                         wgpu::BufferDescriptor bufferBDesc,
+void fetchBufferDataSync(WGPUInstance instance, WGPUBuffer bufferB,
+                         WGPUBufferDescriptor bufferBDesc,
                          std::function<void(const void *)> processBufferData);
 } // namespace WebGPU
 } // namespace Graphics
