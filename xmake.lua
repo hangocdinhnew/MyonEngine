@@ -11,7 +11,7 @@ end)
 
 set_languages("cxx20")
 
-if is_mode("debug") or is_mode("asan") then
+if is_mode("debug") then
   set_policy("build.sanitizer.address", true)
   add_defines("MYON_DEBUG")
 end
