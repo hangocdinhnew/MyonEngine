@@ -117,9 +117,9 @@ WebGPUDevice::WebGPUDevice(WebGPUDeviceConfig &p_DeviceConfig)
           break;
         }
 
-        MYON_DO_CORE_ASSERT(
-            "WebGPU - Uncaptured error (type: {}), device: {} (message: {})",
-            convtype, (void *)device, toStdStringView(message));
+        MYON_CORE_INFO("WebGPU - Uncaptured error (type: {}), device: {}",
+                       convtype, (void *)device);
+        MYON_DO_CORE_ASSERT("WebGPU - Message: {}", toStdStringView(message));
       };
 
   deviceDesc.uncapturedErrorCallbackInfo.callback = uncapturedErrorCallbackInfo;
