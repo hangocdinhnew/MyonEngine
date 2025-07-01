@@ -15,7 +15,7 @@ endif()
 
 if (NOT WIN32)
 set_target_properties(MyonSandbox PROPERTIES
-  INSTALL_RPATH "/usr/local/lib;$ORIGIN/../lib;@executable_path/../lib"
+  INSTALL_RPATH "$ORIGIN/../lib;@executable_path/../lib"
 )
 endif()
 
