@@ -21,7 +21,7 @@ public:
   ~WebGPUAPI();
 
   void PollDevices() {
-    wgpuInstanceProcessEvents(m_WebGPUInstance->getInstance());
+    m_WebGPUInstance->getInstance().processEvents();
   }
 
 private:

@@ -10,42 +10,43 @@
 namespace MyonCore {
 namespace Graphics {
 namespace WebGPU {
-static WGPUDevice requestDeviceSync(WGPUInstance instance, WGPUAdapter adapter,
-                                    WGPUDeviceDescriptor const *descriptor) {
+static wgpu::Device requestDeviceSync(wgpu::Instance instance,
+                                      wgpu::Adapter adapter,
+                                      wgpu::DeviceDescriptor const descriptor) {
   struct UserData {
-    WGPUDevice device = nullptr;
+    wgpu::Device device = nullptr;
     bool requestEnded = false;
   };
   UserData userData;
 
   auto onDeviceRequestEnded = [](WGPURequestDeviceStatus status,
                                  WGPUDevice device,
-                                 WGPUStringView strview_message,
+                                 WGPUStringView message,
                                  void *pUserData1, void *pUserData2) {
     UserData &userData = *reinterpret_cast<UserData *>(pUserData1);
     if (status == WGPURequestDeviceStatus_Success) {
       userData.device = device;
     } else {
-      std::string_view message(strview_message.data, strview_message.length);
-      MYON_DO_CORE_ASSERT("Could not get WebGPU device: {}", message);
+      MYON_DO_CORE_ASSERT("Could not get WebGPU device: {}", toStdStringView(message));
     }
     userData.requestEnded = true;
   };
 
-  WGPURequestDeviceCallbackInfo deviceCallbackInfo = {};
+  wgpu::RequestDeviceCallbackInfo deviceCallbackInfo = {};
   deviceCallbackInfo.nextInChain = nullptr;
-  deviceCallbackInfo.mode = WGPUCallbackMode_AllowProcessEvents;
+  deviceCallbackInfo.mode = wgpu::CallbackMode::AllowProcessEvents;
   deviceCallbackInfo.callback = onDeviceRequestEnded;
   deviceCallbackInfo.userdata1 = &userData;
   deviceCallbackInfo.userdata2 = nullptr;
 
-  wgpuAdapterRequestDevice(adapter, descriptor, deviceCallbackInfo);
+  adapter.requestDevice(descriptor, deviceCallbackInfo);
 
-  wgpuInstanceProcessEvents(instance);
+  instance.processEvents();
 
   while (!userData.requestEnded) {
     sleepForMSec(200);
-    wgpuInstanceProcessEvents(instance);
+
+    instance.processEvents();
   }
 
   return userData.device;
@@ -60,10 +61,10 @@ WebGPUDevice::WebGPUDevice(WebGPUDeviceConfig &p_DeviceConfig)
                    "Device - Failed to access m_Adapter!");
   MYON_CORE_ASSERT(!m_Name.has_value(), "Device - Failed to access m_Name!");
 
-  WGPUDeviceDescriptor deviceDesc = {};
+  wgpu::DeviceDescriptor deviceDesc = {};
   deviceDesc.nextInChain = nullptr;
 
-  WGPUDeviceLostCallbackInfo deviceLostCallbackInfo = {};
+  wgpu::DeviceLostCallbackInfo deviceLostCallbackInfo = {};
 
   auto lostCallbackInfo = [](WGPUDevice const *, WGPUDeviceLostReason reason,
                              WGPUStringView message, void *, void *) {
@@ -132,7 +133,7 @@ WebGPUDevice::WebGPUDevice(WebGPUDeviceConfig &p_DeviceConfig)
   deviceDesc.deviceLostCallbackInfo = deviceLostCallbackInfo;
 
   m_Device =
-      requestDeviceSync(m_Instance.value(), m_Adapter.value(), &deviceDesc);
+      requestDeviceSync(m_Instance.value(), m_Adapter.value(), deviceDesc);
 
   MYON_CORE_ASSERT(!m_Device, "WebGPU - Failed to create WebGPU Device!");
 
@@ -142,7 +143,7 @@ WebGPUDevice::WebGPUDevice(WebGPUDeviceConfig &p_DeviceConfig)
 WebGPUDevice::~WebGPUDevice() {
   MYON_CORE_INFO("WebGPU - Releasing WebGPU Device...");
 
-  wgpuDeviceRelease(m_Device);
+  m_Device.release();
 }
 } // namespace WebGPU
 } // namespace Graphics

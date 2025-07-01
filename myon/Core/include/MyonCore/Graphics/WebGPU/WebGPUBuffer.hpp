@@ -3,14 +3,14 @@
 // clang-format off
 #include <optional>
 
-#include <webgpu/webgpu.h>
+#include <webgpu/webgpu.hpp>
 // clang-format on
 
 namespace MyonCore {
 namespace Graphics {
 namespace WebGPU {
 struct WebGPUBufferConfig {
-  std::optional<WGPUDevice> p_Device;
+  std::optional<wgpu::Device> p_Device;
 };
 
 class WebGPUBuffer {
@@ -18,18 +18,18 @@ public:
   WebGPUBuffer(WebGPUBufferConfig &p_BufferConfig);
   ~WebGPUBuffer();
 
-  WGPUBuffer getBufferA() { return m_BufferA; };
-  WGPUBuffer getBufferB() { return m_BufferB; };
-  WGPUBufferDescriptor getBufferADesc() { return m_BufferADesc; };
-  WGPUBufferDescriptor getBufferBDesc() { return m_BufferBDesc; };
+  wgpu::Buffer getBufferA() { return m_BufferA; };
+  wgpu::Buffer getBufferB() { return m_BufferB; };
+  wgpu::BufferDescriptor getBufferADesc() { return m_BufferADesc; };
+  wgpu::BufferDescriptor getBufferBDesc() { return m_BufferBDesc; };
 
 private:
-  std::optional<WGPUDevice> &m_Device;
+  std::optional<wgpu::Device> &m_Device;
 
-  WGPUBuffer m_BufferA;
-  WGPUBuffer m_BufferB;
-  WGPUBufferDescriptor m_BufferADesc;
-  WGPUBufferDescriptor m_BufferBDesc;
+  wgpu::Buffer m_BufferA;
+  wgpu::Buffer m_BufferB;
+  wgpu::BufferDescriptor m_BufferADesc;
+  wgpu::BufferDescriptor m_BufferBDesc;
 };
 } // namespace WebGPU
 } // namespace Graphics

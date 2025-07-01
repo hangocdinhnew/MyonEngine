@@ -1,7 +1,7 @@
 #pragma once
 
 // clang-format off
-#include "webgpu/webgpu.h"
+#include "webgpu/webgpu.hpp"
 // clang-format on
 
 namespace MyonCore {
@@ -12,10 +12,10 @@ public:
   WebGPUInstance();
   ~WebGPUInstance();
 
-  WGPUInstance &getInstance() { return m_Instance; }
+  wgpu::Instance &getInstance() { return m_Instance; }
 
 private:
-  WGPUInstance m_Instance;
+  wgpu::Instance m_Instance;
 };
 } // namespace WebGPU
 } // namespace Graphics

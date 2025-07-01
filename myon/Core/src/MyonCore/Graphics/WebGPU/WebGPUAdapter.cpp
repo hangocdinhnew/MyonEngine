@@ -7,11 +7,11 @@
 namespace MyonCore {
 namespace Graphics {
 namespace WebGPU {
-static WGPUAdapter
-requestAdapterSync(WGPUInstance instance,
-                   WGPURequestAdapterOptions const *options) {
+static wgpu::Adapter
+requestAdapterSync(wgpu::Instance instance,
+                   wgpu::RequestAdapterOptions const options) {
   struct UserData {
-    WGPUAdapter adapter = nullptr;
+    wgpu::Adapter adapter = nullptr;
     bool requestEnded = false;
   };
   UserData userData;
@@ -30,35 +30,38 @@ requestAdapterSync(WGPUInstance instance,
     userData.requestEnded = true;
   };
 
-  WGPURequestAdapterCallbackInfo callbackInfo = {};
+  wgpu::RequestAdapterCallbackInfo callbackInfo = {};
   callbackInfo.nextInChain = nullptr;
-  callbackInfo.mode = WGPUCallbackMode_AllowProcessEvents;
+  callbackInfo.mode = wgpu::CallbackMode::AllowProcessEvents;
   callbackInfo.callback = onAdapterRequestEnded;
   callbackInfo.userdata1 = &userData;
   callbackInfo.userdata2 = nullptr;
 
-  wgpuInstanceRequestAdapter(instance, options, callbackInfo);
+  instance.requestAdapter(options, callbackInfo);
 
-  wgpuInstanceProcessEvents(instance);
+  instance.processEvents();
 
   while (!userData.requestEnded) {
     sleepForMSec(200);
 
-    wgpuInstanceProcessEvents(instance);
+    instance.processEvents();
   }
 
   return userData.adapter;
 }
 
 WebGPUAdapter::WebGPUAdapter(WebGPUAdapterConfig &p_AdapterConfig)
-    : m_Instance(p_AdapterConfig.p_Instance), m_Surface(p_AdapterConfig.p_Surface) {
-  MYON_CORE_ASSERT(!m_Instance.has_value(), "Adapter - Failed to access m_Instance!");
-  MYON_CORE_ASSERT(!m_Surface.has_value(), "Adapter - Failed to access m_Surface!");
+    : m_Instance(p_AdapterConfig.p_Instance),
+      m_Surface(p_AdapterConfig.p_Surface) {
+  MYON_CORE_ASSERT(!m_Instance.has_value(),
+                   "Adapter - Failed to access m_Instance!");
+  MYON_CORE_ASSERT(!m_Surface.has_value(),
+                   "Adapter - Failed to access m_Surface!");
 
-  WGPURequestAdapterOptions adapterOpts = {};
+  wgpu::RequestAdapterOptions adapterOpts = {};
   adapterOpts.nextInChain = nullptr;
   adapterOpts.compatibleSurface = m_Surface.value();
-  m_Adapter = requestAdapterSync(m_Instance.value(), &adapterOpts);
+  m_Adapter = requestAdapterSync(m_Instance.value(), adapterOpts);
 
   MYON_CORE_ASSERT(!m_Adapter, "WebGPU - Failed to request Adapter sync!");
 
@@ -68,7 +71,7 @@ WebGPUAdapter::WebGPUAdapter(WebGPUAdapterConfig &p_AdapterConfig)
 WebGPUAdapter::~WebGPUAdapter() {
   MYON_CORE_INFO("Releasing WebGPU Adapter!");
 
-  wgpuAdapterRelease(m_Adapter);
+  m_Adapter.release();
 }
 } // namespace WebGPU
 } // namespace Graphics

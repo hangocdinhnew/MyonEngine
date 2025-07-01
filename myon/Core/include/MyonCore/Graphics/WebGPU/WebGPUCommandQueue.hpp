@@ -3,19 +3,19 @@
 // clang-format off
 #include <optional>
 
-#include <webgpu/webgpu.h>
+#include <webgpu/webgpu.hpp>
 // clang-format on
 
 namespace MyonCore {
 namespace Graphics {
 namespace WebGPU {
 struct WebGPUCommandQueueConfig {
-  std::optional<WGPUInstance> p_Instance;
-  std::optional<WGPUDevice> p_Device;
-  std::optional<WGPUBuffer> p_BufferA;
-  std::optional<WGPUBuffer> p_BufferB;
-  std::optional<WGPUBufferDescriptor> p_BufferADesc;
-  std::optional<WGPUBufferDescriptor> p_BufferBDesc;
+  std::optional<wgpu::Instance> p_Instance;
+  std::optional<wgpu::Device> p_Device;
+  std::optional<wgpu::Buffer> p_BufferA;
+  std::optional<wgpu::Buffer> p_BufferB;
+  std::optional<wgpu::BufferDescriptor> p_BufferADesc;
+  std::optional<wgpu::BufferDescriptor> p_BufferBDesc;
 };
 
 class WebGPUCommandQueue {
@@ -23,21 +23,21 @@ public:
   WebGPUCommandQueue(WebGPUCommandQueueConfig &p_CommandQueueConfig);
   ~WebGPUCommandQueue();
 
-  WGPUQueue &getQueue() { return m_Queue; }
-  WGPUCommandEncoder &getEncoder() { return m_Encoder; }
-  WGPUCommandBuffer &getCommand() { return m_Command; }
+  wgpu::Queue &getQueue() { return m_Queue; }
+  wgpu::CommandEncoder &getEncoder() { return m_Encoder; }
+  wgpu::CommandBuffer &getCommand() { return m_Command; }
 
 private:
-  std::optional<WGPUInstance> &m_Instance;
-  std::optional<WGPUDevice> &m_Device;
-  std::optional<WGPUBuffer>& m_BufferA;
-  std::optional<WGPUBuffer>& m_BufferB;
-  std::optional<WGPUBufferDescriptor>& m_BufferADesc;
-  std::optional<WGPUBufferDescriptor>& m_BufferBDesc;
+  std::optional<wgpu::Instance> &m_Instance;
+  std::optional<wgpu::Device> &m_Device;
+  std::optional<wgpu::Buffer>& m_BufferA;
+  std::optional<wgpu::Buffer>& m_BufferB;
+  std::optional<wgpu::BufferDescriptor>& m_BufferADesc;
+  std::optional<wgpu::BufferDescriptor>& m_BufferBDesc;
 
-  WGPUQueue m_Queue;
-  WGPUCommandEncoder m_Encoder;
-  WGPUCommandBuffer m_Command;
+  wgpu::Queue m_Queue;
+  wgpu::CommandEncoder m_Encoder;
+  wgpu::CommandBuffer m_Command;
 };
 } // namespace WebGPU
 } // namespace Graphics

@@ -20,7 +20,7 @@ WebGPUSurface::WebGPUSurface(WebGPUSurfaceConfig& p_SurfaceConfig) : m_Window(p_
 WebGPUSurface::~WebGPUSurface() {
   MYON_CORE_INFO("WebGPU - Destroying surface...");
 
-  wgpuSurfaceRelease(m_Surface);
+  m_Surface.release();
 }
 }
 } // namespace Graphics
