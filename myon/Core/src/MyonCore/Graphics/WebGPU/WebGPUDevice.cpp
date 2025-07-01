@@ -64,10 +64,10 @@ WebGPUDevice::WebGPUDevice(WebGPUDeviceConfig &p_DeviceConfig)
   deviceDesc.nextInChain = nullptr;
 
   WGPUDeviceLostCallbackInfo deviceLostCallbackInfo = {};
-  deviceLostCallbackInfo.callback = [](WGPUDevice const *,
-                                       WGPUDeviceLostReason reason,
-                                       WGPUStringView message, void *, void *) {
-    std::string convertedreason;
+
+  auto lostCallbackInfo = [](WGPUDevice const *, WGPUDeviceLostReason reason,
+                             WGPUStringView message, void *, void *) {
+    std::string convertedreason = "";
 
     switch (reason) {
     case WGPUDeviceLostReason_Destroyed:
@@ -80,16 +80,49 @@ WebGPUDevice::WebGPUDevice(WebGPUDeviceConfig &p_DeviceConfig)
       convertedreason = "WebGPU Device Creation Failed";
       break;
     default:
-      convertedreason = &""[static_cast<int>(reason)];
+      convertedreason = static_cast<int>(reason);
       break;
     }
 
     MYON_CORE_ERROR("WebGPU - WebGPU Device lost! Reason: {}.",
                     convertedreason);
-    std::string_view conv_message = {message.data, message.length};
-
-    MYON_DO_CORE_ASSERT("WebGPU\t- Message: {}", conv_message);
+    MYON_DO_CORE_ASSERT("WebGPU\t- Message: {}", toStdStringView(message));
   };
+
+  deviceLostCallbackInfo.callback = lostCallbackInfo;
+
+  auto uncapturedErrorCallbackInfo =
+      [](WGPUDevice const *device, WGPUErrorType type,
+         struct WGPUStringView message, void *, void *) {
+        std::string convtype = "";
+
+        switch (type) {
+        case WGPUErrorType_NoError:
+          convtype = "NoError";
+          break;
+        case WGPUErrorType_Validation:
+          convtype = "Validation";
+          break;
+        case WGPUErrorType_OutOfMemory:
+          convtype = "OutOfMemory";
+          break;
+        case WGPUErrorType_Internal:
+          convtype = "Internal";
+          break;
+        case WGPUErrorType_Unknown:
+          convtype = "Unknown";
+          break;
+        default:
+          convtype = static_cast<int>(type);
+          break;
+        }
+
+        MYON_DO_CORE_ASSERT(
+            "WebGPU - Uncaptured error (type: {}), device: {} (message: {})",
+            convtype, (void *)device, toStdStringView(message));
+      };
+
+  deviceDesc.uncapturedErrorCallbackInfo.callback = uncapturedErrorCallbackInfo;
 
   deviceDesc.label = toWGPUStringView(m_Name.value());
   deviceDesc.requiredFeatureCount = 0;
