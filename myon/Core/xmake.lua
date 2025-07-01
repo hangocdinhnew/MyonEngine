@@ -1,5 +1,5 @@
 target("MyonCore")
-    set_kind("static")
+    set_kind("shared")
     set_languages("cxx20")
 
     add_includedirs("include", {public = true})

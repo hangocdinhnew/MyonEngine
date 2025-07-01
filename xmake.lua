@@ -3,10 +3,10 @@ set_version("0.1")
 
 add_rules("mode.debug", "mode.release")
 
-on_config(function (target)
-        if (target:has_tool("cxx", "cl")) then
-		target:add("cxxflags", "/utf-8")
-        end
+on_config(function(target)
+  if (target:has_tool("cxx", "cl")) then
+    target:add("cxxflags", "/utf-8")
+  end
 end)
 
 set_languages("cxx20")
