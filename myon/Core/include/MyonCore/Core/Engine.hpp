@@ -15,8 +15,8 @@ struct EngineInfo {
   int width;
   int height;
   std::string name;
-  std::string vert;
-  std::string frag;
+  std::string computeFolderName;
+  std::string computeFileName;
 };
 
 class Engine {
@@ -34,6 +34,8 @@ public:
 
   void PopLayer(Layers::Layer *layer);
   void PopOverlay(Layers::Layer *layer);
+
+  Graphics::GraphicsAPI *getGraphicsAPI() { return m_GraphicsAPI.get(); }
 
 private:
   std::unique_ptr<Core::Log> m_Log;

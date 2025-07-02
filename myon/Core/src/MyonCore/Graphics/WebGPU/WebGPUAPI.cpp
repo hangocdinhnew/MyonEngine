@@ -7,7 +7,9 @@
 namespace MyonCore {
 namespace Graphics {
 namespace WebGPU {
-WebGPUAPI::WebGPUAPI(SDL_Window *m_Window, std::string &title) {
+WebGPUAPI::WebGPUAPI(SDL_Window *m_Window, std::string &title,
+                     std::string &computeFolderName,
+                     std::string &computeFileName) {
   // WebGPU Instance
   m_WebGPUInstance = std::make_unique<WebGPUInstance>();
 
@@ -35,33 +37,49 @@ WebGPUAPI::WebGPUAPI(SDL_Window *m_Window, std::string &title) {
       WebGPUBufferConfig{.p_Device = m_WebGPUDevice->getDevice()};
   m_WebGPUBuffer = std::make_unique<WebGPUBuffer>(m_WebGPUBufferConfig);
 
+  // Compute Pipeline
+  m_WebGPUComputePipelineConfig = WebGPUComputePipelineConfig{
+      .p_Device = m_WebGPUDevice->getDevice(),
+      .p_InputBuffer = m_WebGPUBuffer->getInputBuffer(),
+      .p_OutputBuffer = m_WebGPUBuffer->getOutputBuffer(),
+      .p_FolderName = computeFolderName,
+      .p_FilePath = computeFileName};
+  m_WebGPUComputePipeline =
+      std::make_unique<WebGPUComputePipeline>(m_WebGPUComputePipelineConfig);
+
   // WebGPU Command Queue
   m_WebGPUCommandQueueConfig = WebGPUCommandQueueConfig{
       .p_Instance = m_WebGPUInstance->getInstance(),
       .p_Device = m_WebGPUDevice->getDevice(),
-      .p_BufferA = m_WebGPUBuffer->getBufferA(),
-      .p_BufferB = m_WebGPUBuffer->getBufferB(),
-      .p_BufferADesc = m_WebGPUBuffer->getBufferADesc(),
-      .p_BufferBDesc = m_WebGPUBuffer->getBufferBDesc()};
+      .p_OutputBuffer = m_WebGPUBuffer->getOutputBuffer(),
+      .p_StagingBuffer = m_WebGPUBuffer->getStagingBuffer(),
+      .p_OutputBufferDesc = m_WebGPUBuffer->getOutputBufferDesc(),
+      .p_StagingBufferDesc = m_WebGPUBuffer->getStagingBufferDesc(),
+      .p_ComputePipeline = m_WebGPUComputePipeline->getComputePipeline(),
+      .p_BindGroup = m_WebGPUComputePipeline->getBindGroup()};
   m_WebGPUCommandQueue =
       std::make_unique<WebGPUCommandQueue>(m_WebGPUCommandQueueConfig);
-
-  // Fetch buffer Data sync
-  fetchBufferDataSync(
-      m_WebGPUInstance->getInstance(), m_WebGPUBuffer->getBufferB(),
-      m_WebGPUBuffer->getBufferBDesc(), [&](const void *data) {
-        auto *bufferDataB = static_cast<const char *>(data);
-        MYON_CORE_INFO("WebGPU - Buffer B: [");
-        for (size_t i = 0; i < m_WebGPUBuffer->getBufferBDesc().size; ++i) {
-          if (i > 0)
-            MYON_CORE_INFO("WebGPU - , ");
-          MYON_CORE_INFO("WebGPU - {}", static_cast<int>(bufferDataB[i]));
-        }
-        MYON_CORE_INFO("]");
-      });
 }
 
 WebGPUAPI::~WebGPUAPI() { MYON_CORE_INFO("Shutting down WebGPU..."); }
+
+void WebGPUAPI::FetchComputeBufferDataSync() {
+  fetchBufferDataSync(
+      m_WebGPUInstance->getInstance(), m_WebGPUBuffer->getStagingBuffer(),
+      [&](const void *data) {
+        const float *floatData = static_cast<const float *>(data);
+
+#if defined(MYON_DEBUG)
+        MYON_CORE_INFO("WebGPU - Result: [");
+        for (size_t i = 0; i < ELEMENT_COUNT * sizeof(float); i++) {
+          if (i > 0)
+            MYON_CORE_INFO("WebGPU - ,");
+          MYON_CORE_INFO("WebGPU - {}", floatData[i]);
+        }
+        MYON_CORE_INFO("WebGPU - ]");
+#endif
+      });
+}
 } // namespace WebGPU
 } // namespace Graphics
 } // namespace MyonCore

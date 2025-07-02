@@ -15,10 +15,11 @@ int main() {
   engineInfo.width = 800;
   engineInfo.height = 600;
   engineInfo.name = "Lol";
-  engineInfo.vert = "assets/Shaders/vertshader.vert";
-  engineInfo.frag = "assets/Shaders/fragshader.frag";
+  engineInfo.computeFolderName = "MyonSandbox";
+  engineInfo.computeFileName = "computeshader.wgsl";
 
   MyonCore::Core::Engine engine{engineInfo};
+  engine.getGraphicsAPI()->FetchComputeBufferDataSync();
 
   engine.PushLayer(new SandboxLayer);
   engine.Run();

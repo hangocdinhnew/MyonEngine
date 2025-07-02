@@ -13,3 +13,7 @@ target("MyonSandbox")
     if is_plat("macosx") then
       add_rpathdirs("@executable_path/../lib", {installonly = true})
     end
+
+    after_install(function (target)
+        os.cp("assets", path.join(target:installdir(), "share/MyonSandbox"))
+    end)

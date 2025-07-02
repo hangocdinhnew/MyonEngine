@@ -23,6 +23,7 @@ target("MyonCore")
         "src/MyonCore/Graphics/WebGPU/WebGPUDevice.cpp",
         "src/MyonCore/Graphics/WebGPU/WebGPUBuffer.cpp",
         "src/MyonCore/Graphics/WebGPU/WebGPUCommandQueue.cpp",
+        "src/MyonCore/Graphics/WebGPU/WebGPUComputePipeline.cpp",
         "src/MyonCore/Graphics/WebGPU/WebGPUAPI.cpp",
         "src/MyonCore/Graphics/GraphicsAPI.cpp"
     )

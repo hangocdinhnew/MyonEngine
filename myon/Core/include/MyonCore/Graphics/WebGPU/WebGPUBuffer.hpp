@@ -18,18 +18,22 @@ public:
   WebGPUBuffer(WebGPUBufferConfig &p_BufferConfig);
   ~WebGPUBuffer();
 
-  WGPUBuffer getBufferA() { return m_BufferA; };
-  WGPUBuffer getBufferB() { return m_BufferB; };
-  WGPUBufferDescriptor getBufferADesc() { return m_BufferADesc; };
-  WGPUBufferDescriptor getBufferBDesc() { return m_BufferBDesc; };
+  WGPUBuffer getInputBuffer() { return m_InputBuffer; };
+  WGPUBuffer getOutputBuffer() { return m_OutputBuffer; };
+  WGPUBuffer getStagingBuffer() { return m_StagingBuffer; };
+  WGPUBufferDescriptor getInputBufferDesc() { return m_InputBufferDesc; };
+  WGPUBufferDescriptor getOutputBufferDesc() { return m_OutputBufferDesc; };
+  WGPUBufferDescriptor getStagingBufferDesc() { return m_StagingBufferDesc; };
 
 private:
   std::optional<WGPUDevice> &m_Device;
 
-  WGPUBuffer m_BufferA;
-  WGPUBuffer m_BufferB;
-  WGPUBufferDescriptor m_BufferADesc;
-  WGPUBufferDescriptor m_BufferBDesc;
+  WGPUBuffer m_InputBuffer;
+  WGPUBuffer m_OutputBuffer;
+  WGPUBuffer m_StagingBuffer;
+  WGPUBufferDescriptor m_InputBufferDesc;
+  WGPUBufferDescriptor m_OutputBufferDesc;
+  WGPUBufferDescriptor m_StagingBufferDesc;
 };
 } // namespace WebGPU
 } // namespace Graphics
