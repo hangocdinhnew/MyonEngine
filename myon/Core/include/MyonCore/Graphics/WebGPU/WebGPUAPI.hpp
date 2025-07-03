@@ -26,6 +26,12 @@ public:
     wgpuInstanceProcessEvents(m_WebGPUInstance->getInstance());
   }
 
+  WGPUDevice &getDevice() { return m_WebGPUDevice->getDevice(); }
+  WGPUQueue &getQueue() { return m_WebGPUCommandQueue->getQueue(); }
+  WGPUSurface &getSurface() { return m_WebGPUSurface->getSurface(); }
+  WGPUSurfaceCapabilities &getSurfaceCapabilities() { return m_WebGPUSurface->getSurfaceCapabilities(); }
+  WGPUSurfaceConfiguration &getSurfaceConfiguration() { return m_WebGPUSurface->getSurfaceConfiguration(); }
+
   void FetchComputeBufferDataSync();
 
 private:

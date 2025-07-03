@@ -2,12 +2,16 @@
 
 class SandboxLayer : public MyonCore::Layers::Layer {
 public:
-  SandboxLayer() : MyonCore::Layers::Layer("Sandbox Layer") {}
+  SandboxLayer(MyonCore::Renderer::Renderer *p_Renderer)
+      : MyonCore::Layers::Layer("Sandbox Layer"), m_Renderer(p_Renderer) {}
 
   void OnAttach() override {}
   void OnDetach() override {}
   void OnUpdate(float deltatime) override {}
   void OnRender() override {}
+
+private:
+  MyonCore::Renderer::Renderer *m_Renderer;
 };
 
 int main() {
@@ -19,9 +23,11 @@ int main() {
   engineInfo.computeFileName = "computeshader.wgsl";
 
   MyonCore::Core::Engine engine{engineInfo};
-  engine.getGraphicsAPI()->FetchComputeBufferDataSync();
+  auto *gfx = engine.getGraphicsAPI();
+  auto *renderer = engine.getRenderer();
+  gfx->FetchComputeBufferDataSync();
 
-  engine.PushLayer(new SandboxLayer);
+  engine.PushLayer(new SandboxLayer(renderer));
   engine.Run();
 
   return 0;

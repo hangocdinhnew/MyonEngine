@@ -19,12 +19,23 @@ public:
   ~WebGPUSurface();
 
   WGPUSurface &getSurface() { return m_Surface; }
+  WGPUSurfaceConfiguration &getSurfaceConfiguration() {
+    return m_SurfaceConfig;
+  }
+  WGPUSurfaceCapabilities &getSurfaceCapabilities() {
+    return m_SurfaceCapabilities;
+  }
+
+  void configureSurface(WGPUAdapter &p_Adapter, WGPUDevice &p_Device);
+  void unconfigureSurface();
 
 private:
   std::optional<WGPUInstance> &m_Instance;
   std::optional<SDL_Window *> &m_Window;
 
   WGPUSurface m_Surface;
+  WGPUSurfaceConfiguration m_SurfaceConfig;
+  WGPUSurfaceCapabilities m_SurfaceCapabilities;
 };
 } // namespace WebGPU
 } // namespace Graphics

@@ -59,9 +59,16 @@ WebGPUAPI::WebGPUAPI(SDL_Window *m_Window, std::string &title,
       .p_BindGroup = m_WebGPUComputePipeline->getBindGroup()};
   m_WebGPUCommandQueue =
       std::make_unique<WebGPUCommandQueue>(m_WebGPUCommandQueueConfig);
+
+  m_WebGPUSurface->configureSurface(m_WebGPUAdapter->getAdapter(),
+                                    m_WebGPUDevice->getDevice());
 }
 
-WebGPUAPI::~WebGPUAPI() { MYON_CORE_INFO("Shutting down WebGPU..."); }
+WebGPUAPI::~WebGPUAPI() {
+  MYON_CORE_INFO("Shutting down WebGPU...");
+
+  m_WebGPUSurface->unconfigureSurface();
+}
 
 void WebGPUAPI::FetchComputeBufferDataSync() {
   fetchBufferDataSync(
