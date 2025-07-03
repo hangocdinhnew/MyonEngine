@@ -12,5 +12,6 @@ target("MyonCore")
     add_packages("spdlog", {public = true})
 
     add_files(
-        "src/**/*.cpp"
+        "src/**/*.cpp",
+        "src/*.cpp"
     )

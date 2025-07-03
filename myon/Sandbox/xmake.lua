@@ -2,7 +2,10 @@ target("MyonSandbox")
     set_kind("binary")
     set_languages("cxx20")
 
-    add_files("src/**/*.cpp")
+    add_files(
+      "src/*.cpp",
+      "src/**/*.cpp"
+    )
 
     add_deps("MyonCore")
 
