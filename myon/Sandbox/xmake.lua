@@ -18,5 +18,5 @@ target("MyonSandbox")
     end
 
     after_install(function (target)
-        os.cp("assets", path.join(target:installdir(), "share/MyonSandbox"))
+        os.cp("assets", path.join(target:installdir(), "share/MyonSandbox/assets"))
     end)
