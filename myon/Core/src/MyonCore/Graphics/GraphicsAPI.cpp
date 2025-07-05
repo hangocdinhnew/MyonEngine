@@ -1,17 +1,18 @@
+// clang-format off
+#include "MyonCore/Core/Log.hpp"
 #include "MyonCore/Graphics/GraphicsAPI.hpp"
+// clang-format on
 
 namespace MyonCore {
 namespace Graphics {
 GraphicsAPI::GraphicsAPI(SDL_Window *m_Window, std::string &title,
-                         std::string &computeFolderName,
-                         std::string &computeFileName,
                          MyonRHI::GPUBackend p_Backend) {
   m_Backend = p_Backend;
 
   switch (m_Backend) {
   case MyonRHI::GPUBackend::WebGPU:
     m_WebGPUAPI = std::make_unique<WebGPU::WebGPUAPI>(
-        m_Window, title, computeFolderName, computeFileName);
+        m_Window, title);
 
     break;
   default:

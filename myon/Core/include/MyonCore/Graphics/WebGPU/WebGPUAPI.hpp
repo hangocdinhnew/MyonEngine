@@ -8,9 +8,7 @@
 #include "MyonCore/Graphics/WebGPU/WebGPUSurface.hpp"
 #include "MyonCore/Graphics/WebGPU/WebGPUAdapter.hpp"
 #include "MyonCore/Graphics/WebGPU/WebGPUDevice.hpp"
-#include "MyonCore/Graphics/WebGPU/WebGPUBuffer.hpp"
 #include "MyonCore/Graphics/WebGPU/WebGPUCommandQueue.hpp"
-#include "MyonCore/Graphics/WebGPU/WebGPUComputePipeline.hpp"
 // clang-format on
 
 namespace MyonCore {
@@ -18,8 +16,7 @@ namespace Graphics {
 namespace WebGPU {
 class WebGPUAPI {
 public:
-  WebGPUAPI(SDL_Window *m_Window, std::string &title,
-            std::string &computeFolderName, std::string &computeFileName);
+  WebGPUAPI(SDL_Window *m_Window, std::string &title);
   ~WebGPUAPI();
 
   void PollDevices() {
@@ -29,26 +26,24 @@ public:
   WGPUDevice &getDevice() { return m_WebGPUDevice->getDevice(); }
   WGPUQueue &getQueue() { return m_WebGPUCommandQueue->getQueue(); }
   WGPUSurface &getSurface() { return m_WebGPUSurface->getSurface(); }
-  WGPUSurfaceCapabilities &getSurfaceCapabilities() { return m_WebGPUSurface->getSurfaceCapabilities(); }
-  WGPUSurfaceConfiguration &getSurfaceConfiguration() { return m_WebGPUSurface->getSurfaceConfiguration(); }
-
-  void FetchComputeBufferDataSync();
+  WGPUSurfaceCapabilities &getSurfaceCapabilities() {
+    return m_WebGPUSurface->getSurfaceCapabilities();
+  }
+  WGPUSurfaceConfiguration &getSurfaceConfiguration() {
+    return m_WebGPUSurface->getSurfaceConfiguration();
+  }
 
 private:
   std::unique_ptr<WebGPUInstance> m_WebGPUInstance;
   std::unique_ptr<WebGPUSurface> m_WebGPUSurface;
   std::unique_ptr<WebGPUAdapter> m_WebGPUAdapter;
   std::unique_ptr<WebGPUDevice> m_WebGPUDevice;
-  std::unique_ptr<WebGPUBuffer> m_WebGPUBuffer;
   std::unique_ptr<WebGPUCommandQueue> m_WebGPUCommandQueue;
-  std::unique_ptr<WebGPUComputePipeline> m_WebGPUComputePipeline;
 
   WebGPUSurfaceConfig m_WebGPUSurfaceConfig;
   WebGPUAdapterConfig m_WebGPUAdapterConfig;
   WebGPUDeviceConfig m_WebGPUDeviceConfig;
-  WebGPUBufferConfig m_WebGPUBufferConfig;
   WebGPUCommandQueueConfig m_WebGPUCommandQueueConfig;
-  WebGPUComputePipelineConfig m_WebGPUComputePipelineConfig;
 };
 } // namespace WebGPU
 } // namespace Graphics

@@ -10,15 +10,10 @@ namespace Graphics {
 class GraphicsAPI {
 public:
   GraphicsAPI(SDL_Window *m_Window, std::string &title,
-              std::string &computeFolderName, std::string &computeFileName,
               MyonRHI::GPUBackend p_Backend);
   ~GraphicsAPI() = default;
 
   void PollDevice() { m_WebGPUAPI->PollDevices(); }
-
-  void FetchComputeBufferDataSync() {
-    m_WebGPUAPI->FetchComputeBufferDataSync();
-  }
 
   MyonRHI::GPUDevice &getDevice();
   MyonRHI::GPUQueue &getQueue();

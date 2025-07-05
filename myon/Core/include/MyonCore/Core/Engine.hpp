@@ -16,8 +16,6 @@ struct EngineInfo {
   int width;
   int height;
   std::string name;
-  std::string computeFolderName;
-  std::string computeFileName;
 };
 
 class Engine {

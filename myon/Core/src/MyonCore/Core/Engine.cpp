@@ -12,7 +12,6 @@ Engine::Engine(EngineInfo &engineInfo) {
 
   m_GraphicsAPI = std::make_unique<Graphics::GraphicsAPI>(
       m_Window->GetNativeWindow(), engineInfo.name,
-      engineInfo.computeFolderName, engineInfo.computeFileName,
       MyonRHI::GPUBackend::WebGPU);
 
   m_RendererConfig =

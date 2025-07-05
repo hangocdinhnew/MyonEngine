@@ -19,13 +19,9 @@ int main() {
   engineInfo.width = 800;
   engineInfo.height = 600;
   engineInfo.name = "Lol";
-  engineInfo.computeFolderName = "MyonSandbox";
-  engineInfo.computeFileName = "computeshader.wgsl";
 
   MyonCore::Core::Engine engine{engineInfo};
-  auto *gfx = engine.getGraphicsAPI();
   auto *renderer = engine.getRenderer();
-  gfx->FetchComputeBufferDataSync();
 
   engine.PushLayer(new SandboxLayer(renderer));
   engine.Run();
