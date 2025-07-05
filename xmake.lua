@@ -9,7 +9,7 @@ after_config(function(target)
   end
 end)
 
-set_languages("cxx20")
+set_languages("cxx23")
 
 if is_mode("debug") then
   set_policy("build.sanitizer.address", true)

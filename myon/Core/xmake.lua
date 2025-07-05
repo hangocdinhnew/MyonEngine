@@ -1,6 +1,6 @@
 target("MyonCore")
     set_kind("shared")
-    set_languages("cxx20")
+    set_languages("cxx23")
 
     add_includedirs("include", {public = true})
 

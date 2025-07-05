@@ -1,6 +1,6 @@
 target("MyonSandbox")
     set_kind("binary")
-    set_languages("cxx20")
+    set_languages("cxx23")
 
     add_files(
       "src/*.cpp",
