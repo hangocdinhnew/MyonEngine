@@ -1,8 +1,0 @@
-{
-  "dependencies": [
-    "glslang",
-    "shaderc",
-    "spirv-tools",
-    "vulkan"
-  ]
-}

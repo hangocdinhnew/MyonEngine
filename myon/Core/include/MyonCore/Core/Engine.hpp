@@ -6,6 +6,7 @@
 #include "MyonCore/Utils/Time.hpp"
 #include "MyonCore/Layers/LayerStack.hpp"
 #include "MyonCore/Graphics/GraphicsAPI.hpp"
+#include "MyonCore/Renderer/Renderer.hpp"
 // clang-format on
 
 namespace MyonCore {
@@ -14,9 +15,7 @@ namespace Core {
 struct EngineInfo {
   int width;
   int height;
-  std::string title;
-  std::string vert;
-  std::string frag;
+  std::string name;
 };
 
 class Engine {
@@ -25,8 +24,6 @@ public:
   ~Engine();
 
   bool IsRunning() const { return m_Window->IsRunning(); }
-
-  void PollEvents() { m_Window->PollEvents(); }
 
   void Run();
 
@@ -37,14 +34,17 @@ public:
   void PopLayer(Layers::Layer *layer);
   void PopOverlay(Layers::Layer *layer);
 
-  // Graphics
-  void DrawFrame() { m_GraphicsAPI->DrawFrame(); }
+  Graphics::GraphicsAPI *getGraphicsAPI() { return m_GraphicsAPI.get(); }
+  Renderer::Renderer *getRenderer() { return m_Renderer.get(); }
 
 private:
   std::unique_ptr<Core::Log> m_Log;
   std::unique_ptr<Utils::Time> m_Time;
   std::unique_ptr<Core::Window> m_Window;
   std::unique_ptr<Graphics::GraphicsAPI> m_GraphicsAPI;
+
+  Renderer::RendererConfig m_RendererConfig;
+  std::unique_ptr<Renderer::Renderer> m_Renderer;
 
   Layers::LayerStack m_LayerStack;
 };

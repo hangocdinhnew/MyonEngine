@@ -2,3 +2,9 @@
 **/*.log
 **/.cache/
 **/installdir
+**/result
+**/.xmake
+**/compile_commands.json
+**/vs*
+**/.vs*
+**/*.DS_Store

@@ -1,26 +1,32 @@
 #pragma once
-#include "MyonCore/Graphics/Vulkan/VulkanAPI.hpp"
+
+// clang-format off
+#include "MyonCore/Graphics/WebGPU/WebGPUAPI.hpp"
+#include "MyonCore/RHI/RHI.hpp"
+// clang-format on
 
 namespace MyonCore {
 namespace Graphics {
 class GraphicsAPI {
 public:
-  GraphicsAPI(SDL_Window *p_Window, const std::string &title,
-              const std::string &vert, const std::string &frag);
+  GraphicsAPI(SDL_Window *m_Window, std::string &title,
+              MyonRHI::GPUBackend p_Backend);
   ~GraphicsAPI() = default;
 
-  void DrawFrame() { m_VulkanAPI->DrawFrame(); }
+  void PollDevice() { m_WebGPUAPI->PollDevices(); }
 
-  vk::Device getLogicalDevice() { return m_VulkanAPI->getLogicalDevice(); }
-
-  void RecreateSwapchain() { m_VulkanAPI->RecreateSwapchain(); }
-
-  bool ShouldRecreateSwapChain() {
-    return m_VulkanAPI->ShouldRecreateSwapChain();
-  }
+  MyonRHI::GPUDevice &getDevice();
+  MyonRHI::GPUQueue &getQueue();
+  MyonRHI::GPUSurface &getSurface();
 
 private:
-  std::unique_ptr<Vulkan::VulkanAPI> m_VulkanAPI;
+  MyonRHI::GPUDevice m_Device{};
+  MyonRHI::GPUQueue m_Queue{};
+  MyonRHI::GPUSurface m_Surface{};
+
+  MyonRHI::GPUBackend m_Backend{};
+
+  std::unique_ptr<WebGPU::WebGPUAPI> m_WebGPUAPI;
 };
 } // namespace Graphics
 } // namespace MyonCore

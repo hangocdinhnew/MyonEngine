@@ -8,13 +8,19 @@ Engine::Engine(EngineInfo &engineInfo) {
   m_Time = std::make_unique<Utils::Time>();
 
   m_Window = std::make_unique<Core::Window>(engineInfo.width, engineInfo.height,
-                                            engineInfo.title);
+                                            engineInfo.name);
 
   m_GraphicsAPI = std::make_unique<Graphics::GraphicsAPI>(
-      m_Window->GetNativeWindow(), engineInfo.title, engineInfo.vert,
-      engineInfo.frag);
+      m_Window->GetNativeWindow(), engineInfo.name,
+      MyonRHI::GPUBackend::WebGPU);
 
-  // Log
+  m_RendererConfig =
+      Renderer::RendererConfig{.p_Backend = MyonRHI::GPUBackend::WebGPU,
+                               .p_Device = m_GraphicsAPI->getDevice(),
+                               .p_Queue = m_GraphicsAPI->getQueue(),
+                               .p_Surface = m_GraphicsAPI->getSurface()};
+  m_Renderer = std::make_unique<Renderer::Renderer>(m_RendererConfig);
+
   MYON_CORE_INFO("Engine initialized!");
 }
 
@@ -48,25 +54,26 @@ void Engine::PopOverlay(Layers::Layer *layer) {
 
 void Engine::Run() {
   while (IsRunning()) {
-    if (m_GraphicsAPI->ShouldRecreateSwapChain()) {
-      m_GraphicsAPI->RecreateSwapchain();
-      continue;
-    }
-
-    m_GraphicsAPI->DrawFrame();
-
+    m_Window->PollEvents();
+    m_GraphicsAPI->PollDevice();
     Utils::Time::Update();
 
     float deltatime = Utils::Time::GetDeltaTime();
-    for (Layers::Layer *layer : m_LayerStack) {
+    for (Layers::Layer *layer : m_LayerStack)
       layer->OnUpdate(deltatime);
+
+    m_Renderer->AcquireNextImage();
+    m_Renderer->BeginCommandBuffer();
+    m_Renderer->BeginRenderPass();
+
+    for (Layers::Layer *layer : m_LayerStack)
       layer->OnRender();
-    }
 
-    PollEvents();
+    m_Renderer->EndRenderPass();
+    m_Renderer->EndCommandBuffer();
+    m_Renderer->Submit();
+    m_Renderer->Present();
   }
-
-  m_GraphicsAPI->getLogicalDevice().waitIdle();
 }
 } // namespace Core
 } // namespace MyonCore

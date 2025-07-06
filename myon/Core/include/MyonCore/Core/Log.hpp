@@ -35,14 +35,22 @@ private:
   ::MyonCore::Core::Log::GetCoreLogger()->error(__VA_ARGS__)
 #define MYON_CORE_CRITICAL(...)                                                \
   ::MyonCore::Core::Log::GetCoreLogger()->critical(__VA_ARGS__)
+#define MYON_CORE_DEBUG(...)                                                   \
+  ::MyonCore::Core::Log::GetCoreLogger()->debug(__VA_ARGS__)
 
 // Client log macros
-#define MYON_TRACE(...) ::MyonCore::Core::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define MYON_INFO(...) ::MyonCore::Core::Log::GetClientLogger()->info(__VA_ARGS__)
-#define MYON_WARN(...) ::MyonCore::Core::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define MYON_ERROR(...) ::MyonCore::Core::Log::GetClientLogger()->error(__VA_ARGS__)
+#define MYON_TRACE(...)                                                        \
+  ::MyonCore::Core::Log::GetClientLogger()->trace(__VA_ARGS__)
+#define MYON_INFO(...)                                                         \
+  ::MyonCore::Core::Log::GetClientLogger()->info(__VA_ARGS__)
+#define MYON_WARN(...)                                                         \
+  ::MyonCore::Core::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define MYON_ERROR(...)                                                        \
+  ::MyonCore::Core::Log::GetClientLogger()->error(__VA_ARGS__)
 #define MYON_CRITICAL(...)                                                     \
   ::MyonCore::Core::Log::GetClientLogger()->critical(__VA_ARGS__)
+#define MYON_DEBUGG(...)                                                        \
+  ::MyonCore::Core::Log::GetClientLogger()->debug(__VA_ARGS__)
 
 // Assert
 #define MYON_DO_CORE_ASSERT(...)                                               \
@@ -59,7 +67,7 @@ private:
 
 #define MYON_CORE_ASSERT(condition, ...)                                       \
   do {                                                                         \
-    if (!(condition)) {                                                        \
+    if (condition) {                                                        \
       ::MyonCore::Core::Log::GetCoreLogger()->error(__VA_ARGS__);              \
       std::abort();                                                            \
     }                                                                          \
@@ -67,7 +75,7 @@ private:
 
 #define MYON_ASSERT(condition, ...)                                            \
   do {                                                                         \
-    if (!(condition)) {                                                        \
+    if (condition) {                                                        \
       ::MyonCore::Core::Log::GetClientLogger()->error(__VA_ARGS__);            \
       std::abort();                                                            \
     }                                                                          \
