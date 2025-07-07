@@ -1,6 +1,7 @@
 #pragma once
 
 // clang-format off
+#include <memory>
 #include <optional>
 
 #include "MyonCore/RHI/RHI.hpp"
