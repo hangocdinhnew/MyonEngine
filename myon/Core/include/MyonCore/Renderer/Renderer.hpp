@@ -5,6 +5,7 @@
 #include <optional>
 
 #include "MyonCore/RHI/RHI.hpp"
+#include "MyonCore/Graphics/GraphicsAPI.hpp"
 #include "MyonCore/Renderer/WebGPURenderer.hpp"
 // clang-format on
 
@@ -12,9 +13,7 @@ namespace MyonCore {
 namespace Renderer {
 struct RendererConfig {
   MyonRHI::GPUBackend p_Backend;
-  std::optional<MyonRHI::GPUDevice> p_Device;
-  std::optional<MyonRHI::GPUQueue> p_Queue;
-  std::optional<MyonRHI::GPUSurface> p_Surface;
+  Graphics::GraphicsAPI* p_GraphicsAPI;
 };
 
 class Renderer {
@@ -34,12 +33,13 @@ public:
 
 private:
   MyonRHI::GPUBackend m_Backend;
-  std::optional<MyonRHI::GPUDevice> &m_Device;
-  std::optional<MyonRHI::GPUQueue> &m_Queue;
-  std::optional<MyonRHI::GPUSurface> &m_Surface;
+  MyonRHI::GPUDevice m_Device;
+  MyonRHI::GPUQueue m_Queue;
+  MyonRHI::GPUSurface m_Surface;
 
   WebGPURendererConfig m_WebGPURendererConfig;
   std::unique_ptr<WebGPURenderer> m_WebGPURenderer;
+  Graphics::GraphicsAPI* m_GraphicsAPI;
 };
 } // namespace Renderer
 } // namespace MyonCore
