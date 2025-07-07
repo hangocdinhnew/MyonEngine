@@ -41,8 +41,6 @@ void Window::cleanupWindow() {
     SDL_DestroyWindow(m_Window);
     m_Window = nullptr;
   }
-
-  SDL_Quit();
 }
 
 bool Window::IsRunning() const { return m_IsRunning; }
