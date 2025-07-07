@@ -15,6 +15,7 @@ struct RendererConfig {
   std::optional<MyonRHI::GPUDevice> p_Device;
   std::optional<MyonRHI::GPUQueue> p_Queue;
   std::optional<MyonRHI::GPUSurface> p_Surface;
+  std::optional<SDL_Window *> p_Window;
 };
 
 class Renderer {
@@ -37,6 +38,7 @@ private:
   std::optional<MyonRHI::GPUDevice> &m_Device;
   std::optional<MyonRHI::GPUQueue> &m_Queue;
   std::optional<MyonRHI::GPUSurface> &m_Surface;
+  std::optional<SDL_Window *> &m_Window;
 
   WebGPURendererConfig m_WebGPURendererConfig;
   std::unique_ptr<WebGPURenderer> m_WebGPURenderer;

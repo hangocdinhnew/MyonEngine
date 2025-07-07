@@ -9,18 +9,22 @@ namespace Renderer {
 Renderer::Renderer(RendererConfig &p_RendererConfig)
     : m_Device(p_RendererConfig.p_Device),
       m_Surface(p_RendererConfig.p_Surface), m_Queue(p_RendererConfig.p_Queue),
-      m_Backend(p_RendererConfig.p_Backend) {
+      m_Backend(p_RendererConfig.p_Backend),
+      m_Window(p_RendererConfig.p_Window) {
   MYON_CORE_ASSERT(!m_Device.has_value(), "Failed to access m_Device!");
   MYON_CORE_ASSERT(!m_Surface.has_value(), "Failed to access m_Surface!");
   MYON_CORE_ASSERT(!m_Queue.has_value(), "Failed to access m_Queue!");
+  MYON_CORE_ASSERT(!m_Window.has_value(), "Failed to access m_Window!");
 
   switch (m_Backend) {
   case MyonRHI::GPUBackend::WebGPU:
-    m_WebGPURendererConfig = {.p_Device = m_Device.value().webgpu.device,
-                              .p_Queue = m_Queue.value().webgpu.queue,
-                              .p_Surface = m_Surface.value().webgpu.surface,
-                              .p_SurfaceCapabilities =
-                                  m_Surface.value().webgpu.surfaceCapabilities};
+    m_WebGPURendererConfig = {
+        .p_Device = m_Device.value().webgpu.device,
+        .p_Queue = m_Queue.value().webgpu.queue,
+        .p_Surface = m_Surface.value().webgpu.surface,
+        .p_SurfaceCapabilities = m_Surface.value().webgpu.surfaceCapabilities,
+        .p_SurfaceConfig = m_Surface.value().webgpu.surfaceConfig,
+        .p_Window = m_Window};
     m_WebGPURenderer = std::make_unique<WebGPURenderer>(m_WebGPURendererConfig);
     break;
 

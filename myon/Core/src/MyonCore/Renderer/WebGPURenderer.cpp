@@ -9,7 +9,9 @@ namespace Renderer {
 WebGPURenderer::WebGPURenderer(WebGPURendererConfig &p_RendererConfig)
     : m_Device(p_RendererConfig.p_Device), m_Queue(p_RendererConfig.p_Queue),
       m_Surface(p_RendererConfig.p_Surface),
-      m_SurfaceCapabilities(p_RendererConfig.p_SurfaceCapabilities) {
+      m_SurfaceCapabilities(p_RendererConfig.p_SurfaceCapabilities),
+      m_SurfaceConfig(p_RendererConfig.p_SurfaceConfig),
+      m_Window(p_RendererConfig.p_Window) {
   MYON_CORE_ASSERT(!m_Device.has_value(),
                    "WebGPU Renderer - Failed to access m_Device!");
   MYON_CORE_ASSERT(!m_Queue.has_value(),
@@ -18,6 +20,10 @@ WebGPURenderer::WebGPURenderer(WebGPURendererConfig &p_RendererConfig)
                    "WebGPU Renderer - Failed to access m_Surface!");
   MYON_CORE_ASSERT(!m_SurfaceCapabilities.has_value(),
                    "WebGPU Renderer - Failed to access m_SurfaceCapabilities!");
+  MYON_CORE_ASSERT(!m_SurfaceConfig.has_value(),
+                   "WebGPU Renderer - Failed to access m_SurfaceConfig!");
+  MYON_CORE_ASSERT(!m_Window.has_value(),
+                   "WebGPU Renderer - Failed to access m_Window!");
 }
 
 void WebGPURenderer::ClearColor(float r, float g, float b, float a) {
@@ -97,7 +103,22 @@ WGPUTextureView WebGPURenderer::GetNextSurfaceView() {
           WGPUSurfaceGetCurrentTextureStatus_SuccessOptimal &&
       m_SurfaceTexture.status !=
           WGPUSurfaceGetCurrentTextureStatus_SuccessSuboptimal) {
-    MYON_DO_CORE_ASSERT("WebGPU - Texture status isn't Optimal or Suboptimal!");
+
+    switch (m_SurfaceTexture.status) {
+    case WGPUSurfaceGetCurrentTextureStatus_DeviceLost:
+    case WGPUSurfaceGetCurrentTextureStatus_Error:
+    case WGPUSurfaceGetCurrentTextureStatus_Lost:
+    case WGPUSurfaceGetCurrentTextureStatus_OutOfMemory: {
+      std::string statusStr =
+          std::to_string(static_cast<int>(m_SurfaceTexture.status));
+      MYON_DO_CORE_ASSERT("WebGPU - Surface failure with status {}!",
+                          statusStr);
+    }
+
+    default:
+      reconfigureSurface();
+      break;
+    }
   }
 
   WGPUTextureViewDescriptor viewDescriptor = {};
@@ -115,6 +136,25 @@ WGPUTextureView WebGPURenderer::GetNextSurfaceView() {
       wgpuTextureCreateView(m_SurfaceTexture.texture, &viewDescriptor);
 
   return targetView;
+}
+
+void WebGPURenderer::reconfigureSurface() {
+  m_SurfaceConfig.value() = {};
+
+  int width, height;
+  SDL_GetWindowSize(m_Window.value(), &width, &height);
+
+  m_SurfaceConfig.value().width = width;
+  m_SurfaceConfig.value().height = height;
+  m_SurfaceConfig.value().device = m_Device.value();
+
+  m_SurfaceConfig.value().format = m_SurfaceCapabilities.value().formats[0];
+  m_SurfaceConfig.value().usage = WGPUTextureUsage_RenderAttachment;
+
+  m_SurfaceConfig.value().presentMode = WGPUPresentMode_Fifo;
+  m_SurfaceConfig.value().alphaMode = WGPUCompositeAlphaMode_Auto;
+
+  wgpuSurfaceConfigure(m_Surface.value(), &m_SurfaceConfig.value());
 }
 } // namespace Renderer
 } // namespace MyonCore

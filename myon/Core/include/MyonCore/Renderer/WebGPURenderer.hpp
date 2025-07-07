@@ -3,6 +3,7 @@
 // clang-format off
 #include <optional>
 
+#include <SDL3/SDL.h>
 #include <webgpu/webgpu.h>
 // clang-format on
 
@@ -13,6 +14,8 @@ struct WebGPURendererConfig {
   std::optional<WGPUQueue> p_Queue;
   std::optional<WGPUSurface> p_Surface;
   std::optional<WGPUSurfaceCapabilities> p_SurfaceCapabilities;
+  std::optional<WGPUSurfaceConfiguration> p_SurfaceConfig;
+  std::optional<SDL_Window *> p_Window;
 };
 
 class WebGPURenderer {
@@ -35,6 +38,10 @@ private:
   std::optional<WGPUQueue> &m_Queue;
   std::optional<WGPUSurface> &m_Surface;
   std::optional<WGPUSurfaceCapabilities> &m_SurfaceCapabilities;
+  std::optional<WGPUSurfaceConfiguration> &m_SurfaceConfig;
+  std::optional<SDL_Window *> &m_Window;
+
+  void reconfigureSurface();
 
   WGPUSurfaceTexture m_SurfaceTexture;
   WGPUTextureView m_TargetView;

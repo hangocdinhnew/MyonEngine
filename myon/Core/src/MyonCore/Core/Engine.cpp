@@ -18,7 +18,8 @@ Engine::Engine(EngineInfo &engineInfo) {
       Renderer::RendererConfig{.p_Backend = MyonRHI::GPUBackend::WebGPU,
                                .p_Device = m_GraphicsAPI->getDevice(),
                                .p_Queue = m_GraphicsAPI->getQueue(),
-                               .p_Surface = m_GraphicsAPI->getSurface()};
+                               .p_Surface = m_GraphicsAPI->getSurface(),
+                               .p_Window = m_Window->GetNativeWindow()};
   m_Renderer = std::make_unique<Renderer::Renderer>(m_RendererConfig);
 
   MYON_CORE_INFO("Engine initialized!");
