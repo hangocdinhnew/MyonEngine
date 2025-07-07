@@ -86,17 +86,18 @@ void WebGPURenderer::Present() {
   }
 
   wgpuSurfacePresent(m_Surface.value());
+  wgpuTextureRelease(m_SurfaceTexture.texture);
 }
 
 WGPUTextureView WebGPURenderer::GetNextSurfaceView() {
-  WGPUSurfaceTexture surfaceTexture = {};
-  wgpuSurfaceGetCurrentTexture(m_Surface.value(), &surfaceTexture);
+  m_SurfaceTexture = {};
+  wgpuSurfaceGetCurrentTexture(m_Surface.value(), &m_SurfaceTexture);
 
-  if (surfaceTexture.status !=
+  if (m_SurfaceTexture.status !=
           WGPUSurfaceGetCurrentTextureStatus_SuccessOptimal &&
-      surfaceTexture.status !=
+      m_SurfaceTexture.status !=
           WGPUSurfaceGetCurrentTextureStatus_SuccessSuboptimal) {
-    return nullptr;
+    MYON_DO_CORE_ASSERT("WebGPU - Texture status isn't Optimal or Suboptimal!");
   }
 
   WGPUTextureViewDescriptor viewDescriptor = {};
@@ -111,7 +112,7 @@ WGPUTextureView WebGPURenderer::GetNextSurfaceView() {
   viewDescriptor.aspect = WGPUTextureAspect_All;
 
   WGPUTextureView targetView =
-      wgpuTextureCreateView(surfaceTexture.texture, &viewDescriptor);
+      wgpuTextureCreateView(m_SurfaceTexture.texture, &viewDescriptor);
 
   return targetView;
 }

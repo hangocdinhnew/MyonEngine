@@ -12,7 +12,10 @@ end)
 set_languages("cxx23")
 
 if is_mode("debug") then
-  set_policy("build.sanitizer.address", true)
+  if not is_plat("macosx") then
+    set_policy("build.sanitizer.address", true)
+  end
+
   add_defines("MYON_DEBUG")
 end
 

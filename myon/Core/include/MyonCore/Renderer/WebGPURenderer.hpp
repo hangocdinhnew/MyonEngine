@@ -36,6 +36,7 @@ private:
   std::optional<WGPUSurface> &m_Surface;
   std::optional<WGPUSurfaceCapabilities> &m_SurfaceCapabilities;
 
+  WGPUSurfaceTexture m_SurfaceTexture;
   WGPUTextureView m_TargetView;
   WGPUCommandEncoder m_CommandEncoder;
   WGPURenderPassColorAttachment m_ColorAttachment;
