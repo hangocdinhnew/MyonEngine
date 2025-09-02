@@ -11,6 +11,5 @@ add_executable(MyonSandbox
 )
 
 add_subdirectory(MyonCore)
-add_subdirectory(Libraries/VkBootstrap)
 
 target_link_libraries(MyonSandbox PRIVATE myonruntime)
