@@ -18,16 +18,8 @@ int main()
         gfx->acquireCmdBuffer();
         gfx->acquireTexture();
 
-        auto colorTargetInfo = gfx->createColorTargetInfo();
-        colorTargetInfo.clear_color = { 255.0f, 0.0f, 0.0f, 255.0f };
-        colorTargetInfo.load_op = SDL_GPU_LOADOP_CLEAR;
-        colorTargetInfo.store_op = SDL_GPU_STOREOP_STORE;
-        colorTargetInfo.mip_level = 0;
-        colorTargetInfo.layer_or_depth_plane = 0;
-        colorTargetInfo.cycle = false;
+        gfx->clearColor(255.0f, 0.0f, 0.0f, 255.0f);
 
-        auto renderPass = gfx->beginRenderPass(&colorTargetInfo, 1);
-        gfx->endRenderPass(renderPass);
         gfx->submit();
     }
 }
