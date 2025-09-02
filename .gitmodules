@@ -1,6 +1,3 @@
 [submodule "MyonCore"]
 	path = MyonCore
 	url = https://github.com/hangocdinhnew/MyonCore
-[submodule "Libraries/VkBootstrap"]
-	path = Libraries/VkBootstrap
-	url = https://github.com/charles-lunarg/vk-bootstrap
